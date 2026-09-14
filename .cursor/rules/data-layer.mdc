@@ -1,0 +1,30 @@
+---
+description: Repository ports, JSON adapters, and API response envelope
+globs: src/server/**
+alwaysApply: false
+---
+
+# Data Layer
+
+Callers depend on repository interfaces, never on JSON files or a future Drizzle client.
+
+- Define ports in `*.repository.ts`.
+- Implement adapters in `json/` (and later `drizzle/`).
+- Swap implementations only in `src/server/repositories/index.ts`.
+- Parse at the boundary with Zod. Throw on invalid content. Do not silently fall back.
+- Do not import `content/*.json` outside an adapter.
+
+API handlers return this envelope:
+
+```ts
+{ success: true, data: payload, error: null }
+{ success: false, data: null, error: "Human-readable message" }
+```
+
+```ts
+// BAD
+import projects from "../../../content/projects.json";
+
+// GOOD
+const projects = await getProjectRepository().findAll();
+```

@@ -1,0 +1,47 @@
+[
+	{
+		"slug": "platform-observability",
+		"title": "Platform Observability",
+		"summary": "End-to-end tracing, structured logs, and SLO dashboards for a multi-service product.",
+		"description": "Designed a shared observability layer across Next.js apps and Node services: request IDs, OpenTelemetry traces, and Grafana dashboards tied to error budgets.",
+		"stack": ["TypeScript", "Next.js", "OpenTelemetry", "Grafana"],
+		"links": {
+			"github": "https://github.com/sboy99/platform-observability",
+			"live": null,
+			"demo": null
+		},
+		"featured": true,
+		"year": 2025,
+		"image": null
+	},
+	{
+		"slug": "content-engine",
+		"title": "Content Engine",
+		"summary": "MDX-backed publishing pipeline with typed frontmatter and incremental static generation.",
+		"description": "A content system that compiles MDX, validates frontmatter with Zod, and ships typed pages with preview and production environments.",
+		"stack": ["TypeScript", "MDX", "Zod", "Next.js"],
+		"links": {
+			"github": "https://github.com/sboy99/content-engine",
+			"live": "https://sboy99.dev",
+			"demo": null
+		},
+		"featured": true,
+		"year": 2024,
+		"image": null
+	},
+	{
+		"slug": "design-system-kit",
+		"title": "Design System Kit",
+		"summary": "Accessible UI primitives with tokens, composition APIs, and visual regression coverage.",
+		"description": "A small design system used across product surfaces: buttons, cards, forms, and layout primitives with documented a11y behavior.",
+		"stack": ["React", "Tailwind CSS", "Storybook", "Playwright"],
+		"links": {
+			"github": "https://github.com/sboy99/design-system-kit",
+			"live": null,
+			"demo": "https://kit.sboy99.dev"
+		},
+		"featured": false,
+		"year": 2024,
+		"image": null
+	}
+]

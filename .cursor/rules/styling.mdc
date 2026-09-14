@@ -1,0 +1,20 @@
+---
+description: Tailwind v4 token and class conventions
+globs: "**/*.{tsx,css}"
+alwaysApply: false
+---
+
+# Styling
+
+- Define colors, fonts, and radii as tokens in `src/styles/globals.css`.
+- Compose classes with `cn()` from `src/lib/cn`.
+- Use semantic utilities (`bg-background`, `text-muted-foreground`, `border-border`).
+- Do not introduce one-off hex values in components.
+
+```tsx
+// BAD
+<div className="bg-[#0a0a0a] text-[#ededed]" />
+
+// GOOD
+<div className={cn("bg-background text-foreground", className)} />
+```

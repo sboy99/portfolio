@@ -1,0 +1,58 @@
+@import "tailwindcss" theme(static);
+@import "./palettes.css";
+
+html,
+html[data-theme="dark"] {
+	color-scheme: dark;
+	--background: var(--neutral-950);
+	--foreground: var(--neutral-50);
+	--muted: var(--neutral-900);
+	--muted-foreground: var(--neutral-400);
+	--border: var(--neutral-800);
+	--accent: var(--primary-400);
+	--accent-foreground: var(--neutral-950);
+	--accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
+	--card: var(--neutral-900);
+	--ring: var(--primary-500);
+}
+
+html[data-theme="light"] {
+	color-scheme: light;
+	--background: var(--neutral-50);
+	--foreground: var(--neutral-950);
+	--muted: var(--neutral-100);
+	--muted-foreground: var(--neutral-500);
+	--border: var(--neutral-200);
+	--accent: var(--primary-600);
+	--accent-foreground: var(--color-white);
+	--accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
+	--card: var(--color-white);
+	--ring: var(--primary-500);
+}
+
+html[data-theme="light"][data-primary="yellow"],
+html[data-theme="light"][data-primary="amber"],
+html[data-theme="light"][data-primary="lime"] {
+	--accent: var(--primary-700);
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-border: var(--border);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-accent-soft: var(--accent-soft);
+	--color-card: var(--card);
+	--color-ring: var(--ring);
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
+}
+
+body {
+	background: var(--background);
+	color: var(--foreground);
+	font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}

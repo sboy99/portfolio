@@ -1,0 +1,26 @@
+---
+description: Folder map and file placement conventions for the portfolio app
+alwaysApply: true
+---
+
+# Project Structure
+
+Place new files by role, not by file type dump:
+
+- `src/app` — routes, layouts, and route handlers only
+- `src/components/ui` — primitives reused across features
+- `src/components/layout` — header, footer, page chrome
+- `src/components/common` — shared non-primitive UI (icons, toggles)
+- `src/features/<name>/components` — UI used by one feature
+- `src/features/<name>/hooks` — hooks used by one feature
+- `src/hooks` — hooks used by two or more features
+- `src/lib` — pure helpers with no I/O
+- `src/server/repositories` — data ports and adapters
+- `src/server/db` — reserved for Drizzle
+- `src/schemas` — Zod schemas and inferred types
+- `src/config` — site metadata and env
+- `content/` — JSON source files (JSON adapters only)
+
+Promotion rule: if a component or hook is used by one feature, keep it in that feature. Move it to `src/components` or `src/hooks` only when a second feature needs it.
+
+Do not import `content/*.json` outside `src/server/repositories/json`.

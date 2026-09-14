@@ -1,0 +1,26 @@
+---
+description: React and Next.js component conventions
+globs: "**/*.tsx"
+alwaysApply: false
+---
+
+# React Components
+
+- Default to Server Components. Add `"use client"` only on interactive leaves.
+- Named exports for components. Default exports only for `src/app` pages, layouts, and route files.
+- Colocate feature UI under `src/features/<name>/components`.
+- Type props with an explicit `type` alias. Do not use `React.FC`.
+- Keep functions small and avoid nesting beyond four levels.
+- Compose primitives from `src/components/ui` instead of duplicating class strings.
+
+```tsx
+// BAD: client boundary at the page
+"use client";
+export default function ProjectsPage() { return <FilterableList />; }
+
+// GOOD: page stays a server component
+export default async function ProjectsPage() {
+  const projects = await getProjectRepository().findAll();
+  return <ProjectList projects={projects} />;
+}
+```

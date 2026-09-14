@@ -1,0 +1,114 @@
+{
+	"name": "Sagar Bera",
+	"headline": "Software engineer focused on production-grade web systems.",
+	"bio": "I design and ship full-stack products with TypeScript, Next.js, and clear domain boundaries. I care about maintainable structure, typed contracts, and interfaces that stay out of the way.",
+	"location": "India",
+	"email": "hello@sboy99.xyz",
+	"socials": [
+		{
+			"label": "GitHub",
+			"href": "https://github.com/sboy99"
+		},
+		{
+			"label": "LinkedIn",
+			"href": "https://www.linkedin.com/in/sboy99"
+		},
+		{
+			"label": "X",
+			"href": "https://x.com/0xSagar_"
+		}
+	],
+	"skills": [
+		{
+			"category": "Languages",
+			"items": [
+				"TypeScript",
+				"JavaScript",
+				"Python",
+				"GoLang",
+				"SQL"
+			]
+		},
+		{
+			"category": "Frontend",
+			"items": [
+				"React",
+				"Next.js",
+				"Tailwind CSS",
+				"React Query",
+				"Redux",
+				"Zustand",
+				"Shadcn UI"
+			]
+		},
+		{
+			"category": "Backend",
+			"items": [
+				"Node.js",
+				"Express.js",
+				"NestJS",
+				"REST",
+				"Drizzle ORM",
+				"Prisma ORM",
+				"TypeORM",
+				"Mongoose"
+			]
+		},
+		{
+			"category": "Database",
+			"items": [
+				"PostgreSQL",
+				"MySQL",
+				"MongoDB",
+				"Redis",
+				"SQLite",
+				"Supabase"
+			]
+		},
+		{
+			"category": "Infrastructure and Automation",
+			"items": [
+				"AWS",
+				"GCP",
+				"Heroku",
+				"Vercel",
+				"GitHub Actions",
+				"Docker",
+				"Kubernetes",
+				"Helm"
+			]
+		},
+		{
+			"category": "AI Tools",
+			"items": [
+				"OpenAI/GPT",
+				"Anthropic/Claude",
+				"Google Gemini",
+				"Cursor"
+			]
+		}
+	],
+	"experience": [
+		{
+			"company": "Independent",
+			"role": "Software Engineer",
+			"startDate": "2023-01-01",
+			"endDate": null,
+			"summary": "Building product-facing web applications, content systems, and internal tooling with a TypeScript-first stack."
+		}
+	],
+	"education": [
+		{
+			"school": "Panskura Banamali College (Autonomous)",
+			"program": "M.Sc. in Computer Science",
+			"startDate": "2021-01-01",
+			"endDate": "2023-01-01"
+		},
+		{
+			"school": "Panskura Banamali College (Autonomous)",
+			"program": "B.Sc. in Computer Science",
+			"startDate": "2019-01-01",
+			"endDate": "2021-01-01"
+		}
+	]
+}
