@@ -90,11 +90,73 @@
 	],
 	"experience": [
 		{
-			"company": "Independent",
-			"role": "Software Engineer",
-			"startDate": "2023-01-01",
+			"company": "BuidlersTribe",
+			"role": "Backend Developer",
+			"startDate": "2023-05-16",
+			"endDate": "2023-08-01",
+			"summary": "Migrated the existing limited customizable Drupal based website to a fully customizable performant web app with MERN stack. Followed MVC architecture and shipped very fast.",
+			"skills": [
+				"TypeScript",
+				"Node.js",
+				"Express.js",
+				"REST",
+				"MongoDB",
+				"Mongoose"
+			]
+		},
+		{
+			"company": "BuidlersTribe",
+			"role": "Full Stack Developer",
+			"startDate": "2023-08-01",
+			"endDate": "2024-06-01",
+			"summary": "After the successful migration, I was promoted to a full stack developer role. I was responsible for developing the new features and fixing the bugs. I also helped designing the archetecture and the codebase of Frontend as well. Implemented Hexagonal Architecture which increased the maintainability and readability of the codebase. I have implemented the CI/CD pipeline for the project using Github Actions(Self Hosted in AWS).",
+			"skills": [
+				"TypeScript",
+				"NestJs",
+				"Next.js",
+				"Tailwind CSS",
+				"React Query",
+				"Redux",
+				"PostgreSQL",
+				"TypeORM",
+				"Docker",
+				"AWS",
+				"Github Actions"
+			]
+		},
+		{
+			"company": "RabbleLabs",
+			"role": "Backend Developer and Devops",
+			"startDate": "2024-06-01",
+			"endDate": "2025-01-01",
+			"summary": "BuidlersTribe rebranded as RabbleLabs where We started building crypto native chat app(which involved crypto payments by telegram usernames) on top on Telegram. Also we created automated yeild generating system named 'Rabots' and I was responsible for the backend development and infrastructure setup. I have implemented the CI/CD pipeline for the project using Github Actions(Self Hosted in GCP).",
+			"skills": [
+				"TypeScript",
+				"NestJs",
+				"PostgreSQL",
+				"TypeORM",
+				"GCP",
+				"Nginx",
+				"Github Actions",
+				"Docker"
+			]
+		},
+		{
+			"company": "ScribbleDao",
+			"role": "Backend Developer and Devops",
+			"startDate": "2025-01-01",
 			"endDate": null,
-			"summary": "Building product-facing web applications, content systems, and internal tooling with a TypeScript-first stack."
+			"summary": "BuidlersTribe rebranded as RabbleLabs where We started building crypto native chat app(which involved crypto payments by telegram usernames) on top on Telegram. Also we created automated yeild generating system named 'Rabots' and I was responsible for the backend development and infrastructure setup. I have implemented the CI/CD pipeline for the project using Github Actions(Self Hosted in GCP).",
+			"skills": [
+				"TypeScript",
+				"NestJs",
+				"PostgreSQL",
+				"TypeORM",
+				"GCP",
+				"Github Actions",
+				"Docker",
+				"Terraform"
+			]
 		}
 	],
 	"education": [

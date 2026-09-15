@@ -16,6 +16,7 @@ export const experienceSchema = z.object({
 	startDate: z.iso.date(),
 	endDate: z.iso.date().nullable(),
 	summary: z.string().min(1),
+	skills: z.array(z.string().min(1)).default([]),
 });
 
 export const educationSchema = z.object({

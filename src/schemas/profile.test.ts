@@ -16,6 +16,7 @@ const validProfile = {
 			startDate: "2023-01-01",
 			endDate: null,
 			summary: "Shipping TypeScript products.",
+			skills: ["TypeScript", "Next.js"],
 		},
 	],
 	education: [
@@ -36,5 +37,36 @@ describe("profileSchema", () => {
 	it("rejects an invalid email", () => {
 		const result = profileSchema.safeParse({ ...validProfile, email: "not-an-email" });
 		expect(result.success).toBe(false);
+	});
+
+	it("accepts experience skills", () => {
+		expect(profileSchema.parse(validProfile).experience[0]?.skills).toEqual([
+			"TypeScript",
+			"Next.js",
+		]);
+	});
+
+	it("rejects an empty experience skill", () => {
+		const result = profileSchema.safeParse({
+			...validProfile,
+			experience: [{ ...validProfile.experience[0], skills: [""] }],
+		});
+		expect(result.success).toBe(false);
+	});
+
+	it("defaults omitted experience skills to an empty list", () => {
+		const result = profileSchema.parse({
+			...validProfile,
+			experience: [
+				{
+					company: "Independent",
+					role: "Software Engineer",
+					startDate: "2023-01-01",
+					endDate: null,
+					summary: "Shipping TypeScript products.",
+				},
+			],
+		});
+		expect(result.experience[0]?.skills).toEqual([]);
 	});
 });

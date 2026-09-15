@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { DashedFrame } from "@/components/ui/dashed-frame";
 import type { Experience } from "@/features/profile/types";
 import { formatYearRange } from "@/lib/format-date";
@@ -26,6 +27,15 @@ export function ExperienceList({ experience }: ExperienceListProps) {
 								{item.role} · {item.company}
 							</h3>
 							<p className="mt-1.5 text-sm leading-6 text-muted-foreground">{item.summary}</p>
+							{item.skills.length > 0 ? (
+								<ul aria-label={`Skills at ${item.company}`} className="mt-2 flex flex-wrap gap-1">
+									{item.skills.map((skill) => (
+										<li key={skill}>
+											<Badge>{skill}</Badge>
+										</li>
+									))}
+								</ul>
+							) : null}
 						</li>
 					))}
 				</ul>
