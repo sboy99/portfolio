@@ -11,7 +11,7 @@
 		},
 		{
 			"label": "LinkedIn",
-			"href": "https://www.linkedin.com/in/sboy99"
+			"href": "https://www.linkedin.com/in/sagar-bera"
 		},
 		{
 			"label": "X",
@@ -84,7 +84,8 @@
 				"OpenAI/GPT",
 				"Anthropic/Claude",
 				"Google Gemini",
-				"Cursor"
+				"Cursor",
+				"Claude Code"
 			]
 		}
 	],
@@ -146,16 +147,21 @@
 			"role": "Backend Developer and Devops",
 			"startDate": "2025-01-01",
 			"endDate": null,
-			"summary": "BuidlersTribe rebranded as RabbleLabs where We started building crypto native chat app(which involved crypto payments by telegram usernames) on top on Telegram. Also we created automated yeild generating system named 'Rabots' and I was responsible for the backend development and infrastructure setup. I have implemented the CI/CD pipeline for the project using Github Actions(Self Hosted in GCP).",
+			"summary": "By the side of RabbleLabs, I started working on a new project called 'ScribbleDao', idea was to increase visibility of new brands. Scribblers writes threads aobut brands, and brands launches campaigns, Did initial system design,DB schema design, e2e testing. Harness AI power and shiped 1week deadline feature in just 1day",
 			"skills": [
 				"TypeScript",
 				"NestJs",
 				"PostgreSQL",
 				"TypeORM",
+				"DrizzleORM",
+				"Cursor AI",
+				"Claude AI",
 				"GCP",
 				"Github Actions",
 				"Docker",
-				"Terraform"
+				"Terraform",
+				"Grafana",
+				"Loki"
 			]
 		}
 	],
