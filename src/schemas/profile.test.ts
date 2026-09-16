@@ -25,6 +25,21 @@ const validProfile = {
 			program: "Computer Science",
 			startDate: "2019-01-01",
 			endDate: "2023-01-01",
+			result: "CGPA: 8.58",
+		},
+	],
+	openSource: [
+		{
+			name: "Mintlify",
+			description: "Open source React UI components for documentation sites.",
+			href: "https://github.com/mintlify/components",
+		},
+	],
+	achievements: [
+		{
+			title: "CSS Certification",
+			issuer: "HackerRank",
+			href: "https://www.hackerrank.com/certificates/ef1e384af0f3",
 		},
 	],
 };

@@ -1,1 +1,9 @@
-export type { Education, Experience, Profile, SkillGroup, SocialLink } from "@/schemas/profile";
+export type {
+	Achievement,
+	Education,
+	Experience,
+	OpenSource,
+	Profile,
+	SkillGroup,
+	SocialLink,
+} from "@/schemas/profile";

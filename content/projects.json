@@ -1,47 +1,141 @@
 [
 	{
-		"slug": "platform-observability",
-		"title": "Platform Observability",
-		"summary": "End-to-end tracing, structured logs, and SLO dashboards for a multi-service product.",
-		"description": "Designed a shared observability layer across Next.js apps and Node services: request IDs, OpenTelemetry traces, and Grafana dashboards tied to error budgets.",
-		"stack": ["TypeScript", "Next.js", "OpenTelemetry", "Grafana"],
+		"slug": "kili-ai",
+		"title": "Kili AI",
+		"summary": "Ad network for AI products that matches conversation intent to brand campaigns, places ads around answers in chat and Claude Code, and pays publishers through Stripe or USDC.",
+		"description": "Lead-built the Kili ad platform: Next.js advertiser and publisher dashboards backed by NestJS APIs for campaigns, semantic fill, pixels, billing, and payouts. Developers install React/Node SDKs or a Claude Code extension; ads are ranked by prompt embeddings in PostgreSQL; conversions flow through a first-party pixel and Conversions API, with settlement via Stripe Connect or on-chain USDC.",
+		"stack": [
+			"TypeScript",
+			"Next.js",
+			"NestJS",
+			"PostgreSQL",
+			"DrizzleORM",
+			"Redis",
+			"Stripe",
+			"GCP",
+			"Terraform"
+		],
 		"links": {
-			"github": "https://github.com/sboy99/platform-observability",
-			"live": null,
+			"github": null,
+			"live": "https://trykili.ai",
+			"demo": null
+		},
+		"featured": true,
+		"year": 2026,
+		"origin": "ScribbleDao",
+		"image": null
+	},
+	{
+		"slug": "creators-scribbledao",
+		"title": "Scribble for Creators",
+		"summary": "Creator campaign platform where 50,000+ writers pick brand bounties, publish across X, Reddit, Medium, and LinkedIn, and earn guaranteed USDC payouts.",
+		"description": "Lead-built the Scribble creator product: Next.js campaign and profile surfaces backed by a NestJS API for grants, submissions, quests, wallets, and Web3Auth. Creators join live write-a-thons, submit content from X, Reddit, Medium, and Substack, and get paid through on-platform disbursements tracked in PostgreSQL and Redis.",
+		"stack": [
+			"TypeScript",
+			"Next.js",
+			"NestJS",
+			"PostgreSQL",
+			"TypeORM",
+			"Redis"
+		],
+		"links": {
+			"github": null,
+			"live": "https://creators.scribble.network/",
 			"demo": null
 		},
 		"featured": true,
 		"year": 2025,
+		"origin": "ScribbleDao",
 		"image": null
 	},
 	{
-		"slug": "content-engine",
-		"title": "Content Engine",
-		"summary": "MDX-backed publishing pipeline with typed frontmatter and incremental static generation.",
-		"description": "A content system that compiles MDX, validates frontmatter with Zod, and ships typed pages with preview and production environments.",
-		"stack": ["TypeScript", "MDX", "Zod", "Next.js"],
+		"slug": "brands-scribbledao",
+		"title": "Scribble for Brands",
+		"summary": "Brand dashboard for launching UGC campaigns and tracking AI search visibility across ChatGPT, Gemini, Perplexity, Grok, and Copilot.",
+		"description": "Lead-built the Scribble brands platform: Next.js SaaS frontend with a NestJS GEO backend that polls AI engines, classifies citations, and scores share of voice. Magic-link auth, Stripe plans, brand radar, article generation, and GSC/GA insights sit on PostgreSQL (Drizzle) with Redis/BullMQ job pipelines.",
+		"stack": [
+			"TypeScript",
+			"Next.js",
+			"NestJS",
+			"PostgreSQL",
+			"DrizzleORM",
+			"Redis",
+			"Stripe",
+			"BullMQ"
+		],
 		"links": {
-			"github": "https://github.com/sboy99/content-engine",
-			"live": "https://sboy99.dev",
+			"github": null,
+			"live": "https://brands.scribble.network/",
 			"demo": null
 		},
 		"featured": true,
-		"year": 2024,
+		"year": 2025,
+		"origin": "ScribbleDao",
 		"image": null
 	},
 	{
-		"slug": "design-system-kit",
-		"title": "Design System Kit",
-		"summary": "Accessible UI primitives with tokens, composition APIs, and visual regression coverage.",
-		"description": "A small design system used across product surfaces: buttons, cards, forms, and layout primitives with documented a11y behavior.",
-		"stack": ["React", "Tailwind CSS", "Storybook", "Playwright"],
+		"slug": "hermes-scribbledao",
+		"title": "Hermes",
+		"summary": "Internal notification microservice that delivers branded email, Discord, and Twitter messages for Scribble creator and brand products.",
+		"description": "Lead-built Hermes, the Scribble notification bus: a NestJS Redis microservice that renders Handlebars templates and sends transactional mail via Resend, plus Discord and Twitter. It handles magic-link login, payout receipts, trial/plan drips, AI-visibility alerts, and weekly brand reports consumed by creators and brands services.",
+		"stack": [
+			"TypeScript",
+			"NestJS",
+			"Redis",
+			"Resend",
+			"Handlebars"
+		],
 		"links": {
-			"github": "https://github.com/sboy99/design-system-kit",
+			"github": null,
 			"live": null,
-			"demo": "https://kit.sboy99.dev"
+			"demo": null
 		},
 		"featured": false,
-		"year": 2024,
+		"year": 2025,
+		"origin": "BuidlersTribe",
+		"image": null
+	},
+	{
+		"slug": "go-vault",
+		"title": "Go-Vault",
+		"summary": "CLI for backing up and restoring PostgreSQL databases to local disk or AWS S3, with BoltDB-tracked backup metadata.",
+		"description": "Built a Go CLI (Cobra/Viper) for PostgreSQL dump and restore workflows: interactive prompts, local and S3 storage adapters via the AWS SDK, backup metadata in BoltDB, and Docker plus GitHub Actions packaging for repeatable releases.",
+		"stack": [
+			"Go",
+			"PostgreSQL",
+			"AWS S3",
+			"BoltDB",
+			"Docker"
+		],
+		"links": {
+			"github": "https://github.com/sboy99/go-vault",
+			"live": null,
+			"demo": null
+		},
+		"featured": false,
+		"year": 2025,
+		"origin": "Self",
+		"image": null
+	},
+	{
+		"slug": "gitopener",
+		"title": "GitOpener",
+		"summary": "Beginner-friendly open source platform that teaches contributing through live guides, contributor profiles, and GitHub-backed authentication.",
+		"description": "Lead-built a Next.js learning app for first-time open source contributors: MDX contribution guides, profiles generated from username.mdx files, GitHub API authentication, and MongoDB-backed contributor listings under the pbclife org.",
+		"stack": [
+			"TypeScript",
+			"Next.js",
+			"MongoDB",
+			"Tailwind CSS"
+		],
+		"links": {
+			"github": "https://github.com/pbclife/gitopener.vercel.app",
+			"live": "https://gitopener.vercel.app/",
+			"demo": null
+		},
+		"featured": false,
+		"year": 2023,
+		"origin": "Open Source",
 		"image": null
 	}
 ]

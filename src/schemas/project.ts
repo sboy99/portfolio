@@ -18,6 +18,7 @@ export const projectSchema = z.object({
 	links: projectLinksSchema,
 	featured: z.boolean(),
 	year: z.number().int().min(2000).max(2100),
+	origin: z.string().min(1),
 	image: z.string().min(1).nullable(),
 });
 

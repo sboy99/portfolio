@@ -1,29 +1,32 @@
 import type { HTMLAttributes } from "react";
+import { DashedRule } from "@/components/layout/dashed-rule";
 import { cn } from "@/lib/cn";
 
 type DashedFrameProps = HTMLAttributes<HTMLDivElement>;
 
-const lineClass = "pointer-events-none absolute border-border border-dashed";
+type DashedSectionProps = HTMLAttributes<HTMLDivElement>;
 
 export function DashedFrame({ className, children, ...props }: DashedFrameProps) {
 	return (
-		<div className={cn("relative", className)} {...props}>
-			<span
-				aria-hidden
-				className={cn(lineClass, "-left-3 -right-3 top-0 border-t")}
-			/>
-			<span
-				aria-hidden
-				className={cn(lineClass, "-left-3 -right-3 bottom-0 border-b")}
-			/>
-			<span
-				aria-hidden
-				className={cn(lineClass, "-top-3 -bottom-3 left-0 border-l")}
-			/>
-			<span
-				aria-hidden
-				className={cn(lineClass, "-top-3 -bottom-3 right-0 border-r")}
-			/>
+		<div className={cn("relative z-0", className)} {...props}>
+			<DashedRule edge="top" />
+			<DashedRule edge="bottom" />
+			{children}
+		</div>
+	);
+}
+
+export function DashedSection({ className, children, ...props }: DashedSectionProps) {
+	return (
+		<div
+			className={cn(
+				"relative z-0 py-6",
+				"before:pointer-events-none before:absolute before:left-1/2 before:top-0 before:w-screen before:-translate-x-1/2 before:border-t before:border-dashed before:border-border before:content-['']",
+				"first:before:content-none",
+				className,
+			)}
+			{...props}
+		>
 			{children}
 		</div>
 	);

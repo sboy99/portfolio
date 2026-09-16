@@ -1,9 +1,9 @@
 {
 	"name": "Sagar Bera",
-	"headline": "Software engineer focused on production-grade web systems.",
-	"bio": "I design and ship full-stack products with TypeScript, Next.js, and clear domain boundaries. I care about maintainable structure, typed contracts, and interfaces that stay out of the way.",
-	"location": "India",
-	"email": "hello@sboy99.xyz",
+	"headline": "Backend and DevOps engineer. I ship production TypeScript systems.",
+	"bio": "I design NestJS APIs, PostgreSQL schemas, and the Docker, CI/CD, and GCP setup that keeps them in production. Right now that's Kili and Scribble. I've migrated live apps, applied hexagonal architecture, and In this AI era my efficiency is increased to 10x",
+	"location": "Bengaluru, India",
+	"email": "contact.sagarbera@gmail.com",
 	"socials": [
 		{
 			"label": "GitHub",
@@ -66,7 +66,7 @@
 			]
 		},
 		{
-			"category": "Infrastructure and Automation",
+			"category": "Infra and Tools",
 			"items": [
 				"AWS",
 				"GCP",
@@ -75,17 +75,22 @@
 				"GitHub Actions",
 				"Docker",
 				"Kubernetes",
-				"Helm"
+				"Helm",
+				"Postman",
+				"Grafana",
+				"Git",
+				"GitHub"
 			]
 		},
 		{
-			"category": "AI Tools",
+			"category": "AI",
 			"items": [
-				"OpenAI/GPT",
-				"Anthropic/Claude",
-				"Google Gemini",
+				"GPT/OpenAI",
+				"Claude/Anthropic",
+				"Gemini/Google",
 				"Cursor",
-				"Claude Code"
+				"Claude Code",
+				"Cursor Code"
 			]
 		}
 	],
@@ -95,7 +100,7 @@
 			"role": "Backend Developer",
 			"startDate": "2023-05-16",
 			"endDate": "2023-08-01",
-			"summary": "Migrated the existing limited customizable Drupal based website to a fully customizable performant web app with MERN stack. Followed MVC architecture and shipped very fast.",
+			"summary": "Migrated a limited Drupal site to a fully customizable, performant MERN app. Followed MVC and shipped fast.",
 			"skills": [
 				"TypeScript",
 				"Node.js",
@@ -110,7 +115,7 @@
 			"role": "Full Stack Developer",
 			"startDate": "2023-08-01",
 			"endDate": "2024-06-01",
-			"summary": "After the successful migration, I was promoted to a full stack developer role. I was responsible for developing the new features and fixing the bugs. I also helped designing the archetecture and the codebase of Frontend as well. Implemented Hexagonal Architecture which increased the maintainability and readability of the codebase. I have implemented the CI/CD pipeline for the project using Github Actions(Self Hosted in AWS).",
+			"summary": "Promoted after the migration. Owned new features, production fixes, and frontend architecture. Introduced hexagonal architecture for maintainability, and a GitHub Actions CI/CD pipeline on self-hosted AWS runners.",
 			"skills": [
 				"TypeScript",
 				"NestJs",
@@ -130,7 +135,7 @@
 			"role": "Backend Developer and Devops",
 			"startDate": "2024-06-01",
 			"endDate": "2025-01-01",
-			"summary": "BuidlersTribe rebranded as RabbleLabs where We started building crypto native chat app(which involved crypto payments by telegram usernames) on top on Telegram. Also we created automated yeild generating system named 'Rabots' and I was responsible for the backend development and infrastructure setup. I have implemented the CI/CD pipeline for the project using Github Actions(Self Hosted in GCP).",
+			"summary": "After the rebrand from BuidlersTribe, we built a crypto-native Telegram chat with username-based payments, plus Rabots, an automated yield system. I owned backend and infrastructure, including GitHub Actions CI/CD on self-hosted GCP runners.",
 			"skills": [
 				"TypeScript",
 				"NestJs",
@@ -147,7 +152,7 @@
 			"role": "Backend Developer and Devops",
 			"startDate": "2025-01-01",
 			"endDate": null,
-			"summary": "By the side of RabbleLabs, I started working on a new project called 'ScribbleDao', idea was to increase visibility of new brands. Scribblers writes threads aobut brands, and brands launches campaigns, Did initial system design,DB schema design, e2e testing. Harness AI power and shiped 1week deadline feature in just 1day",
+			"summary": "Building Scribble to make new brands visible: creators write threads, brands run campaigns. I owned the initial system design, database schema, and end-to-end tests. Cursor and Claude Code let me ship a one-week feature in a day.",
 			"skills": [
 				"TypeScript",
 				"NestJs",
@@ -175,8 +180,43 @@
 		{
 			"school": "Panskura Banamali College (Autonomous)",
 			"program": "B.Sc. in Computer Science",
-			"startDate": "2019-01-01",
-			"endDate": "2021-01-01"
+			"startDate": "2018-01-01",
+			"endDate": "2021-01-01",
+			"result": "CGPA: 8.58"
+		}
+	],
+	"openSource": [
+		{
+			"name": "Mintlify",
+			"description": "Open source React UI components for documentation sites, built with Tailwind CSS.",
+			"href": "https://github.com/mintlify/components"
+		},
+		{
+			"name": "WeMakeDevs",
+			"description": "Community platform for free hands-on developer training, workshops, roadmaps, and mentorship.",
+			"href": "https://github.com/WeMakeDevs/wemakedevs-archive"
+		}
+	],
+	"achievements": [
+		{
+			"title": "Silver Play Button",
+			"issuer": "YouTube",
+			"href": "https://www.youtube.com/@ShadowBoy"
+		},
+		{
+			"title": "Postman Student Expert",
+			"issuer": "Postman",
+			"href": "https://badges.parchment.com/public/assertions/dTN94UrSSgSiq32QjdXuXg?identity__email=shadowboy191@gmail.com"
+		},
+		{
+			"title": "Proficient JavaScript Engineer",
+			"issuer": "Triplebyte",
+			"href": "https://triplebyte.com/tb/sagar-bera-1a4abig/certificate"
+		},
+		{
+			"title": "CSS Certification",
+			"issuer": "HackerRank",
+			"href": "https://www.hackerrank.com/certificates/ef1e384af0f3"
 		}
 	]
 }

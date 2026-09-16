@@ -24,6 +24,19 @@ export const educationSchema = z.object({
 	program: z.string().min(1),
 	startDate: z.iso.date(),
 	endDate: z.iso.date().nullable(),
+	result: z.string().min(1).optional(),
+});
+
+export const openSourceSchema = z.object({
+	name: z.string().min(1),
+	description: z.string().min(1),
+	href: z.url(),
+});
+
+export const achievementSchema = z.object({
+	title: z.string().min(1),
+	issuer: z.string().min(1),
+	href: z.url(),
 });
 
 export const profileSchema = z.object({
@@ -36,6 +49,8 @@ export const profileSchema = z.object({
 	skills: z.array(skillGroupSchema),
 	experience: z.array(experienceSchema),
 	education: z.array(educationSchema),
+	openSource: z.array(openSourceSchema),
+	achievements: z.array(achievementSchema),
 });
 
 export type Profile = z.infer<typeof profileSchema>;
@@ -43,3 +58,5 @@ export type SocialLink = z.infer<typeof socialLinkSchema>;
 export type SkillGroup = z.infer<typeof skillGroupSchema>;
 export type Experience = z.infer<typeof experienceSchema>;
 export type Education = z.infer<typeof educationSchema>;
+export type OpenSource = z.infer<typeof openSourceSchema>;
+export type Achievement = z.infer<typeof achievementSchema>;

@@ -8,7 +8,7 @@ type FeaturedProjectsProps = {
 export function FeaturedProjects({ projects }: FeaturedProjectsProps) {
 	return (
 		<section aria-labelledby="featured-heading" className="space-y-4">
-			<h2 className="text-sm font-semibold tracking-tight" id="featured-heading">
+			<h2 className="px-3 text-sm font-semibold tracking-tight" id="featured-heading">
 				Featured work
 			</h2>
 			<ProjectList projects={projects} />

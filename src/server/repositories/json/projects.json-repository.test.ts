@@ -11,8 +11,8 @@ describe("JsonProjectRepository", () => {
 	});
 
 	it("finds a project by slug", async () => {
-		const project = await repository.findBySlug("content-engine");
-		expect(project?.title).toBe("Content Engine");
+		const project = await repository.findBySlug("kili-ai");
+		expect(project?.title).toBe("Kili AI");
 	});
 
 	it("returns null for an unknown slug", async () => {

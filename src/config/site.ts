@@ -1,8 +1,8 @@
 export const siteConfig = {
 	name: "Sagar Bera",
-	title: "Sagar Bera — Software Engineer",
+	title: "Sagar Bera — Backend and DevOps Engineer",
 	description:
-		"Full-stack engineer building production web systems with TypeScript, Next.js, and well-structured backends.",
+		"Backend and DevOps engineer shipping production TypeScript systems — NestJS, PostgreSQL, Docker, CI/CD, and GCP. Currently building Kili and Scribble.",
 	url: "https://sboy99.dev",
 	ogImage: "/og.png",
 	email: "hello@sboy99.dev",

@@ -97,3 +97,23 @@ export function CheckIcon({ className, ...props }: IconProps) {
 		</svg>
 	);
 }
+
+export function ExternalLinkIcon({ className, ...props }: IconProps) {
+	return (
+		<svg
+			aria-hidden="true"
+			className={className}
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="1.5"
+			viewBox="0 0 24 24"
+			{...props}
+		>
+			<path
+				d="M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	);
+}

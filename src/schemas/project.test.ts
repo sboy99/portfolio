@@ -14,6 +14,7 @@ const validProject = {
 	},
 	featured: true,
 	year: 2024,
+	origin: "Self",
 	image: null,
 };
 
