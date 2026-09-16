@@ -23,6 +23,19 @@ export const metadata: Metadata = {
 		template: `%s · ${siteConfig.name}`,
 	},
 	description: siteConfig.description,
+	icons: {
+		icon: [
+			{ url: "/favicon.ico", sizes: "48x48" },
+			{ url: "/favicon.svg", type: "image/svg+xml" },
+			{ url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+		],
+		apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+		shortcut: "/favicon.ico",
+	},
+	manifest: "/site.webmanifest",
+	appleWebApp: {
+		title: siteConfig.name,
+	},
 	openGraph: {
 		title: siteConfig.title,
 		description: siteConfig.description,
