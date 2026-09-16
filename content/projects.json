@@ -137,5 +137,45 @@
 		"year": 2023,
 		"origin": "Open Source",
 		"image": null
+	},
+	{
+		"slug": "faucet-scribbledao",
+		"title": "Faucet",
+		"summary": "Multi-chain token drip service that pays Scribble creators and funds testnet wallets across Base, Monad, Sepolia, and campaign-specific swarm tokens.",
+		"description": "Lead-built Scribble's NestJS faucet: a strategy-per-token drip API that transfers ETH, USDC, and partner campaign tokens via ethers. It covers Ethereum Sepolia, Monad testnet (including Kuru swaps), Base USDC rewards, and swarm payouts for brands like Across, Boba, Aethir, and Bitrefill, plus citation-linked disbursements.",
+		"stack": [
+			"TypeScript",
+			"NestJS",
+			"ethers",
+			"Kuru SDK"
+		],
+		"links": {
+			"github": null,
+			"live": null,
+			"demo": null
+		},
+		"featured": true,
+		"year": 2025,
+		"image": null
+	},
+	{
+		"slug": "rabotics",
+		"title": "Rabotics",
+		"summary": "One-click DeFi bot engine that lets Scribble users deposit into LP and staking strategies across Aerodrome, Curve, Morpho, Renzo, and more.",
+		"description": "Lead-built Rabotics, Scribble's NestJS DeFi automation service: Turnkey-signed Rabots and Rapots that execute deposits and withdrawals through protocol-specific strategies. Creators get vaults and quest positions on Aerodrome, Curve, Morpho, Lido, and Pendle, with Biconomy account abstraction and PostgreSQL-backed positions, metrics, and batch transactions.",
+		"stack": [
+			"TypeScript",
+			"NestJS",
+			"PostgreSQL",
+			"Turnkey"
+		],
+		"links": {
+			"github": null,
+			"live": null,
+			"demo": null
+		},
+		"featured": true,
+		"year": 2024,
+		"image": null
 	}
 ]
