@@ -4,8 +4,11 @@ import { ThemeToggle } from "@/components/common/theme-toggle";
 import { Container } from "@/components/layout/container";
 import { DashedRule } from "@/components/layout/dashed-rule";
 import { siteConfig } from "@/config/site";
+import { getProfileRepository } from "@/server/repositories";
 
-export function Header() {
+export async function Header() {
+	const profile = await getProfileRepository().get();
+
 	return (
 		<header className="relative z-0">
 			<DashedRule edge="top" />
@@ -16,7 +19,7 @@ export function Header() {
 						className="flex items-center gap-2 font-mono text-xs font-medium tracking-tight"
 						href="/"
 					>
-						<span>@sboy99</span>
+						<span>{profile.handle}</span>
 					</Link>
 					<nav aria-label="Primary" className="flex items-center gap-3">
 						{siteConfig.nav.map((item) => (

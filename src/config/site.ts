@@ -13,6 +13,12 @@ export const siteConfig = {
 	},
 	nav: [
 		{ href: "/projects", label: "Projects" },
+		{ href: "/resume", label: "Resume" },
 		{ href: "/about", label: "Me" },
 	],
+	resume: {
+		path: "/sagar-bera-resume.pdf",
+		fileName: "Sagar_Bera_Resume.pdf",
+		updatedAt: "2026-09-01",
+	},
 } as const;

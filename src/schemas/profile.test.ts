@@ -3,6 +3,8 @@ import { profileSchema } from "./profile";
 
 const validProfile = {
 	name: "Sagar Bera",
+	handle: "@sboy99",
+	title: "Software Engineer",
 	headline: "Software engineer",
 	bio: "Builds production web systems.",
 	location: "India",

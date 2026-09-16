@@ -41,10 +41,13 @@ export const achievementSchema = z.object({
 
 export const profileSchema = z.object({
 	name: z.string().min(1),
+	handle: z.string().min(1),
+	title: z.string().min(1),
 	headline: z.string().min(1),
 	bio: z.string().min(1),
 	location: z.string().min(1),
 	email: z.email(),
+	phone: z.string().min(1).optional(),
 	socials: z.array(socialLinkSchema),
 	skills: z.array(skillGroupSchema),
 	experience: z.array(experienceSchema),
