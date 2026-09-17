@@ -17,13 +17,7 @@ function CornerMark({ className }: { className: string }) {
 
 export function ResumeSheet({ className, children, ...props }: ResumeSheetProps) {
 	return (
-		<div
-			className={cn(
-				"relative rounded-lg border border-border bg-card",
-				className,
-			)}
-			{...props}
-		>
+		<div className={cn("relative rounded-lg border border-border bg-card", className)} {...props}>
 			<CornerMark className="left-0 top-0 before:left-0 before:top-0 after:left-0 after:top-0" />
 			<CornerMark className="right-0 top-0 before:right-0 before:top-0 after:right-0 after:top-0" />
 			<CornerMark className="bottom-0 left-0 before:bottom-0 before:left-0 after:bottom-0 after:left-0" />

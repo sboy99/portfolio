@@ -69,8 +69,9 @@ describe("ProjectCard", () => {
 			</ul>,
 		);
 
-		const nameColumn = screen.getByRole("heading", { name: /Kili AI/i }).closest("div")
-			?.parentElement;
+		const nameColumn = screen
+			.getByRole("heading", { name: /Kili AI/i })
+			.closest("div")?.parentElement;
 		expect(nameColumn).not.toBeNull();
 
 		const github = within(nameColumn as HTMLElement).getByRole("link", { name: "GitHub" });

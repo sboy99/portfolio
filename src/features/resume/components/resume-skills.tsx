@@ -10,9 +10,7 @@ export function ResumeSkills({ skills }: ResumeSkillsProps) {
 		<ul className="space-y-3">
 			{skills.map((group) => (
 				<li key={group.category}>
-					<h3 className="font-mono text-xs font-medium text-muted-foreground">
-						{group.category}
-					</h3>
+					<h3 className="font-mono text-xs font-medium text-muted-foreground">{group.category}</h3>
 					<ul className="mt-2 flex flex-wrap gap-1">
 						{group.items.map((item) => (
 							<li key={item}>
