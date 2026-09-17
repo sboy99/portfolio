@@ -3,7 +3,7 @@
 import { type CSSProperties, useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 
-export const START_DELAY_MS = 700;
+export const START_DELAY_MS = 500;
 
 const BASE_LEFTS = [
 	// dense cluster (left)
@@ -28,6 +28,10 @@ type Beam = {
 	wide: boolean;
 };
 
+type BeamFieldProps = {
+	className?: string;
+};
+
 function formatSeconds(value: number): string {
 	return `${value.toFixed(2)}s`;
 }
@@ -41,7 +45,7 @@ export function createBeams(): Beam[] {
 	}));
 }
 
-export function HeroBeam() {
+export function BeamField({ className }: BeamFieldProps) {
 	const [beams, setBeams] = useState<Beam[] | null>(null);
 
 	useEffect(() => {
@@ -61,6 +65,7 @@ export function HeroBeam() {
 				"pointer-events-none absolute inset-x-0 -top-6 -z-10 overflow-hidden",
 				"beam-grid mask-b-from-20% h-40 [--beam-grid-gap:0.5rem] [--beam-travel:100%]",
 				"sm:h-52",
+				className,
 			)}
 		>
 			{beams?.map((beam) => (

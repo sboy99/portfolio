@@ -12,6 +12,7 @@ import { ResumeSkills } from "@/features/resume/components/resume-skills";
 import { ResumeSummary } from "@/features/resume/components/resume-summary";
 import { sortExperienceDesc, sortProjectsByYearDesc } from "@/lib/resume-order";
 import { getProfileRepository, getProjectRepository } from "@/server/repositories";
+import { BeamField } from "@/components/ui/beam-field";
 
 export const metadata: Metadata = {
 	title: "Resume",
@@ -31,7 +32,8 @@ export default async function ResumePage() {
 		<Container>
 			<DashedFrame>
 				<DashedSection>
-					<div className="px-3">
+					<div className="relative isolate px-3">
+						<BeamField />
 						<ResumeSheet>
 							<ResumeHeader profile={profile} />
 							<ResumeBlock id="resume-summary" label="Summary">

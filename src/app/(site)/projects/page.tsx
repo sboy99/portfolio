@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
+import { BeamField } from "@/components/ui/beam-field";
 import { DashedFrame, DashedSection } from "@/components/ui/dashed-frame";
 import { ProjectList } from "@/features/projects/components/project-list";
 import { getProjectRepository } from "@/server/repositories";
@@ -16,7 +17,8 @@ export default async function ProjectsPage() {
 		<Container>
 			<DashedFrame>
 				<DashedSection>
-					<header className="space-y-1.5 px-3">
+					<header className="relative isolate space-y-1.5 px-3">
+						<BeamField />
 						<h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
 						<p className="text-sm text-muted-foreground">
 							From Kili and Scribble to the CLIs and services underneath.

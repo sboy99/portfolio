@@ -1,6 +1,6 @@
 import { act, cleanup, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { HeroBeam, START_DELAY_MS } from "./hero-beam";
+import { BeamField, START_DELAY_MS } from "./beam-field";
 
 const SNAP_CLASS = "left-[round(down,var(--beam-left),var(--beam-grid-gap))]";
 const EXPECTED_LEFTS = [
@@ -17,7 +17,7 @@ const EXPECTED_LEFTS = [
 ] as const;
 const BEAM_COUNT = EXPECTED_LEFTS.length;
 
-describe("HeroBeam", () => {
+describe("BeamField", () => {
 	beforeEach(() => {
 		vi.useFakeTimers();
 		vi.spyOn(Math, "random").mockReturnValue(0);
@@ -30,7 +30,7 @@ describe("HeroBeam", () => {
 	});
 
 	it("renders only the grid before the start delay", () => {
-		const { container } = render(<HeroBeam />);
+		const { container } = render(<BeamField />);
 
 		const field = container.firstElementChild;
 		expect(field).not.toBeNull();
@@ -45,7 +45,7 @@ describe("HeroBeam", () => {
 	});
 
 	it("seeds snapped beams after the start delay", () => {
-		const { container } = render(<HeroBeam />);
+		const { container } = render(<BeamField />);
 
 		act(() => {
 			vi.advanceTimersByTime(START_DELAY_MS);
@@ -85,5 +85,12 @@ describe("HeroBeam", () => {
 			expect(style).toContain("animation-duration: 2.4s");
 			expect(style).not.toContain("--beam-len");
 		}
+	});
+
+	it("merges an optional className onto the field", () => {
+		const { container } = render(<BeamField className="h-24" />);
+
+		expect(container.firstElementChild).toHaveClass("h-24");
+		expect(container.firstElementChild).toHaveClass("beam-grid");
 	});
 });
