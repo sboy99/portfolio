@@ -23,25 +23,11 @@
 	"skills": [
 		{
 			"category": "Languages",
-			"items": [
-				"TypeScript",
-				"JavaScript",
-				"Python",
-				"GoLang",
-				"SQL"
-			]
+			"items": ["TypeScript", "JavaScript", "Python", "GoLang", "SQL"]
 		},
 		{
 			"category": "Frontend",
-			"items": [
-				"React",
-				"Next.js",
-				"Tailwind CSS",
-				"React Query",
-				"Redux",
-				"Zustand",
-				"Shadcn UI"
-			]
+			"items": ["React", "Next.js", "Tailwind CSS", "React Query", "Redux", "Zustand", "Shadcn UI"]
 		},
 		{
 			"category": "Backend",
@@ -58,14 +44,7 @@
 		},
 		{
 			"category": "Database",
-			"items": [
-				"PostgreSQL",
-				"MySQL",
-				"MongoDB",
-				"Redis",
-				"SQLite",
-				"Supabase"
-			]
+			"items": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "SQLite", "Supabase"]
 		},
 		{
 			"category": "Infra and Tools",
@@ -98,63 +77,11 @@
 	],
 	"experience": [
 		{
-			"company": "BuidlersTribe",
-			"role": "Backend Developer",
-			"startDate": "2023-05-16",
-			"endDate": "2023-08-01",
-			"summary": "Migrated a limited Drupal site to a fully customizable, performant MERN app. Followed MVC and shipped fast.",
-			"skills": [
-				"TypeScript",
-				"Node.js",
-				"Express.js",
-				"REST",
-				"MongoDB",
-				"Mongoose"
-			]
-		},
-		{
-			"company": "BuidlersTribe",
-			"role": "Full Stack Developer",
-			"startDate": "2023-08-01",
-			"endDate": "2024-06-01",
-			"summary": "Promoted after the migration. Owned new features, production fixes, and frontend architecture. Introduced hexagonal architecture for maintainability, and a GitHub Actions CI/CD pipeline on self-hosted AWS runners.",
-			"skills": [
-				"TypeScript",
-				"NestJs",
-				"Next.js",
-				"Tailwind CSS",
-				"React Query",
-				"Redux",
-				"PostgreSQL",
-				"TypeORM",
-				"Docker",
-				"AWS",
-				"Github Actions"
-			]
-		},
-		{
-			"company": "RabbleLabs",
-			"role": "Backend Developer and Devops",
-			"startDate": "2024-06-01",
-			"endDate": "2025-01-01",
-			"summary": "After the rebrand from BuidlersTribe, we built a crypto-native Telegram chat with username-based payments, plus Rabots, an automated yield system. I owned backend and infrastructure, including GitHub Actions CI/CD on self-hosted GCP runners.",
-			"skills": [
-				"TypeScript",
-				"NestJs",
-				"PostgreSQL",
-				"TypeORM",
-				"GCP",
-				"Nginx",
-				"Github Actions",
-				"Docker"
-			]
-		},
-		{
 			"company": "ScribbleDao",
 			"role": "Backend Developer and Devops",
-			"startDate": "2025-01-01",
+			"startDate": "2023-03-13",
 			"endDate": null,
-			"summary": "Building Scribble to make new brands visible: creators write threads, brands run campaigns. I owned the initial system design, database schema, and end-to-end tests. Cursor and Claude Code let me ship a one-week feature in a day.",
+			"summary": "Grew with the company from a Drupal-to-MERN migration through hexagonal NestJS apps and CI/CD on AWS and GCP, into Scribble's creator and brand platforms—campaigns, USDC payouts, DeFi bots, and AI search visibility. I own backend, schema design, and infrastructure end to end; In the AI era, With the help of Cursor and Claude Code I shipped a one-week feature in just one day.",
 			"skills": [
 				"TypeScript",
 				"NestJs",
@@ -168,7 +95,18 @@
 				"Docker",
 				"Terraform",
 				"Grafana",
-				"Loki"
+				"Loki",
+				"Node.js",
+				"Express.js",
+				"REST",
+				"MongoDB",
+				"Mongoose",
+				"Next.js",
+				"Tailwind CSS",
+				"React Query",
+				"Redux",
+				"AWS",
+				"Nginx"
 			]
 		}
 	],
