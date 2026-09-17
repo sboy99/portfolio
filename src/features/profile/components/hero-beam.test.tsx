@@ -3,7 +3,19 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { HeroBeam, START_DELAY_MS } from "./hero-beam";
 
 const SNAP_CLASS = "left-[round(down,var(--beam-left),var(--beam-grid-gap))]";
-const BEAM_COUNT = 10;
+const EXPECTED_LEFTS = [
+	"10%",
+	"12%",
+	"14%",
+	"16%",
+	"32%",
+	"48%",
+	"64%",
+	"82%",
+	"84%",
+	"86%",
+] as const;
+const BEAM_COUNT = EXPECTED_LEFTS.length;
 
 describe("HeroBeam", () => {
 	beforeEach(() => {
@@ -44,8 +56,9 @@ describe("HeroBeam", () => {
 		expect(columns).toHaveLength(BEAM_COUNT);
 
 		for (const [index, column] of columns.entries()) {
+			const expectedLeft = EXPECTED_LEFTS[index];
 			expect(column).toHaveClass(SNAP_CLASS);
-			expect(column.getAttribute("style")).toMatch(/--beam-left:/);
+			expect(column.getAttribute("style")).toContain(`--beam-left: ${expectedLeft}`);
 			expect(column).not.toHaveClass("bg-border");
 
 			if (index % 2 === 1) {

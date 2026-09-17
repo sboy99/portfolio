@@ -5,7 +5,21 @@ import { cn } from "@/lib/cn";
 
 export const START_DELAY_MS = 700;
 
-const BASE_LEFTS = ["6%", "14%", "22%", "31%", "40%", "49%", "58%", "67%", "78%", "90%"] as const;
+const BASE_LEFTS = [
+	// dense cluster (left)
+	"10%",
+	"12%",
+	"14%",
+	"16%",
+	// sparse mid (current-like open spacing)
+	"32%",
+	"48%",
+	"64%",
+	// dense cluster (right)
+	"82%",
+	"84%",
+	"86%",
+] as const;
 
 type Beam = {
 	left: string;
@@ -14,23 +28,12 @@ type Beam = {
 	wide: boolean;
 };
 
-function shuffle<T>(items: readonly T[]): T[] {
-	const next = [...items];
-	for (let i = next.length - 1; i > 0; i -= 1) {
-		const j = Math.floor(Math.random() * (i + 1));
-		const current = next[i];
-		next[i] = next[j] as T;
-		next[j] = current as T;
-	}
-	return next;
-}
-
 function formatSeconds(value: number): string {
 	return `${value.toFixed(2)}s`;
 }
 
 export function createBeams(): Beam[] {
-	return shuffle(BASE_LEFTS).map((left, index) => ({
+	return BASE_LEFTS.map((left, index) => ({
 		left,
 		delay: formatSeconds(0.2 + Math.random() * 2.6),
 		duration: formatSeconds(2.4 + Math.random() * 2.2),
