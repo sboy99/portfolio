@@ -1,6 +1,6 @@
 {
 	"name": "Sagar Bera",
-	"handle": "Sagar",
+	"handle": "sagar/sboy99",
 	"title": "Backend & DevOps Engineer",
 	"headline": "Backend and DevOps engineer. I ship production TypeScript systems.",
 	"bio": "I design NestJS APIs, PostgreSQL schemas, and the Docker, CI/CD, and GCP setup that keeps them in production. Right now that's Kili and Scribble. I've migrated live apps, applied hexagonal architecture, and In this AI era my efficiency is increased to 10x",
@@ -23,11 +23,25 @@
 	"skills": [
 		{
 			"category": "Languages",
-			"items": ["TypeScript", "JavaScript", "Python", "GoLang", "SQL"]
+			"items": [
+				"TypeScript",
+				"JavaScript",
+				"Python",
+				"GoLang",
+				"SQL"
+			]
 		},
 		{
 			"category": "Frontend",
-			"items": ["React", "Next.js", "Tailwind CSS", "React Query", "Redux", "Zustand", "Shadcn UI"]
+			"items": [
+				"React",
+				"Next.js",
+				"Tailwind CSS",
+				"React Query",
+				"Redux",
+				"Zustand",
+				"Shadcn UI"
+			]
 		},
 		{
 			"category": "Backend",
@@ -44,7 +58,14 @@
 		},
 		{
 			"category": "Database",
-			"items": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "SQLite", "Supabase"]
+			"items": [
+				"PostgreSQL",
+				"MySQL",
+				"MongoDB",
+				"Redis",
+				"SQLite",
+				"Supabase"
+			]
 		},
 		{
 			"category": "Infra and Tools",
