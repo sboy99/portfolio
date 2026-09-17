@@ -6,8 +6,7 @@ import { getProjectRepository } from "@/server/repositories";
 
 export const metadata: Metadata = {
 	title: "Projects",
-	description:
-		"From Kili and Scribble to the CLIs and services underneath.",
+	description: "From Kili and Scribble to the CLIs and services underneath.",
 };
 
 export default async function ProjectsPage() {

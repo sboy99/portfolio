@@ -15,9 +15,11 @@ export function ResumeHeader({ profile }: ResumeHeaderProps) {
 			</div>
 			<div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-muted-foreground">
 				{profile.phone ? <span>{profile.phone}</span> : null}
-				{profile.phone ? <span aria-hidden className="text-border">
+				{profile.phone ? (
+					<span aria-hidden className="text-border">
 						·
-					</span> : null}
+					</span>
+				) : null}
 				<a className="hover:text-foreground" href={`mailto:${profile.email}`}>
 					{profile.email}
 				</a>

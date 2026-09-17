@@ -109,11 +109,7 @@ export function DownloadIcon({ className, ...props }: IconProps) {
 			viewBox="0 0 24 24"
 			{...props}
 		>
-			<path
-				d="M12 3v12M7 10l5 5 5-5M5 21h14"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
+			<path d="M12 3v12M7 10l5 5 5-5M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
 		</svg>
 	);
 }

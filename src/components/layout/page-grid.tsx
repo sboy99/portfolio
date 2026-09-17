@@ -6,10 +6,7 @@ type PageGridProps = HTMLAttributes<HTMLDivElement>;
 export function PageGrid({ className, children, ...props }: PageGridProps) {
 	return (
 		<div
-			className={cn(
-				"relative flex min-h-full flex-1 flex-col overflow-x-clip",
-				className,
-			)}
+			className={cn("relative flex min-h-full flex-1 flex-col overflow-x-clip", className)}
 			{...props}
 		>
 			<div

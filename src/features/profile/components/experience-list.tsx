@@ -1,5 +1,5 @@
-import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
+import { SectionHeading } from "@/components/ui/section-heading";
 import type { Experience } from "@/features/profile/types";
 import { formatYearRange } from "@/lib/format-date";
 
