@@ -2,10 +2,12 @@
 	"name": "Sagar Bera",
 	"handle": "sagar/sboy99",
 	"title": "Backend & DevOps Engineer",
-	"headline": "Backend and DevOps engineer. I ship production TypeScript systems.",
-	"bio": "I design NestJS APIs, PostgreSQL schemas, and the Docker, CI/CD, and GCP setup that keeps them in production. Right now that's Kili and Scribble. I've migrated live apps, applied hexagonal architecture, and In this AI era my efficiency is increased to 10x",
+	"headline": "Backend and DevOps engineer. I ship production TypeScript systems used by real users.",
+	"bio": "I design NestJS APIs, PostgreSQL schemas, and the Docker, CI/CD, and cloud setup that keeps them in production. At Scribble Network, I've helped build products now used by 50,000+ creators and reaching a client's citation growth from 2% to 20% in 3 months. I've migrated live apps, applied hexagonal architecture, and in this AI era, my delivery speed has gone up nearly 5x using Cursor and Claude Code.",
 	"location": "Bengaluru, India",
 	"email": "contact.sagarbera@gmail.com",
+	"phone": "+91 7980406755",
+	"website": "https://sboy99.xyz",
 	"socials": [
 		{
 			"label": "GitHub",
@@ -98,11 +100,11 @@
 	],
 	"experience": [
 		{
-			"company": "ScribbleDao",
-			"role": "Backend Developer and Devops",
+			"company": "Scribble Network",
+			"role": "Backend Developer and DevOps",
 			"startDate": "2023-03-13",
 			"endDate": null,
-			"summary": "Grew with the company from a Drupal-to-MERN migration through hexagonal NestJS apps and CI/CD on AWS and GCP, into Scribble's creator and brand platforms—campaigns, USDC payouts, DeFi bots, and AI search visibility. I own backend, schema design, and infrastructure end to end; In the AI era, With the help of Cursor and Claude Code I shipped a one-week feature in just one day.",
+			"summary": "Grew with the company from a Drupal-to-MERN migration through hexagonal NestJS apps and CI/CD on AWS and GCP, into Scribble's creator and brand platforms. Own backend, schema design, and infrastructure end to end. Built Kili (250+ daily active users), Scribble for Brands (helped a flagship client grow AI citation share from 2% to 20% in 3 months), and Scribble for Creators (50,000+ active creators, $500,000+ paid out across 800+ brand campaigns). Using Cursor and Claude Code, cut typical one-week feature delivery down to a single day.",
 			"skills": [
 				"TypeScript",
 				"NestJs",
@@ -128,7 +130,23 @@
 				"Redux",
 				"AWS",
 				"Nginx"
-			]
+			],
+			"impact": {
+				"kili": {
+					"dailyActiveUsers": "250+"
+				},
+				"scribbleForBrands": {
+					"citationGrowth": "2% to 20% in 3 months (flagship client)",
+					"creatorsInNetwork": "50,000+",
+					"citedCreatorPieces": "6,000+"
+				},
+				"scribbleForCreators": {
+					"activeCreators": "50,000+",
+					"totalRewardsPaid": "$500,000+",
+					"brandsServed": "800+",
+					"averageWinRate": "72%"
+				}
+			}
 		}
 	],
 	"education": [
