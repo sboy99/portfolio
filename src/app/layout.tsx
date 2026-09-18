@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/common/theme-provider";
@@ -65,6 +66,7 @@ export default function RootLayout({
 			</head>
 			<body className="flex min-h-full flex-col bg-background text-foreground">
 				<ThemeProvider>{children}</ThemeProvider>
+				<Analytics />
 			</body>
 		</html>
 	);
