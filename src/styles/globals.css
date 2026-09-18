@@ -88,3 +88,54 @@ body {
 	color: var(--foreground);
 	font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+/* Light: new theme blooms in */
+html[data-theme-clip="light"]::view-transition-old(root) {
+	z-index: 1;
+}
+
+html[data-theme-clip="light"]::view-transition-new(root) {
+	z-index: 2;
+	animation: theme-clip-in 850ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+/* Dark: old theme collapses out */
+html[data-theme-clip="dark"]::view-transition-old(root) {
+	z-index: 2;
+	animation: theme-clip-out 850ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+html[data-theme-clip="dark"]::view-transition-new(root) {
+	z-index: 1;
+}
+
+@keyframes theme-clip-in {
+	from {
+		clip-path: circle(0px at var(--theme-clip-x) var(--theme-clip-y));
+	}
+	to {
+		clip-path: circle(var(--theme-clip-r) at var(--theme-clip-x) var(--theme-clip-y));
+	}
+}
+
+@keyframes theme-clip-out {
+	from {
+		clip-path: circle(var(--theme-clip-r) at var(--theme-clip-x) var(--theme-clip-y));
+	}
+	to {
+		clip-path: circle(0px at var(--theme-clip-x) var(--theme-clip-y));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation: none !important;
+	}
+}

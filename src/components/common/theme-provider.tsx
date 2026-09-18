@@ -1,10 +1,22 @@
 "use client";
 
-import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { ThemeContext } from "@/components/common/theme-context";
+import {
+	type ReactNode,
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
+import { flushSync } from "react-dom";
+import { ThemeContext, type ThemeModeTransitionOrigin } from "@/components/common/theme-context";
 import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/config/theme";
 import {
 	applyTheme,
+	applyThemeClipVars,
+	canTransitionTheme,
+	clearThemeClipVars,
 	readStoredTheme,
 	withMode,
 	withNeutral,
@@ -20,6 +32,12 @@ type ThemeProviderProps = {
 export function ThemeProvider({ children }: ThemeProviderProps) {
 	const [theme, setTheme] = useState<ThemePreference>(DEFAULT_THEME);
 	const [ready, setReady] = useState(false);
+	const themeRef = useRef(theme);
+	const transitionActiveRef = useRef(false);
+
+	useLayoutEffect(() => {
+		themeRef.current = theme;
+	});
 
 	useEffect(() => {
 		const stored = readStoredTheme();
@@ -67,9 +85,43 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 		setTheme((current) => withMode(current, mode));
 	}, []);
 
-	const toggleMode = useCallback(() => {
-		setTheme((current) => withMode(current, current.mode === "dark" ? "light" : "dark"));
+	const applyMode = useCallback((nextMode: ThemeMode) => {
+		const next = withMode(themeRef.current, nextMode);
+
+		flushSync(() => {
+			applyTheme(next);
+			writeStoredTheme(next);
+			setTheme(next);
+		});
 	}, []);
+
+	const toggleMode = useCallback(
+		(origin?: ThemeModeTransitionOrigin) => {
+			if (transitionActiveRef.current) {
+				return;
+			}
+
+			const nextMode: ThemeMode = themeRef.current.mode === "dark" ? "light" : "dark";
+
+			if (origin == null || !canTransitionTheme()) {
+				applyMode(nextMode);
+				return;
+			}
+
+			applyThemeClipVars(origin, nextMode);
+			transitionActiveRef.current = true;
+
+			const transition = document.startViewTransition(() => {
+				applyMode(nextMode);
+			});
+
+			void transition.finished.finally(() => {
+				clearThemeClipVars();
+				transitionActiveRef.current = false;
+			});
+		},
+		[applyMode],
+	);
 
 	const value = useMemo(
 		() => ({

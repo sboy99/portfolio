@@ -1,9 +1,10 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ThemePanel } from "@/components/common/theme-panel";
 import { ThemeProvider } from "@/components/common/theme-provider";
 import { ThemeToggle } from "@/components/common/theme-toggle";
 import { THEME_STORAGE_KEY } from "@/config/theme";
+import { THEME_CLIP_Y_OFFSET_LIGHT } from "@/lib/theme";
 
 function renderThemeControls() {
 	return render(
@@ -46,10 +47,16 @@ describe("theme controls", () => {
 		document.documentElement.removeAttribute("data-theme");
 		document.documentElement.removeAttribute("data-primary");
 		document.documentElement.removeAttribute("data-neutral");
+		document.documentElement.removeAttribute("data-theme-clip");
+		document.documentElement.style.removeProperty("--theme-clip-x");
+		document.documentElement.style.removeProperty("--theme-clip-y");
+		document.documentElement.style.removeProperty("--theme-clip-r");
 	});
 
 	afterEach(() => {
 		cleanup();
+		vi.restoreAllMocks();
+		Reflect.deleteProperty(document, "startViewTransition");
 	});
 
 	it("applies a primary swatch to html and localStorage", async () => {
@@ -86,6 +93,84 @@ describe("theme controls", () => {
 			expect(document.documentElement.getAttribute("data-theme")).toBe("light");
 			expect(storedTheme()).toMatchObject({ mode: "light" });
 		});
+	});
+
+	it("applies theme inside startViewTransition and sets clip origin vars", async () => {
+		const startViewTransition = vi.fn((update: () => void) => {
+			update();
+			return {
+				finished: Promise.resolve(),
+				ready: Promise.resolve(),
+				updateCallbackDone: Promise.resolve(),
+				skipTransition: () => undefined,
+			};
+		});
+
+		Object.defineProperty(document, "startViewTransition", {
+			configurable: true,
+			value: startViewTransition,
+			writable: true,
+		});
+
+		Object.defineProperty(window, "matchMedia", {
+			configurable: true,
+			writable: true,
+			value: (query: string) => ({
+				matches: false,
+				media: query,
+				onchange: null,
+				addEventListener: vi.fn(),
+				removeEventListener: vi.fn(),
+				addListener: vi.fn(),
+				removeListener: vi.fn(),
+				dispatchEvent: vi.fn(),
+			}),
+		});
+
+		renderThemeControls();
+		await waitForHydration();
+
+		const lightButton = screen.getByRole("button", { name: "Switch to light mode" });
+		const rect = {
+			x: 200,
+			y: 40,
+			left: 200,
+			top: 40,
+			width: 32,
+			height: 32,
+			right: 232,
+			bottom: 72,
+			toJSON: () => ({}),
+		};
+		vi.spyOn(lightButton, "getBoundingClientRect").mockReturnValue(rect);
+
+		fireEvent.click(lightButton);
+
+		expect(startViewTransition).toHaveBeenCalledTimes(1);
+		expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+		expect(document.documentElement.getAttribute("data-theme-clip")).toBe("light");
+		expect(document.documentElement.style.getPropertyValue("--theme-clip-x")).toBe(
+			`${rect.left + rect.width / 2}px`,
+		);
+		expect(document.documentElement.style.getPropertyValue("--theme-clip-y")).toBe(
+			`${rect.top + rect.height / 2 + THEME_CLIP_Y_OFFSET_LIGHT}px`,
+		);
+		expect(storedTheme()).toMatchObject({ mode: "light" });
+
+		await Promise.resolve();
+
+		const darkButton = screen.getByRole("button", { name: "Switch to dark mode" });
+		vi.spyOn(darkButton, "getBoundingClientRect").mockReturnValue(rect);
+
+		fireEvent.click(darkButton);
+
+		expect(startViewTransition).toHaveBeenCalledTimes(2);
+		expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+		expect(document.documentElement.getAttribute("data-theme-clip")).toBe("dark");
+		expect(document.documentElement.style.getPropertyValue("--theme-clip-y")).toBe(
+			`${rect.top + rect.height / 2}px`,
+		);
+		expect(storedTheme()).toMatchObject({ mode: "dark" });
 	});
 
 	it("restores a stored preference on mount", async () => {
