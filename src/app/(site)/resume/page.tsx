@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
+import { BeamField } from "@/components/ui/beam-field";
 import { DashedFrame, DashedSection } from "@/components/ui/dashed-frame";
 import { ResumeAchievements } from "@/features/resume/components/resume-achievements";
 import { ResumeBlock } from "@/features/resume/components/resume-block";
@@ -12,7 +13,6 @@ import { ResumeSkills } from "@/features/resume/components/resume-skills";
 import { ResumeSummary } from "@/features/resume/components/resume-summary";
 import { sortExperienceDesc, sortProjectsByYearDesc } from "@/lib/resume-order";
 import { getProfileRepository, getProjectRepository } from "@/server/repositories";
-import { BeamField } from "@/components/ui/beam-field";
 
 export const metadata: Metadata = {
 	title: "Resume",

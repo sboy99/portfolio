@@ -9,7 +9,7 @@ const experience: Experience[] = [
 		role: "Software Engineer",
 		startDate: "2023-01-01",
 		endDate: null,
-		summary: "Shipping TypeScript products.",
+		summary: "Shipping TypeScript products for [[50,000+]] users.",
 		skills: ["TypeScript", "Next.js"],
 	},
 ];
@@ -17,6 +17,13 @@ const experience: Experience[] = [
 describe("ExperienceList", () => {
 	afterEach(() => {
 		cleanup();
+	});
+
+	it("renders marked metrics without brackets", () => {
+		render(<ExperienceList experience={experience} />);
+
+		expect(screen.getByText("50,000+")).toBeInTheDocument();
+		expect(screen.queryByText("[[50,000+]]")).not.toBeInTheDocument();
 	});
 
 	it("renders skills for an experience item", () => {

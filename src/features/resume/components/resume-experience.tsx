@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { HighlightedText } from "@/components/ui/highlighted-text";
 import type { Experience } from "@/features/resume/types";
 import { formatYearRange } from "@/lib/format-date";
 
@@ -19,7 +20,9 @@ export function ResumeExperience({ experience }: ResumeExperienceProps) {
 							{formatYearRange(item.startDate, item.endDate)}
 						</p>
 					</div>
-					<p className="mt-1.5 text-sm leading-6 text-muted-foreground">{item.summary}</p>
+					<p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+						<HighlightedText text={item.summary} />
+					</p>
 					{item.skills.length > 0 ? (
 						<ul aria-label={`Skills at ${item.company}`} className="mt-2 flex flex-wrap gap-1">
 							{item.skills.map((skill) => (

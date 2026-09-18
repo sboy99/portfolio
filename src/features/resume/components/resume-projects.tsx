@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { HighlightedText } from "@/components/ui/highlighted-text";
 import type { Project } from "@/features/projects/types";
 
 type ResumeProjectsProps = {
@@ -14,7 +15,9 @@ export function ResumeProjects({ projects }: ResumeProjectsProps) {
 						<h3 className="text-sm font-medium">{project.title}</h3>
 						<p className="font-mono text-xs text-muted-foreground">{project.year}</p>
 					</div>
-					<p className="mt-1.5 text-sm leading-6 text-muted-foreground">{project.summary}</p>
+					<p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+						<HighlightedText text={project.summary} />
+					</p>
 					<ul aria-label={`Stack for ${project.title}`} className="mt-2 flex flex-wrap gap-1">
 						{project.stack.map((item) => (
 							<li key={item}>

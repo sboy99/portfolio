@@ -13,6 +13,7 @@ const project: Project = {
 		github: null,
 		live: "https://trykili.ai",
 		demo: null,
+		docker: null,
 	},
 	featured: true,
 	year: 2026,
@@ -63,6 +64,7 @@ describe("ProjectCard", () => {
 							github: "https://github.com/sboy99/kili",
 							live: "https://trykili.ai",
 							demo: null,
+							docker: null,
 						},
 					}}
 				/>
@@ -79,5 +81,42 @@ describe("ProjectCard", () => {
 
 		expect(github).toHaveAttribute("href", "https://github.com/sboy99/kili");
 		expect(live).toHaveAttribute("href", "https://trykili.ai");
+	});
+
+	it("renders a Docker link when present", () => {
+		render(
+			<ul>
+				<ProjectCard
+					project={{
+						slug: "go-vault",
+						title: "Go-Vault",
+						summary: "CLI for PostgreSQL backups.",
+						description: "Go CLI for PostgreSQL dump and restore workflows.",
+						stack: ["Go", "Docker"],
+						links: {
+							github: "https://github.com/sboy99/go-vault",
+							live: null,
+							demo: null,
+							docker: "https://hub.docker.com/repository/docker/sboy99/go-vault",
+						},
+						featured: false,
+						year: 2025,
+						origin: "Self",
+						image: null,
+					}}
+				/>
+			</ul>,
+		);
+
+		const nameColumn = screen
+			.getByRole("heading", { name: /Go-Vault/i })
+			.closest("div")?.parentElement;
+		expect(nameColumn).not.toBeNull();
+
+		const docker = within(nameColumn as HTMLElement).getByRole("link", { name: "Docker" });
+		expect(docker).toHaveAttribute(
+			"href",
+			"https://hub.docker.com/repository/docker/sboy99/go-vault",
+		);
 	});
 });

@@ -2,7 +2,7 @@
 	{
 		"slug": "kili-ai",
 		"title": "Kili AI",
-		"summary": "Ad network for AI products that turns an agent's idle 'thinking' time into ad revenue, live with 250+ daily active users, settling payouts through Stripe or stablecoins.",
+		"summary": "Ad network for AI products that turns an agent's idle 'thinking' time into ad revenue, live with [[250+]] daily active users, settling payouts through Stripe or stablecoins.",
 		"description": "Lead-built the Kili ad platform: Next.js advertiser and publisher dashboards backed by NestJS APIs for campaigns, semantic fill, pixels, billing, and payouts. Developers install React/Node SDKs or a Claude Code extension; ads are ranked by prompt embeddings in PostgreSQL; conversions flow through a first-party pixel and Conversions API, with settlement via Stripe Connect or on-chain USDC.",
 		"stack": [
 			"TypeScript",
@@ -31,8 +31,8 @@
 	},
 	{
 		"slug": "brands-scribbledao",
-		"title": "Scribble for Brands",
-		"summary": "Brand dashboard for tracking AI search visibility across ChatGPT, Gemini, Perplexity, Grok, and Copilot; helped a flagship client grow citation share from 2% to 20% in 3 months.",
+		"title": "Scribble Brands",
+		"summary": "Brand dashboard for tracking AI search visibility across ChatGPT, Gemini, Perplexity, Grok, and Copilot; helped a flagship client grow citation share from [[2% to 20%]] in 3 months.",
 		"description": "Lead-built the Scribble brands platform: Next.js SaaS frontend with a NestJS GEO backend that polls AI engines, classifies citations, and scores share of voice. Magic-link auth, Stripe plans, brand radar, article generation, and GSC/GA insights sit on PostgreSQL (Drizzle) with Redis/BullMQ job pipelines.",
 		"stack": [
 			"TypeScript",
@@ -61,8 +61,8 @@
 	},
 	{
 		"slug": "creators-scribbledao",
-		"title": "Scribble for Creators",
-		"summary": "Creator campaign platform with 50,000+ active creators, $500,000+ paid out across 800+ brand campaigns, and a 72% average win rate.",
+		"title": "Scribble Creators",
+		"summary": "Creator campaign platform with [[50,000+]] active creators, [[$500,000+]] paid out across [[800+]] brand campaigns, and a [[72%]] average win rate.",
 		"description": "Lead-built the Scribble creator product: Next.js campaign and profile surfaces backed by a NestJS API for grants, submissions, quests, wallets, and Web3Auth. Creators join live write-a-thons, submit content from X, Reddit, Medium, and Substack, and get paid through on-platform disbursements tracked in PostgreSQL and Redis.",
 		"stack": [
 			"TypeScript",
@@ -91,7 +91,7 @@
 	{
 		"slug": "hermes-scribbledao",
 		"title": "Hermes",
-		"summary": "Internal notification microservice that delivers branded email, Discord, and Twitter messages for Scribble creator and brand products.",
+		"summary": "Internal notification microservice that delivers branded [[Email]], [[Discord]], and [[Twitter]] messages for Scribble creator and brand products.",
 		"description": "Lead-built Hermes, the Scribble notification bus: a NestJS Redis microservice that renders Handlebars templates and sends transactional mail via Resend, plus Discord and Twitter. It handles magic-link login, payout receipts, trial/plan drips, AI-visibility alerts, and weekly brand reports consumed by creators and brands services.",
 		"stack": [
 			"TypeScript",
@@ -113,7 +113,7 @@
 	{
 		"slug": "go-vault",
 		"title": "Go-Vault",
-		"summary": "CLI for backing up and restoring PostgreSQL databases to local disk or AWS S3, with BoltDB-tracked backup metadata.",
+		"summary": "CLI for backing up and restoring [[PostgreSQL]] databases to local disk or [[AWS S3]], with [[BoltDB]]-tracked backup metadata.",
 		"description": "Built a Go CLI (Cobra/Viper) for PostgreSQL dump and restore workflows: interactive prompts, local and S3 storage adapters via the AWS SDK, backup metadata in BoltDB, and Docker plus GitHub Actions packaging for repeatable releases.",
 		"stack": [
 			"Go",
@@ -125,7 +125,8 @@
 		"links": {
 			"github": "https://github.com/sboy99/go-vault",
 			"live": null,
-			"demo": null
+			"demo": null,
+			"docker": "https://hub.docker.com/repository/docker/sboy99/go-vault"
 		},
 		"featured": false,
 		"year": 2025,
@@ -135,7 +136,7 @@
 	{
 		"slug": "gitopener",
 		"title": "GitOpener",
-		"summary": "Beginner-friendly open source platform that teaches contributing through live guides, contributor profiles, and GitHub-backed authentication.",
+		"summary": "Beginner-friendly open source platform that teaches contributing through live guides, contributor profiles, and [[GitHub]]-backed authentication.",
 		"description": "Lead-built a Next.js learning app for first-time open source contributors: MDX contribution guides, profiles generated from username.mdx files, GitHub API authentication, and MongoDB-backed contributor listings under the pbclife org.",
 		"stack": [
 			"TypeScript",
@@ -156,7 +157,7 @@
 	{
 		"slug": "faucet-scribbledao",
 		"title": "Faucet",
-		"summary": "Multi-chain token drip service that pays Scribble creators and funds testnet wallets across Base, Monad, Sepolia, and campaign-specific swarm tokens.",
+		"summary": "Multi-chain token drip service that pays Scribble creators and funds testnet wallets across [[Base]], [[Monad]], [[Sepolia]], and campaign-specific swarm tokens.",
 		"description": "Lead-built Scribble's NestJS faucet: a strategy-per-token drip API that transfers ETH, USDC, and partner campaign tokens via ethers. It covers Ethereum Sepolia, Monad testnet (including Kuru swaps), Base USDC rewards, and swarm payouts for brands like Across, Boba, Aethir, and Bitrefill, plus citation-linked disbursements.",
 		"stack": [
 			"TypeScript",
@@ -177,7 +178,7 @@
 	{
 		"slug": "rabotics",
 		"title": "Rabotics",
-		"summary": "One-click DeFi bot engine that lets Scribble users deposit into LP and staking strategies across Aerodrome, Curve, Morpho, Renzo, and more.",
+		"summary": "One-click DeFi bot engine that lets Scribble users deposit into LP and staking strategies across [[Aerodrome]], [[Curve]], [[Morpho]], [[Renzo]], and more.",
 		"description": "Lead-built Rabotics, Scribble's NestJS DeFi automation service: Turnkey-signed Rabots and Rapots that execute deposits and withdrawals through protocol-specific strategies. Creators get vaults and quest positions on Aerodrome, Curve, Morpho, Lido, and Pendle, with Biconomy account abstraction and PostgreSQL-backed positions, metrics, and batch transactions.",
 		"stack": [
 			"TypeScript",
@@ -198,7 +199,7 @@
 	{
 		"slug": "mimir",
 		"title": "Mimir",
-		"summary": "Go metrics scraper that concurrently pulls weekly Twitter engagement and GitHub repo activity for Scribble creator scoring.",
+		"summary": "Go metrics scraper that concurrently pulls weekly [[Twitter]] engagement and [[GitHub]] repo activity for Scribble creator scoring.",
 		"description": "Lead-built Mimir, a Gin service that scrapes public Twitter metrics and GitHub App-backed repo stats in parallel. It returns weekly tweets, likes, impressions, followers, plus commits, merged PRs, and closed issues, so Scribble can score creator and campaign performance without blocking on sequential API calls.",
 		"stack": [
 			"Go",

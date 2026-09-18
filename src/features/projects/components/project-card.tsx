@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { HighlightedText } from "@/components/ui/highlighted-text";
 import type { Project } from "@/features/projects/types";
 
 type ProjectCardProps = {
@@ -7,7 +8,7 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project }: ProjectCardProps) {
-	const hasLinks = Boolean(project.links.github || project.links.live);
+	const hasLinks = Boolean(project.links.github || project.links.live || project.links.docker);
 
 	return (
 		<li
@@ -47,10 +48,22 @@ export function ProjectCard({ project }: ProjectCardProps) {
 								Live
 							</a>
 						) : null}
+						{project.links.docker ? (
+							<a
+								className="hover:text-foreground"
+								href={project.links.docker}
+								rel="noopener noreferrer"
+								target="_blank"
+							>
+								Docker
+							</a>
+						) : null}
 					</p>
 				) : null}
 			</div>
-			<p className="mt-1.5 text-sm leading-6 text-muted-foreground md:mt-0">{project.summary}</p>
+			<p className="mt-1.5 text-sm leading-6 text-muted-foreground md:mt-0">
+				<HighlightedText text={project.summary} />
+			</p>
 			<ul className="mt-2 flex flex-wrap gap-1 md:mt-0">
 				{project.stack.map((item) => (
 					<li key={item}>

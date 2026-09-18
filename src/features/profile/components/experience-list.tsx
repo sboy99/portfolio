@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { HighlightedText } from "@/components/ui/highlighted-text";
 import { SectionHeading } from "@/components/ui/section-heading";
 import type { Experience } from "@/features/profile/types";
 import { formatYearRange } from "@/lib/format-date";
@@ -23,7 +24,9 @@ export function ExperienceList({ experience }: ExperienceListProps) {
 						<h3 className="mt-1 text-sm font-medium">
 							{item.role} · {item.company}
 						</h3>
-						<p className="mt-1.5 text-sm leading-6 text-muted-foreground">{item.summary}</p>
+						<p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+							<HighlightedText text={item.summary} />
+						</p>
 						{item.skills.length > 0 ? (
 							<ul aria-label={`Skills at ${item.company}`} className="mt-2 flex flex-wrap gap-1">
 								{item.skills.map((skill) => (

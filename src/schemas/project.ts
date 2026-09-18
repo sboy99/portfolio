@@ -4,6 +4,7 @@ export const projectLinksSchema = z.object({
 	github: z.url().nullable(),
 	live: z.url().nullable(),
 	demo: z.url().nullable(),
+	docker: z.url().nullable().default(null),
 });
 
 export const projectSchema = z.object({
