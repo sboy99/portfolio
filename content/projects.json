@@ -134,9 +134,25 @@
 		"image": null
 	},
 	{
+		"slug": "tusk",
+		"title": "Tusk",
+		"summary": "Go CLI that turns one-off commands into [[systemd]] timers, with intervals from seconds to years or [[CRON]] expressions.",
+		"description": "Built a Cobra/Viper CLI that validates a command, writes a systemd service and timer, and enables it on the host. Supports duration intervals (s/m/h/d/w) and CRON, persists schedules locally, and streams journalctl logs with create, list, and delete.",
+		"stack": ["Go", "Cobra", "systemd"],
+		"links": {
+			"github": "https://github.com/sboy99/projects.go/tree/main/tusk",
+			"live": null,
+			"demo": null
+		},
+		"featured": false,
+		"year": 2025,
+		"origin": "Self",
+		"image": null
+	},
+	{
 		"slug": "gitopener",
 		"title": "GitOpener",
-		"summary": "Beginner-friendly open source platform that teaches contributing through live guides, contributor profiles, and [[GitHub]]-backed authentication.",
+		"summary": "Beginner-friendly open source platform that teaches contributing through live guides, contributor profiles, and [[GitHub]]-backed authentication — built with [[zero AI]] code.",
 		"description": "Lead-built a Next.js learning app for first-time open source contributors: MDX contribution guides, profiles generated from username.mdx files, GitHub API authentication, and MongoDB-backed contributor listings under the pbclife org.",
 		"stack": [
 			"TypeScript",

@@ -50,6 +50,7 @@ export const profileSchema = z.object({
 	phone: z.string().min(1).optional(),
 	socials: z.array(socialLinkSchema),
 	skills: z.array(skillGroupSchema),
+	languages: z.array(z.string().min(1)).min(1),
 	experience: z.array(experienceSchema),
 	education: z.array(educationSchema),
 	openSource: z.array(openSourceSchema),

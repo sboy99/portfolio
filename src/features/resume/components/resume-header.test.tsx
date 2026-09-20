@@ -13,6 +13,7 @@ const profile: Profile = {
 	email: "hello@sboy99.dev",
 	socials: [{ label: "GitHub", href: "https://github.com/sboy99" }],
 	skills: [{ category: "Languages", items: ["TypeScript"] }],
+	languages: ["English", "Hindi", "Bengali"],
 	experience: [],
 	education: [],
 	openSource: [],

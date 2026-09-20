@@ -11,6 +11,7 @@ const validProfile = {
 	email: "hello@sboy99.dev",
 	socials: [{ label: "GitHub", href: "https://github.com/sboy99" }],
 	skills: [{ category: "Languages", items: ["TypeScript"] }],
+	languages: ["English", "Hindi", "Bengali"],
 	experience: [
 		{
 			company: "Independent",
@@ -85,5 +86,21 @@ describe("profileSchema", () => {
 			],
 		});
 		expect(result.experience[0]?.skills).toEqual([]);
+	});
+
+	it("accepts spoken languages", () => {
+		expect(profileSchema.parse(validProfile).languages).toEqual([
+			"English",
+			"Hindi",
+			"Bengali",
+		]);
+	});
+
+	it("rejects an empty language entry", () => {
+		const result = profileSchema.safeParse({
+			...validProfile,
+			languages: ["English", ""],
+		});
+		expect(result.success).toBe(false);
 	});
 });
