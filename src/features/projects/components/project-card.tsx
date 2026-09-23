@@ -26,44 +26,22 @@ export function ProjectCard({ project }: ProjectCardProps) {
 						{project.origin}
 					</Badge>
 				</div>
-				{hasLinks ? (
-					<p className="mt-1 flex flex-wrap gap-x-3 font-mono text-xs text-muted-foreground">
-						{project.links.github ? (
-							<a
-								className="hover:text-foreground"
-								href={project.links.github}
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								GitHub
-							</a>
-						) : null}
-						{project.links.live ? (
-							<a
-								className="hover:text-foreground"
-								href={project.links.live}
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								Live
-							</a>
-						) : null}
-						{project.links.docker ? (
-							<a
-								className="hover:text-foreground"
-								href={project.links.docker}
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								Docker
-							</a>
-						) : null}
-					</p>
+				{hasLinks ? <ProjectLinks links={project.links} /> : null}
+			</div>
+			<div className="mt-1.5 md:mt-0">
+				<p className="text-sm leading-6 text-muted-foreground">
+					<HighlightedText text={project.summary} />
+				</p>
+				{project.highlights.length > 0 ? (
+					<ul className="mt-1.5 list-disc space-y-1 pl-4 text-sm leading-6 text-muted-foreground">
+						{project.highlights.map((item) => (
+							<li key={item}>
+								<HighlightedText text={item} />
+							</li>
+						))}
+					</ul>
 				) : null}
 			</div>
-			<p className="mt-1.5 text-sm leading-6 text-muted-foreground md:mt-0">
-				<HighlightedText text={project.summary} />
-			</p>
 			<ul className="mt-2 flex flex-wrap gap-1 md:mt-0">
 				{project.stack.map((item) => (
 					<li key={item}>
@@ -72,6 +50,43 @@ export function ProjectCard({ project }: ProjectCardProps) {
 				))}
 			</ul>
 		</li>
+	);
+}
+
+function ProjectLinks({ links }: { links: Project["links"] }) {
+	return (
+		<p className="mt-1 flex flex-wrap gap-x-3 font-mono text-xs text-muted-foreground">
+			{links.github ? (
+				<a
+					className="hover:text-foreground"
+					href={links.github}
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					GitHub
+				</a>
+			) : null}
+			{links.live ? (
+				<a
+					className="hover:text-foreground"
+					href={links.live}
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					Live
+				</a>
+			) : null}
+			{links.docker ? (
+				<a
+					className="hover:text-foreground"
+					href={links.docker}
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					Docker
+				</a>
+			) : null}
+		</p>
 	);
 }
 

@@ -14,7 +14,7 @@ export const projectSchema = z.object({
 		.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
 	title: z.string().min(1),
 	summary: z.string().min(1),
-	description: z.string().min(1),
+	highlights: z.array(z.string().min(1)).max(3).default([]),
 	stack: z.array(z.string().min(1)).min(1),
 	links: projectLinksSchema,
 	featured: z.boolean(),

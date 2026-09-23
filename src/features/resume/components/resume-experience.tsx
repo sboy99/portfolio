@@ -23,6 +23,18 @@ export function ResumeExperience({ experience }: ResumeExperienceProps) {
 					<p className="mt-1.5 text-sm leading-6 text-muted-foreground">
 						<HighlightedText text={item.summary} />
 					</p>
+					{item.highlights.length > 0 ? (
+						<ul
+							aria-label={`Highlights at ${item.company}`}
+							className="mt-2 list-disc space-y-1 pl-4 text-sm leading-6 text-muted-foreground"
+						>
+							{item.highlights.map((highlight) => (
+								<li key={highlight}>
+									<HighlightedText text={highlight} />
+								</li>
+							))}
+						</ul>
+					) : null}
 					{item.skills.length > 0 ? (
 						<ul aria-label={`Skills at ${item.company}`} className="mt-2 flex flex-wrap gap-1">
 							{item.skills.map((skill) => (

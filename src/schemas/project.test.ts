@@ -5,7 +5,7 @@ const validProject = {
 	slug: "content-engine",
 	title: "Content Engine",
 	summary: "MDX publishing pipeline",
-	description: "Typed MDX content with Zod frontmatter.",
+	highlights: ["Typed MDX content with Zod frontmatter."],
 	stack: ["TypeScript", "Next.js"],
 	links: {
 		github: "https://github.com/sboy99/content-engine",
@@ -47,6 +47,19 @@ describe("projectSchema", () => {
 				},
 			}).links.docker,
 		).toBeNull();
+	});
+
+	it("defaults omitted highlights to an empty list", () => {
+		const { highlights: _highlights, ...withoutHighlights } = validProject;
+		expect(projectSchema.parse(withoutHighlights).highlights).toEqual([]);
+	});
+
+	it("rejects more than three highlights", () => {
+		const result = projectSchema.safeParse({
+			...validProject,
+			highlights: ["one", "two", "three", "four"],
+		});
+		expect(result.success).toBe(false);
 	});
 
 	it("rejects an invalid slug", () => {

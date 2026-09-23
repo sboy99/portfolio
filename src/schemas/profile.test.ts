@@ -19,6 +19,7 @@ const validProfile = {
 			startDate: "2023-01-01",
 			endDate: null,
 			summary: "Shipping TypeScript products.",
+			highlights: ["Shipped the first release."],
 			skills: ["TypeScript", "Next.js"],
 		},
 	],
@@ -86,6 +87,28 @@ describe("profileSchema", () => {
 			],
 		});
 		expect(result.experience[0]?.skills).toEqual([]);
+	});
+
+	it("defaults omitted experience highlights to an empty list", () => {
+		const result = profileSchema.parse({
+			...validProfile,
+			experience: [
+				{
+					company: "Independent",
+					role: "Software Engineer",
+					startDate: "2023-01-01",
+					endDate: null,
+					summary: "Shipping TypeScript products.",
+				},
+			],
+		});
+		expect(result.experience[0]?.highlights).toEqual([]);
+	});
+
+	it("accepts experience highlights", () => {
+		expect(profileSchema.parse(validProfile).experience[0]?.highlights).toEqual([
+			"Shipped the first release.",
+		]);
 	});
 
 	it("accepts spoken languages", () => {

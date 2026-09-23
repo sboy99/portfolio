@@ -15,6 +15,7 @@
 			"!**/build",
 			"!**/coverage",
 			"!**/public/**/*.svg",
+			"!**/src/app/**/*.svg",
 			"!**/.vscode"
 		]
 	},

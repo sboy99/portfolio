@@ -7,7 +7,10 @@ const project: Project = {
 	slug: "kili-ai",
 	title: "Kili AI",
 	summary: "Ad network for AI products.",
-	description: "Lead-built the Kili ad platform.",
+	highlights: [
+		"Developers keep [[50%]] of net ad revenue",
+		"[[250+]] daily active users",
+	],
 	stack: ["TypeScript", "Next.js"],
 	links: {
 		github: null,
@@ -91,7 +94,7 @@ describe("ProjectCard", () => {
 						slug: "go-vault",
 						title: "Go-Vault",
 						summary: "CLI for PostgreSQL backups.",
-						description: "Go CLI for PostgreSQL dump and restore workflows.",
+						highlights: ["Interactive CLI for PostgreSQL dump and restore"],
 						stack: ["Go", "Docker"],
 						links: {
 							github: "https://github.com/sboy99/go-vault",
@@ -118,5 +121,33 @@ describe("ProjectCard", () => {
 			"href",
 			"https://hub.docker.com/repository/docker/sboy99/go-vault",
 		);
+	});
+
+	it("renders highlights under the summary without highlight markers", () => {
+		render(
+			<ul>
+				<ProjectCard project={project} />
+			</ul>,
+		);
+
+		expect(screen.getByText("Ad network for AI products.")).toBeInTheDocument();
+		expect(screen.getByText("50%")).toBeInTheDocument();
+		expect(screen.getByText("250+")).toBeInTheDocument();
+		expect(screen.queryByText("[[50%]]")).not.toBeInTheDocument();
+		expect(screen.queryByText("[[250+]]")).not.toBeInTheDocument();
+		expect(screen.queryByText("Details")).not.toBeInTheDocument();
+	});
+
+	it("hides the highlights list when empty", () => {
+		render(
+			<ul>
+				<ProjectCard project={{ ...project, highlights: [] }} />
+			</ul>,
+		);
+
+		expect(screen.getByText("Ad network for AI products.")).toBeInTheDocument();
+		expect(screen.queryByText("50%")).not.toBeInTheDocument();
+		expect(screen.queryByText("250+")).not.toBeInTheDocument();
+		expect(screen.queryByText("Details")).not.toBeInTheDocument();
 	});
 });

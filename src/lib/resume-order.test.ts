@@ -10,6 +10,7 @@ const experience: Experience[] = [
 		startDate: "2020-01-01",
 		endDate: "2022-01-01",
 		summary: "First role.",
+		highlights: [],
 		skills: [],
 	},
 	{
@@ -18,6 +19,7 @@ const experience: Experience[] = [
 		startDate: "2024-01-01",
 		endDate: null,
 		summary: "Current role.",
+		highlights: [],
 		skills: [],
 	},
 ];
@@ -27,7 +29,7 @@ const projects: Project[] = [
 		slug: "older",
 		title: "Older",
 		summary: "Older project.",
-		description: "Older project description.",
+		highlights: [],
 		stack: ["TypeScript"],
 		links: { github: null, live: null, demo: null, docker: null },
 		featured: true,
@@ -39,7 +41,7 @@ const projects: Project[] = [
 		slug: "newer",
 		title: "Newer",
 		summary: "Newer project.",
-		description: "Newer project description.",
+		highlights: [],
 		stack: ["TypeScript"],
 		links: { github: null, live: null, demo: null, docker: null },
 		featured: true,

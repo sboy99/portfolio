@@ -10,6 +10,7 @@ const experience: Experience[] = [
 		startDate: "2023-01-01",
 		endDate: null,
 		summary: "Shipping TypeScript products for [[50,000+]] users.",
+		highlights: ["Led a migration that made the app [[20%]] faster."],
 		skills: ["TypeScript", "Next.js"],
 	},
 ];
@@ -35,8 +36,28 @@ describe("ExperienceList", () => {
 	});
 
 	it("omits the skills list when an item has none", () => {
-		render(<ExperienceList experience={[{ ...experience[0], company: "Studio", skills: [] }]} />);
+		render(
+			<ExperienceList experience={[{ ...experience[0], company: "Studio", skills: [] }]} />,
+		);
 
 		expect(screen.queryByRole("list", { name: "Skills at Studio" })).not.toBeInTheDocument();
+	});
+
+	it("renders experience highlights", () => {
+		render(<ExperienceList experience={experience} />);
+
+		const highlights = screen.getByRole("list", { name: "Highlights at Independent" });
+		expect(highlights).toHaveTextContent("20%");
+		expect(screen.queryByText("[[20%]]")).not.toBeInTheDocument();
+	});
+
+	it("omits highlights when an item has none", () => {
+		render(
+			<ExperienceList
+				experience={[{ ...experience[0], company: "Studio", highlights: [] }]}
+			/>,
+		);
+
+		expect(screen.queryByRole("list", { name: "Highlights at Studio" })).not.toBeInTheDocument();
 	});
 });
