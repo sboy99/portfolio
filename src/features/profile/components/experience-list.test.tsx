@@ -36,9 +36,7 @@ describe("ExperienceList", () => {
 	});
 
 	it("omits the skills list when an item has none", () => {
-		render(
-			<ExperienceList experience={[{ ...experience[0], company: "Studio", skills: [] }]} />,
-		);
+		render(<ExperienceList experience={[{ ...experience[0], company: "Studio", skills: [] }]} />);
 
 		expect(screen.queryByRole("list", { name: "Skills at Studio" })).not.toBeInTheDocument();
 	});
@@ -53,9 +51,7 @@ describe("ExperienceList", () => {
 
 	it("omits highlights when an item has none", () => {
 		render(
-			<ExperienceList
-				experience={[{ ...experience[0], company: "Studio", highlights: [] }]}
-			/>,
+			<ExperienceList experience={[{ ...experience[0], company: "Studio", highlights: [] }]} />,
 		);
 
 		expect(screen.queryByRole("list", { name: "Highlights at Studio" })).not.toBeInTheDocument();

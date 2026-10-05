@@ -67,14 +67,7 @@
 			"[[$500,000+]] paid out, [[72%]] average win rate",
 			"Submit from X, Reddit, Medium, and Substack; paid on-platform"
 		],
-		"stack": [
-			"TypeScript",
-			"Next.js",
-			"NestJS",
-			"PostgreSQL",
-			"TypeORM",
-			"Redis"
-		],
+		"stack": ["TypeScript", "Next.js", "NestJS", "PostgreSQL", "TypeORM", "Redis"],
 		"links": {
 			"github": null,
 			"live": "https://creators.scribble.network/",
@@ -93,12 +86,7 @@
 			"One click replaces the multi-step DeFi research that overwhelms beginners",
 			"Deposits and withdrawals across Aerodrome, Curve, Morpho, and more"
 		],
-		"stack": [
-			"TypeScript",
-			"NestJS",
-			"PostgreSQL",
-			"Turnkey"
-		],
+		"stack": ["TypeScript", "NestJS", "PostgreSQL", "Turnkey"],
 		"links": {
 			"github": null,
 			"live": null,
@@ -117,12 +105,7 @@
 			"Strategy-per-token drips for ETH, USDC, and partner campaign tokens",
 			"Pays creators and funds testnet wallets on Base, Monad, and Sepolia"
 		],
-		"stack": [
-			"TypeScript",
-			"NestJS",
-			"ethers",
-			"Kuru SDK"
-		],
+		"stack": ["TypeScript", "NestJS", "ethers", "Kuru SDK"],
 		"links": {
 			"github": null,
 			"live": null,
@@ -141,13 +124,7 @@
 			"One service for email, Discord, and Twitter messages across products",
 			"Powers magic-link login, payout receipts, and weekly brand reports"
 		],
-		"stack": [
-			"TypeScript",
-			"NestJS",
-			"Redis",
-			"Resend",
-			"Handlebars"
-		],
+		"stack": ["TypeScript", "NestJS", "Redis", "Resend", "Handlebars"],
 		"links": {
 			"github": null,
 			"live": null,
@@ -166,12 +143,7 @@
 			"Scrapes Twitter and GitHub in parallel instead of one API call at a time",
 			"Weekly engagement and repo activity for creator scoring"
 		],
-		"stack": [
-			"Go",
-			"Gin",
-			"Twitter API",
-			"GitHub API"
-		],
+		"stack": ["Go", "Gin", "Twitter API", "GitHub API"],
 		"links": {
 			"github": null,
 			"live": null,
@@ -190,13 +162,7 @@
 			"Interactive CLI for PostgreSQL dump and restore",
 			"Local disk or AWS S3 storage, with backup metadata in BoltDB"
 		],
-		"stack": [
-			"Go",
-			"PostgreSQL",
-			"AWS S3",
-			"BoltDB",
-			"Docker"
-		],
+		"stack": ["Go", "PostgreSQL", "AWS S3", "BoltDB", "Docker"],
 		"links": {
 			"github": "https://github.com/sboy99/go-vault",
 			"live": null,
@@ -235,12 +201,7 @@
 			"MDX guides and auto-generated contributor profiles",
 			"GitHub sign-in; built with [[zero AI]] code"
 		],
-		"stack": [
-			"TypeScript",
-			"Next.js",
-			"MongoDB",
-			"Tailwind CSS"
-		],
+		"stack": ["TypeScript", "Next.js", "MongoDB", "Tailwind CSS"],
 		"links": {
 			"github": "https://github.com/pbclife/gitopener.vercel.app",
 			"live": "https://gitopener.vercel.app/",

@@ -7,10 +7,7 @@ const project: Project = {
 	slug: "kili-ai",
 	title: "Kili AI",
 	summary: "Ad network for AI products.",
-	highlights: [
-		"Developers keep [[50%]] of net ad revenue",
-		"[[250+]] daily active users",
-	],
+	highlights: ["Developers keep [[50%]] of net ad revenue", "[[250+]] daily active users"],
 	stack: ["TypeScript", "Next.js"],
 	links: {
 		github: null,

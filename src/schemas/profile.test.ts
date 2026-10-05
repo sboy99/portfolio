@@ -112,11 +112,7 @@ describe("profileSchema", () => {
 	});
 
 	it("accepts spoken languages", () => {
-		expect(profileSchema.parse(validProfile).languages).toEqual([
-			"English",
-			"Hindi",
-			"Bengali",
-		]);
+		expect(profileSchema.parse(validProfile).languages).toEqual(["English", "Hindi", "Bengali"]);
 	});
 
 	it("rejects an empty language entry", () => {
