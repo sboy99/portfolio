@@ -1,10 +1,15 @@
 export const siteConfig = {
 	name: "Sagar Bera",
-	title: "Sagar Bera — Founding Engineer (Backend & DevOps)",
+	title: "Sagar Bera — Backend & DevOps Engineer",
 	description:
-		"Founding backend and DevOps engineer shipping production TypeScript systems — NestJS, PostgreSQL, Docker, CI/CD, and GCP. Currently building Kili and Scribble.",
+		"Backend and DevOps engineer building and running the systems behind products used by 50,000+ creators — NestJS, PostgreSQL, Docker, CI/CD, and GCP.",
 	url: "https://sboy99.xyz",
-	ogImage: "/og.png",
+	ogImage: {
+		url: "/og-image.png",
+		width: 1200,
+		height: 630,
+		alt: "SBOY99 — Backend & DevOps",
+	},
 	email: "contact.sagarbera@gmail.com",
 	links: {
 		github: "https://github.com/sboy99",

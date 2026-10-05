@@ -45,6 +45,12 @@ export const metadata: Metadata = {
 		images: [siteConfig.ogImage],
 		type: "website",
 	},
+	twitter: {
+		card: "summary_large_image",
+		title: siteConfig.title,
+		description: siteConfig.description,
+		images: [siteConfig.ogImage],
+	},
 };
 
 export default function RootLayout({

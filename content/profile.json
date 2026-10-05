@@ -1,9 +1,9 @@
 {
 	"name": "Sagar Bera",
 	"handle": "sagar/sboy99",
-	"title": "Founding Engineer (Backend & DevOps)",
-	"headline": "Founding backend and DevOps engineer. I build and run the systems behind products used by 50,000+ creators.",
-	"bio": "I'm a founding engineer at Scribble Network, where I own the backend and infrastructure end to end: [[NestJS]] APIs, [[PostgreSQL]] schemas, and the [[Docker]], [[CI/CD]], and cloud setup that keeps them running. I moved our core data from MongoDB to PostgreSQL, and what I've built now serves [[50,000+]] creators and helped one client grow AI citation share from [[2% to 20%]] in 3 months. Before that, at BuidlersTribe, I rebuilt a Drupal site on [[MERN]] and sped up feature delivery by [[30%]].",
+	"title": "Backend & DevOps Engineer",
+	"headline": "Backend and DevOps engineer. I build and run the systems behind products used by 50,000+ creators.",
+	"bio": "I'm a backend and DevOps engineer at Scribble Network. I joined as the first backend hire and work closely with the CTO, owning backend and infrastructure end to end: [[NestJS]] APIs, [[PostgreSQL]] schemas, and the [[Docker]], [[CI/CD]], and cloud setup that keeps them running. I helped move our core data from MongoDB to PostgreSQL, and what I've built now serves [[50,000+]] creators and helped one client grow AI citation share from [[2% to 20%]] in 3 months. Before that, at BuidlersTribe, I rebuilt a Drupal site on [[MERN]] and sped up feature delivery by [[30%]].",
 	"location": "Bengaluru, India",
 	"email": "contact.sagarbera@gmail.com",
 	"phone": "+91 7980406755",
@@ -25,26 +25,11 @@
 	"skills": [
 		{
 			"category": "Languages",
-			"items": [
-				"TypeScript",
-				"JavaScript",
-				"Python",
-				"GoLang",
-				"Solidity",
-				"SQL"
-			]
+			"items": ["TypeScript", "JavaScript", "Python", "GoLang", "Solidity", "SQL"]
 		},
 		{
 			"category": "Frontend",
-			"items": [
-				"React",
-				"Next.js",
-				"Tailwind CSS",
-				"React Query",
-				"Redux",
-				"Zustand",
-				"Shadcn UI"
-			]
+			"items": ["React", "Next.js", "Tailwind CSS", "React Query", "Redux", "Zustand", "Shadcn UI"]
 		},
 		{
 			"category": "Backend",
@@ -61,62 +46,52 @@
 		},
 		{
 			"category": "Database",
-			"items": [
-				"PostgreSQL",
-				"MySQL",
-				"MongoDB",
-				"Redis",
-				"SQLite",
-				"Supabase"
-			]
+			"items": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "SQLite", "Supabase"]
 		},
 		{
 			"category": "Infra and Tools",
 			"items": [
 				"AWS",
 				"GCP",
+				"Docker",
+				"GitHub Actions",
+				"Terraform",
+				"Grafana",
+				"Loki",
+				"Nginx",
 				"Heroku",
 				"Vercel",
-				"GitHub Actions",
-				"Docker",
 				"Kubernetes",
 				"Helm",
 				"Postman",
-				"Grafana",
 				"Git",
 				"GitHub"
 			]
 		},
 		{
 			"category": "AI",
-			"items": [
-				"GPT/OpenAI",
-				"Claude/Anthropic",
-				"Gemini/Google",
-				"Cursor",
-				"Claude Code",
-				"Cursor Code"
-			]
+			"items": ["GPT/OpenAI", "Claude/Anthropic", "Gemini/Google", "Cursor", "Claude Code"]
 		}
 	],
 	"experience": [
 		{
 			"company": "Scribble Network",
-			"role": "Founding Engineer (Backend & DevOps)",
+			"role": "Backend & DevOps Engineer",
 			"startDate": "2024-02-01",
 			"endDate": null,
-			"summary": "Joined early and grew with the company. I own backend, database design, and infrastructure across Scribble's creator, brand, and ad products on [[AWS]] and [[GCP]].",
+			"summary": "Joined as the first backend hire and grew with the company. I own backend, database design, and infrastructure across Scribble's creator, brand, and ad products on [[AWS]] and [[GCP]], working closely with the CTO on key architecture decisions.",
 			"highlights": [
-				"Moved core data from MongoDB to [[PostgreSQL]] for cleaner structure and faster queries, which made new features far easier to add.",
-				"Set up production infrastructure that handles [[100–300]] API requests per second for [[1.5k–2k]] daily active users.",
+				"Executed the CTO-directed move of core data from MongoDB to [[PostgreSQL]] for cleaner structure and faster queries, which made new features far easier to add.",
+				"Partnered with the CTO to migrate production from [[AWS]] to [[GCP]] for better cost efficiency, keeping the product live throughout.",
 				"Automated production deployments with GitHub Actions and set up log monitoring with Loki and Grafana.",
-				"Built Scribble for Creators ([[50,000+]] creators, [[$500,000+]] paid across [[800+]] campaigns), Scribble for Brands (Listed in Product Hunt's [[Top 3 AI Products of the Week]]), and Kili ([[250+]] daily active developers currently using the platform).",
+				"Resolved a late-night production outage in [[5–10 minutes]] (versus an estimated 1–2 hours) by using Cursor AI to speed up diagnosis and the fix.",
+				"Built Scribble for Creators ([[50,000+]] creators, [[$500,000+]] paid across [[800+]] campaigns), Scribble for Brands (Listed in Product Hunt's [[Top 3 AI Products of the Week]]), and Kili ([[250+]] daily active developers), built in [[4 days]] with Cursor AI: a public API server, an internal server, two developer integration packages, and the UI.",
 				"Built auth system from scratch: [[Magic links]] plus [[Google]] and [[X (Twitter)]] login.",
 				"Built [[Microservices]] for notifications and incoming webhooks, and a faucet that handles crypto payouts.",
-				"Built a crypto native Telegram that lets anyone [[send crypto]] using just a Telegram username.",
+				"Built a crypto native Telegram bot that lets anyone [[send crypto]] using just a Telegram username.",
 				"Built Rabots: one-click bots that put funds into [[DeFi yield]], so beginners skip the usual research and multi-step setup.",
 				"Wrote Smart Contracts in [[Solidity]] for EVM and [[Move]] for Sui to handle prediction markets and automated trading.",
-				"Leveraged Cursor and Claude Code every day to ship faster."
+				"Use Cursor and Claude Code every day to ship faster."
 			],
 			"skills": [
 				"GoLang",
@@ -183,24 +158,21 @@
 			]
 		}
 	],
-	"languages": [
-		"English",
-		"Hindi",
-		"Bengali"
-	],
+	"languages": ["English", "Hindi", "Bengali"],
 	"education": [
 		{
 			"school": "Panskura Banamali College (Autonomous)",
 			"program": "M.Sc. in Computer Science",
 			"startDate": "2021-01-01",
-			"endDate": "2023-01-01"
+			"endDate": "2023-01-01",
+			"result": "CGPA: 8.63/10"
 		},
 		{
 			"school": "Panskura Banamali College (Autonomous)",
 			"program": "B.Sc. in Computer Science",
 			"startDate": "2018-01-01",
 			"endDate": "2021-01-01",
-			"result": "CGPA: 8.58"
+			"result": "CGPA: 8.58/10"
 		}
 	],
 	"openSource": [
