@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { HighlightedText } from "@/components/ui/highlighted-text";
+import { List, ListItem } from "@/components/ui/list";
 import { SectionHeading } from "@/components/ui/section-heading";
 import type { Experience } from "@/features/profile/types";
 import { formatYearRange } from "@/lib/format-date";
@@ -12,25 +13,22 @@ export function ExperienceList({ experience }: ExperienceListProps) {
 	return (
 		<section aria-labelledby="experience-heading">
 			<SectionHeading id="experience-heading">Experience</SectionHeading>
-			<ul className="divide-y divide-dashed divide-border">
+			<List>
 				{experience.map((item) => (
-					<li
-						className="px-3 py-3 transition-colors duration-300 delay-75 hover:bg-muted/40"
-						key={`${item.company}-${item.role}`}
-					>
-						<p className="font-mono text-xs text-muted-foreground">
+					<ListItem key={`${item.company}-${item.role}`}>
+						<p className="type-meta text-muted-foreground">
 							{formatYearRange(item.startDate, item.endDate)}
 						</p>
-						<h3 className="mt-1 text-sm font-medium">
+						<h3 className="type-title mt-1">
 							{item.role} · {item.company}
 						</h3>
-						<p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+						<p className="type-body mt-1.5 text-muted-foreground">
 							<HighlightedText text={item.summary} />
 						</p>
 						{item.highlights.length > 0 ? (
 							<ul
 								aria-label={`Highlights at ${item.company}`}
-								className="mt-2 list-disc space-y-1 pl-4 text-sm leading-6 text-muted-foreground"
+								className="type-body mt-2 list-disc space-y-1 pl-4 text-muted-foreground marker:text-border-strong"
 							>
 								{item.highlights.map((highlight) => (
 									<li key={highlight}>
@@ -48,9 +46,9 @@ export function ExperienceList({ experience }: ExperienceListProps) {
 								))}
 							</ul>
 						) : null}
-					</li>
+					</ListItem>
 				))}
-			</ul>
+			</List>
 		</section>
 	);
 }

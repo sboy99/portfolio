@@ -14,17 +14,14 @@ export async function Header() {
 			<DashedRule edge="top" />
 			<DashedRule edge="bottom" />
 			<Container>
-				<div className="flex items-center justify-between gap-4 px-3 py-2">
-					<Link
-						className="flex items-center gap-2 font-mono text-xs font-medium tracking-tight"
-						href="/"
-					>
+				<div className="flex items-center justify-between gap-4 px-gutter py-2">
+					<Link className="type-meta flex items-center gap-2 font-medium tracking-tight" href="/">
 						<span>{profile.handle}</span>
 					</Link>
 					<nav aria-label="Primary" className="flex items-center gap-3">
 						{siteConfig.nav.map((item) => (
 							<Link
-								className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+								className="text-xs text-muted-foreground transition-colors duration-150 ease-standard hover:text-foreground"
 								href={item.href}
 								key={item.href}
 							>

@@ -22,8 +22,8 @@ export default async function HomePage() {
 					<FeaturedProjects projects={featuredProjects} />
 				</DashedSection>
 				<DashedSection>
-					<p className="px-3">
-						<Link className={buttonClassName("secondary")} href="/projects">
+					<p className="px-gutter">
+						<Link className={buttonClassName({ variant: "secondary" })} href="/projects">
 							View all projects
 						</Link>
 					</p>

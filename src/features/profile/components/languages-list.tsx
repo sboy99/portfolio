@@ -9,7 +9,7 @@ export function LanguagesList({ languages }: LanguagesListProps) {
 	return (
 		<section aria-labelledby="languages-heading">
 			<SectionHeading id="languages-heading">Languages</SectionHeading>
-			<ul className="flex flex-col gap-1 px-3 py-3">
+			<ul className="flex flex-wrap gap-1 px-gutter py-3">
 				{languages.map((language) => (
 					<li key={language}>
 						<Badge>{language}</Badge>

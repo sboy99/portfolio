@@ -63,3 +63,5 @@ content/               # Editable profile + projects JSON
 ## Theme
 
 Header theme controls support light/dark, primary accent, and neutral palette. Preferences persist in `localStorage` and apply via `data-theme`, `data-primary`, and `data-neutral` on `<html>` before first paint.
+
+Tokens, type roles and components are documented in [`docs/design-system.md`](docs/design-system.md).

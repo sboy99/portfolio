@@ -32,8 +32,9 @@ export function ThemeToggle() {
 	return (
 		<Button
 			ref={buttonRef}
-			className="theme-toggle size-8 px-0"
+			className="theme-toggle"
 			onClick={handleClick}
+			size="icon"
 			variant="ghost"
 		>
 			{theme.mode === "dark" ? <SunIcon className="size-4" /> : <MoonIcon className="size-4" />}

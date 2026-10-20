@@ -1,4 +1,6 @@
+import { List, ListItem } from "@/components/ui/list";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { TextLink } from "@/components/ui/text-link";
 import type { OpenSource } from "@/features/profile/types";
 
 type OpenSourceListProps = {
@@ -9,27 +11,19 @@ export function OpenSourceList({ openSource }: OpenSourceListProps) {
 	return (
 		<section aria-labelledby="open-source-heading">
 			<SectionHeading id="open-source-heading">Open Source</SectionHeading>
-			<ul className="divide-y divide-dashed divide-border">
+			<List>
 				{openSource.map((item) => (
-					<li
-						className="px-3 py-3 transition-colors duration-300 delay-75 hover:bg-muted/40"
-						key={item.name}
-					>
-						<h3 className="text-sm font-medium">{item.name}</h3>
-						<p className="mt-1.5 text-sm leading-6 text-muted-foreground">{item.description}</p>
-						<p className="mt-1 font-mono text-xs text-muted-foreground">
-							<a
-								className="hover:text-foreground"
-								href={item.href}
-								rel="noopener noreferrer"
-								target="_blank"
-							>
+					<ListItem key={item.name}>
+						<h3 className="type-title">{item.name}</h3>
+						<p className="type-body mt-1.5 text-muted-foreground">{item.description}</p>
+						<p className="type-meta mt-1">
+							<TextLink external href={item.href}>
 								GitHub
-							</a>
+							</TextLink>
 						</p>
-					</li>
+					</ListItem>
 				))}
-			</ul>
+			</List>
 		</section>
 	);
 }

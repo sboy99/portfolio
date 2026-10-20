@@ -32,7 +32,7 @@ export default async function ResumePage() {
 		<Container>
 			<DashedFrame>
 				<DashedSection>
-					<div className="relative isolate px-3">
+					<div className="relative isolate px-gutter">
 						<BeamField />
 						<ResumeSheet>
 							<ResumeHeader profile={profile} />

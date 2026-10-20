@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { HighlightedText } from "@/components/ui/highlighted-text";
+import { List, ListItem } from "@/components/ui/list";
 import type { Experience } from "@/features/resume/types";
 import { formatYearRange } from "@/lib/format-date";
 
@@ -9,24 +10,24 @@ type ResumeExperienceProps = {
 
 export function ResumeExperience({ experience }: ResumeExperienceProps) {
 	return (
-		<ul className="divide-y divide-dashed divide-border">
+		<List>
 			{experience.map((item) => (
-				<li className="py-3 first:pt-0 last:pb-0" key={`${item.company}-${item.role}`}>
+				<ListItem key={`${item.company}-${item.role}`} variant="flush">
 					<div className="flex flex-wrap items-baseline justify-between gap-2">
-						<h3 className="text-sm font-medium">
+						<h3 className="type-title">
 							{item.role} · {item.company}
 						</h3>
-						<p className="font-mono text-xs text-muted-foreground">
+						<p className="type-meta text-muted-foreground">
 							{formatYearRange(item.startDate, item.endDate)}
 						</p>
 					</div>
-					<p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+					<p className="type-body mt-1.5 text-muted-foreground">
 						<HighlightedText text={item.summary} />
 					</p>
 					{item.highlights.length > 0 ? (
 						<ul
 							aria-label={`Highlights at ${item.company}`}
-							className="mt-2 list-disc space-y-1 pl-4 text-sm leading-6 text-muted-foreground"
+							className="type-body mt-2 list-disc space-y-1 pl-4 text-muted-foreground marker:text-border-strong"
 						>
 							{item.highlights.map((highlight) => (
 								<li key={highlight}>
@@ -44,8 +45,8 @@ export function ResumeExperience({ experience }: ResumeExperienceProps) {
 							))}
 						</ul>
 					) : null}
-				</li>
+				</ListItem>
 			))}
-		</ul>
+		</List>
 	);
 }

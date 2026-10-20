@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { HighlightedText } from "@/components/ui/highlighted-text";
+import { TextLink } from "@/components/ui/text-link";
 import type { Project } from "@/features/projects/types";
 
 type ProjectCardProps = {
@@ -12,16 +13,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
 	return (
 		<li
-			className="border-b border-dashed border-border px-3 py-3 transition-colors duration-300 delay-75 last:border-b-0 hover:bg-muted/40 md:grid md:grid-cols-[4rem_minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,1fr)] md:items-start md:gap-3 md:py-2"
+			className="border-b border-dashed border-border px-gutter py-3 transition-colors duration-300 delay-75 ease-standard last:border-b-0 hover:bg-surface-hover md:grid md:grid-cols-[4rem_minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,1fr)] md:items-start md:gap-3 md:py-2"
 			id={project.slug}
 		>
-			<p className="font-mono text-xs text-muted-foreground">{project.year}</p>
+			<p className="type-meta text-muted-foreground">{project.year}</p>
 			<div className="mt-1 space-y-1 md:mt-0">
 				<div className="flex flex-wrap items-center gap-2">
-					<h3 className="text-sm font-medium">
+					<h3 className="type-title">
 						<ProjectTitleLink project={project} />
 					</h3>
-					<Badge>
+					<Badge variant="accent">
 						<span className="sr-only">Origin: </span>
 						{project.origin}
 					</Badge>
@@ -29,11 +30,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
 				{hasLinks ? <ProjectLinks links={project.links} /> : null}
 			</div>
 			<div className="mt-1.5 md:mt-0">
-				<p className="text-sm leading-6 text-muted-foreground">
+				<p className="type-body text-muted-foreground">
 					<HighlightedText text={project.summary} />
 				</p>
 				{project.highlights.length > 0 ? (
-					<ul className="mt-1.5 list-disc space-y-1 pl-4 text-sm leading-6 text-muted-foreground">
+					<ul className="type-body mt-1.5 list-disc space-y-1 pl-4 text-muted-foreground marker:text-border-strong">
 						{project.highlights.map((item) => (
 							<li key={item}>
 								<HighlightedText text={item} />
@@ -55,36 +56,21 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
 function ProjectLinks({ links }: { links: Project["links"] }) {
 	return (
-		<p className="mt-1 flex flex-wrap gap-x-3 font-mono text-xs text-muted-foreground">
+		<p className="type-meta mt-1 flex flex-wrap gap-x-3">
 			{links.github ? (
-				<a
-					className="hover:text-foreground"
-					href={links.github}
-					rel="noopener noreferrer"
-					target="_blank"
-				>
+				<TextLink external href={links.github}>
 					GitHub
-				</a>
+				</TextLink>
 			) : null}
 			{links.live ? (
-				<a
-					className="hover:text-foreground"
-					href={links.live}
-					rel="noopener noreferrer"
-					target="_blank"
-				>
+				<TextLink external href={links.live}>
 					Live
-				</a>
+				</TextLink>
 			) : null}
 			{links.docker ? (
-				<a
-					className="hover:text-foreground"
-					href={links.docker}
-					rel="noopener noreferrer"
-					target="_blank"
-				>
+				<TextLink external href={links.docker}>
 					Docker
-				</a>
+				</TextLink>
 			) : null}
 		</p>
 	);
@@ -95,12 +81,24 @@ function ProjectTitleLink({ project }: ProjectCardProps) {
 
 	if (externalHref) {
 		return (
-			<a href={externalHref} rel="noopener noreferrer" target="_blank">
+			<a
+				className="transition-colors duration-150 ease-standard hover:text-accent"
+				href={externalHref}
+				rel="noopener noreferrer"
+				target="_blank"
+			>
 				{project.title}
 				<span className="sr-only"> (opens in a new tab)</span>
 			</a>
 		);
 	}
 
-	return <Link href={`/projects#${project.slug}`}>{project.title}</Link>;
+	return (
+		<Link
+			className="transition-colors duration-150 ease-standard hover:text-accent"
+			href={`/projects#${project.slug}`}
+		>
+			{project.title}
+		</Link>
+	);
 }

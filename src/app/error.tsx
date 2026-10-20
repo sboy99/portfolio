@@ -17,8 +17,8 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
 
 	return (
 		<Container className="flex flex-col items-start gap-4 py-16">
-			<h1 className="text-xl font-semibold tracking-tight">Something went wrong</h1>
-			<p className="text-sm text-muted-foreground">The page failed to load. You can try again.</p>
+			<h1 className="type-display">Something went wrong</h1>
+			<p className="type-body text-muted-foreground">The page failed to load. You can try again.</p>
 			<Button onClick={reset} variant="secondary">
 				Try again
 			</Button>

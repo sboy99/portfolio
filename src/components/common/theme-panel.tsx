@@ -15,16 +15,16 @@ export function ThemePanel() {
 		<>
 			<Button
 				aria-haspopup="dialog"
-				className="size-8 px-0"
 				popoverTarget={PANEL_ID}
 				popoverTargetAction="toggle"
+				size="icon"
 				variant="ghost"
 			>
 				<PaletteIcon className="size-4" />
 				<span className="sr-only">Customize theme</span>
 			</Button>
 			<div
-				className="m-0 w-72 rounded-md border border-border bg-card p-3 text-foreground shadow-none"
+				className="m-0 w-72 rounded-lg border border-border bg-card p-3 text-foreground shadow-none"
 				id={PANEL_ID}
 				popover="auto"
 				style={{ inset: "auto", position: "fixed", right: "1rem", top: "3.25rem" }}

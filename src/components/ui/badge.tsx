@@ -1,13 +1,27 @@
 import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
-type BadgeProps = HTMLAttributes<HTMLSpanElement>;
+type BadgeVariant = "accent" | "neutral";
 
-export function Badge({ className, ...props }: BadgeProps) {
+const variantClasses: Record<BadgeVariant, string> = {
+	accent: "bg-accent-soft text-accent",
+	neutral: "border border-border text-muted-foreground",
+};
+
+type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
+	variant?: BadgeVariant;
+};
+
+/**
+ * `neutral` is the default for tags such as tech stacks and skills.
+ * Reserve `accent` for the one label per item that should stand out.
+ */
+export function Badge({ className, variant = "neutral", ...props }: BadgeProps) {
 	return (
 		<span
 			className={cn(
-				"inline-flex items-center rounded-sm bg-accent-soft px-1.5 py-0.5 font-mono text-[11px] text-accent",
+				"inline-flex items-center rounded-sm px-1.5 py-px font-mono text-2xs",
+				variantClasses[variant],
 				className,
 			)}
 			{...props}

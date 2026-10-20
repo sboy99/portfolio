@@ -1,3 +1,4 @@
+import { List, ListItem } from "@/components/ui/list";
 import type { Education } from "@/features/resume/types";
 import { formatYearRange } from "@/lib/format-date";
 
@@ -7,21 +8,21 @@ type ResumeEducationProps = {
 
 export function ResumeEducation({ education }: ResumeEducationProps) {
 	return (
-		<ul className="divide-y divide-dashed divide-border">
+		<List>
 			{education.map((item) => (
-				<li className="py-3 first:pt-0 last:pb-0" key={`${item.school}-${item.program}`}>
+				<ListItem key={`${item.school}-${item.program}`} variant="flush">
 					<div className="flex flex-wrap items-baseline justify-between gap-2">
-						<h3 className="text-sm font-medium">{item.program}</h3>
-						<p className="font-mono text-xs text-muted-foreground">
+						<h3 className="type-title">{item.program}</h3>
+						<p className="type-meta text-muted-foreground">
 							{formatYearRange(item.startDate, item.endDate)}
 						</p>
 					</div>
-					<p className="mt-1 font-mono text-xs text-muted-foreground">{item.school}</p>
+					<p className="type-meta mt-1 text-muted-foreground">{item.school}</p>
 					{item.result ? (
-						<p className="mt-1 font-mono text-xs text-muted-foreground">{item.result}</p>
+						<p className="type-meta mt-1 text-muted-foreground">{item.result}</p>
 					) : null}
-				</li>
+				</ListItem>
 			))}
-		</ul>
+		</List>
 	);
 }

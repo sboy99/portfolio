@@ -6,7 +6,7 @@ type ResumeSummaryProps = {
 
 export function ResumeSummary({ bio }: ResumeSummaryProps) {
 	return (
-		<p className="text-sm leading-6 text-muted-foreground">
+		<p className="type-body text-muted-foreground">
 			<HighlightedText text={bio} />
 		</p>
 	);

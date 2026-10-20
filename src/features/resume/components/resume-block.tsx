@@ -17,10 +17,7 @@ export function ResumeBlock({ id, label, children, className }: ResumeBlockProps
 				className,
 			)}
 		>
-			<h2
-				className="font-mono text-[11px] font-medium uppercase tracking-wider text-muted-foreground"
-				id={id}
-			>
+			<h2 className="type-eyebrow text-muted-foreground" id={id}>
 				{label}
 			</h2>
 			<div className="min-w-0">{children}</div>

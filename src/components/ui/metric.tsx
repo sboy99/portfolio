@@ -8,14 +8,16 @@ type MetricProps = {
 	delta?: MetricDelta;
 };
 
+const metricClassName = "font-semibold text-foreground tabular-nums";
+
 export function Metric({ value, delta }: MetricProps) {
 	if (delta) {
 		return (
-			<span className="font-semibold tabular-nums">
+			<span className={metricClassName}>
 				{delta.from} → {delta.to}
 			</span>
 		);
 	}
 
-	return <span className="font-semibold tabular-nums">{value}</span>;
+	return <span className={metricClassName}>{value}</span>;
 }

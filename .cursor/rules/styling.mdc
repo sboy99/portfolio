@@ -6,15 +6,19 @@ alwaysApply: false
 
 # Styling
 
-- Define colors, fonts, and radii as tokens in `src/styles/globals.css`.
+See `docs/design-system.md` for the full system.
+
+- Define colors, fonts, radii and motion as tokens in `src/styles/globals.css`.
 - Compose classes with `cn()` from `src/lib/cn`.
-- Use semantic utilities (`bg-background`, `text-muted-foreground`, `border-border`).
-- Do not introduce one-off hex values in components.
+- Use semantic color utilities (`bg-background`, `text-muted-foreground`, `border-border`), never palette steps or hex values.
+- Use type roles for text (`type-display`, `type-heading`, `type-title`, `type-body`, `type-meta`, `type-eyebrow`) plus a color utility.
+- Use `px-gutter` for the content inset inside the page grid.
+- Reach for `Button`, `Badge`, `TextLink` and `List`/`ListItem` before writing ad-hoc classes.
 
 ```tsx
 // BAD
-<div className="bg-[#0a0a0a] text-[#ededed]" />
+<p className="font-mono text-[11px] text-[#a1a1aa]" />
 
 // GOOD
-<div className={cn("bg-background text-foreground", className)} />
+<p className={cn("type-meta text-muted-foreground", className)} />
 ```

@@ -1,4 +1,6 @@
 import { ExternalLinkIcon } from "@/components/common/icons";
+import { List, ListItem } from "@/components/ui/list";
+import { TextLink } from "@/components/ui/text-link";
 import type { Achievement } from "@/features/resume/types";
 
 type ResumeAchievementsProps = {
@@ -7,24 +9,22 @@ type ResumeAchievementsProps = {
 
 export function ResumeAchievements({ achievements }: ResumeAchievementsProps) {
 	return (
-		<ul className="divide-y divide-dashed divide-border">
+		<List>
 			{achievements.map((item) => (
-				<li className="py-3 first:pt-0 last:pb-0" key={`${item.title}-${item.issuer}`}>
+				<ListItem key={`${item.title}-${item.issuer}`} variant="flush">
 					<div className="flex flex-wrap items-center gap-2">
-						<h3 className="text-sm font-medium">{item.title}</h3>
-						<a
+						<h3 className="type-title">{item.title}</h3>
+						<TextLink
 							aria-label={`View ${item.title} credential (opens in a new tab)`}
-							className="text-muted-foreground transition-colors hover:text-foreground"
+							external
 							href={item.href}
-							rel="noopener noreferrer"
-							target="_blank"
 						>
 							<ExternalLinkIcon className="size-3.5" />
-						</a>
+						</TextLink>
 					</div>
-					<p className="mt-1 font-mono text-xs text-muted-foreground">{item.issuer}</p>
-				</li>
+					<p className="type-meta mt-1 text-muted-foreground">{item.issuer}</p>
+				</ListItem>
 			))}
-		</ul>
+		</List>
 	);
 }

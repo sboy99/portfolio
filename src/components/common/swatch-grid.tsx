@@ -34,7 +34,7 @@ export function SwatchGrid<Id extends string>({
 					return (
 						<label
 							className={cn(
-								"flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1.5 text-left text-xs text-foreground hover:bg-muted",
+								"flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1.5 text-left text-xs text-foreground transition-colors duration-150 ease-standard hover:bg-muted",
 								"has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring",
 								selected && "bg-muted",
 							)}

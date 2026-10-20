@@ -17,10 +17,10 @@ export default async function ProjectsPage() {
 		<Container>
 			<DashedFrame>
 				<DashedSection>
-					<header className="relative isolate space-y-1.5 px-3">
+					<header className="relative isolate space-y-1.5 px-gutter">
 						<BeamField />
-						<h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
-						<p className="text-sm text-muted-foreground">
+						<h1 className="type-display">Projects</h1>
+						<p className="type-body text-muted-foreground">
 							From Kili and Scribble to the CLIs and services underneath.
 						</p>
 					</header>

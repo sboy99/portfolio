@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { HighlightedText } from "@/components/ui/highlighted-text";
+import { List, ListItem } from "@/components/ui/list";
 import type { Project } from "@/features/projects/types";
 
 type ResumeProjectsProps = {
@@ -8,14 +9,14 @@ type ResumeProjectsProps = {
 
 export function ResumeProjects({ projects }: ResumeProjectsProps) {
 	return (
-		<ul className="divide-y divide-dashed divide-border">
+		<List>
 			{projects.map((project) => (
-				<li className="py-3 first:pt-0 last:pb-0" key={project.slug}>
+				<ListItem key={project.slug} variant="flush">
 					<div className="flex flex-wrap items-baseline justify-between gap-2">
-						<h3 className="text-sm font-medium">{project.title}</h3>
-						<p className="font-mono text-xs text-muted-foreground">{project.year}</p>
+						<h3 className="type-title">{project.title}</h3>
+						<p className="type-meta text-muted-foreground">{project.year}</p>
 					</div>
-					<p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+					<p className="type-body mt-1.5 text-muted-foreground">
 						<HighlightedText text={project.summary} />
 					</p>
 					<ul aria-label={`Stack for ${project.title}`} className="mt-2 flex flex-wrap gap-1">
@@ -25,8 +26,8 @@ export function ResumeProjects({ projects }: ResumeProjectsProps) {
 							</li>
 						))}
 					</ul>
-				</li>
+				</ListItem>
 			))}
-		</ul>
+		</List>
 	);
 }

@@ -9,7 +9,7 @@ type SectionHeadingProps = {
 export function SectionHeading({ id, children }: SectionHeadingProps) {
 	return (
 		<div className="relative pb-4">
-			<h2 className="px-3 text-sm font-semibold tracking-tight" id={id}>
+			<h2 className="type-heading px-gutter" id={id}>
 				{children}
 			</h2>
 			<DashedRule edge="bottom" />

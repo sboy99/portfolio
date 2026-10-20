@@ -1,18 +1,26 @@
 @import "tailwindcss" theme(static);
 @import "./palettes.css";
 
+/*
+ * Design tokens. See docs/design-system.md for the roles and how to use them.
+ *
+ * Layer 1 — palettes (palettes.css): --neutral-* and --primary-* ramps,
+ *   swapped at runtime by data-neutral / data-primary on <html>.
+ * Layer 2 — semantic roles (below): what components read. Never reference
+ *   a ramp step directly from a component.
+ */
+
 html,
 html[data-theme="dark"] {
 	color-scheme: dark;
 	--background: var(--neutral-950);
 	--foreground: var(--neutral-50);
+	--card: var(--neutral-900);
 	--muted: var(--neutral-900);
 	--muted-foreground: var(--neutral-400);
 	--border: var(--neutral-800);
 	--accent: var(--primary-400);
 	--accent-foreground: var(--neutral-950);
-	--accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
-	--card: var(--neutral-900);
 	--ring: var(--primary-500);
 }
 
@@ -20,35 +28,100 @@ html[data-theme="light"] {
 	color-scheme: light;
 	--background: var(--neutral-50);
 	--foreground: var(--neutral-950);
-	--muted: var(--neutral-100);
-	--muted-foreground: var(--neutral-500);
-	--border: var(--neutral-200);
-	--accent: var(--primary-600);
-	--accent-foreground: var(--color-white);
-	--accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
 	--card: var(--color-white);
+	--muted: var(--neutral-100);
+	/* Between 500 and 700 so secondary text clears 4.5:1 on muted fills too. */
+	--muted-foreground: color-mix(in oklab, var(--neutral-500) 70%, var(--neutral-700));
+	--border: var(--neutral-200);
+	/* 700 keeps accent text legible on light surfaces for every primary. */
+	--accent: var(--primary-700);
+	--accent-foreground: var(--color-white);
 	--ring: var(--primary-500);
 }
 
-html[data-theme="light"][data-primary="yellow"],
-html[data-theme="light"][data-primary="amber"],
-html[data-theme="light"][data-primary="lime"] {
-	--accent: var(--primary-700);
+html {
+	/* Derived roles: computed from the base roles so they track every theme. */
+	--surface-hover: color-mix(in oklab, var(--muted) 45%, transparent);
+	--border-strong: color-mix(in oklab, var(--border) 55%, var(--muted-foreground));
+	--accent-hover: color-mix(in oklab, var(--accent) 85%, var(--foreground));
+	--accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
+	--selection: color-mix(in oklab, var(--accent) 28%, transparent);
 }
 
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
+	--color-card: var(--card);
 	--color-muted: var(--muted);
 	--color-muted-foreground: var(--muted-foreground);
+	--color-surface-hover: var(--surface-hover);
 	--color-border: var(--border);
+	--color-border-strong: var(--border-strong);
 	--color-accent: var(--accent);
 	--color-accent-foreground: var(--accent-foreground);
+	--color-accent-hover: var(--accent-hover);
 	--color-accent-soft: var(--accent-soft);
-	--color-card: var(--card);
 	--color-ring: var(--ring);
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
+}
+
+@theme {
+	/* Type: one step below text-xs for chips and eyebrows. */
+	--text-2xs: 0.6875rem;
+	--text-2xs--line-height: 1rem;
+
+	/* Spacing: the inset that aligns content with the dashed page grid. */
+	--spacing-gutter: 0.75rem;
+
+	/* Motion */
+	--ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/*
+ * Type roles. They set font, size, weight and tracking only; pair each with a
+ * color utility (text-foreground, text-muted-foreground, text-accent).
+ */
+@utility type-display {
+	font-size: var(--text-2xl);
+	line-height: var(--text-2xl--line-height);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: var(--tracking-tight);
+	text-wrap: balance;
+}
+
+@utility type-heading {
+	font-size: var(--text-sm);
+	line-height: var(--text-sm--line-height);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: var(--tracking-tight);
+}
+
+@utility type-title {
+	font-size: var(--text-sm);
+	line-height: var(--text-sm--line-height);
+	font-weight: var(--font-weight-medium);
+}
+
+@utility type-body {
+	font-size: var(--text-sm);
+	line-height: calc(var(--spacing) * 6);
+	text-wrap: pretty;
+}
+
+@utility type-meta {
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	line-height: var(--text-xs--line-height);
+}
+
+@utility type-eyebrow {
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+	line-height: var(--text-2xs--line-height);
+	font-weight: var(--font-weight-medium);
+	letter-spacing: var(--tracking-wider);
+	text-transform: uppercase;
 }
 
 @theme {
@@ -83,10 +156,22 @@ html[data-theme="light"][data-primary="lime"] {
 	);
 }
 
-body {
-	background: var(--background);
-	color: var(--foreground);
-	font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+@layer base {
+	body {
+		background: var(--background);
+		color: var(--foreground);
+		font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+	}
+
+	::selection {
+		background: var(--selection);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--ring);
+		outline-offset: 2px;
+		border-radius: var(--radius-xs);
+	}
 }
 
 ::view-transition-old(root),
