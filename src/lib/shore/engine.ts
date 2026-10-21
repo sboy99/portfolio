@@ -217,9 +217,11 @@ export function horizonFrame({ layout, tick, mode, ripples = [], rt = 0 }: Frame
 			}
 
 			const span = SHIP_SPAN[r];
-			if (span && c >= shipC + span[0] && c <= shipC + span[1]) ch = " ";
+			const underShip = span != null && c >= shipC + span[0] && c <= shipC + span[1];
+			if (underShip) ch = " ";
 
-			const ring = r > HORIZON_ROW ? ringAt(ripples, rt, c, r) : null;
+			// Rings stay in open water: never in the sky and never through the hull.
+			const ring = r > HORIZON_ROW && !underShip ? ringAt(ripples, rt, c, r) : null;
 			if (ring) {
 				ch = ring.ch;
 				col = ring.c;

@@ -1,12 +1,11 @@
 "use client";
 
-import { type MouseEvent, useMemo } from "react";
+import { useMemo } from "react";
 import { AsciiRows } from "@/components/shore/ascii-rows";
 import { useMotion } from "@/components/shore/motion";
 import { useBand } from "@/components/shore/use-band";
 import { useTheme } from "@/hooks/use-theme";
 import { CHAR_W, HORIZON_ROW, horizonFrame, shipMotion, shipRows } from "@/lib/shore/engine";
-import { themeClipOrigin } from "@/lib/theme";
 
 const PAD_TOP = 20;
 const SHIP = shipRows();
@@ -23,16 +22,6 @@ export function HorizonBand() {
 	);
 	const ship = shipMotion(tick);
 	const nextLabel = mode === "day" ? "Switch to dusk (dark theme)" : "Switch to day (light theme)";
-
-	function onSun(event: MouseEvent<HTMLButtonElement>) {
-		const rect = event.currentTarget.getBoundingClientRect();
-		toggleMode(
-			themeClipOrigin(rect, mode === "day" ? "dark" : "light", {
-				width: window.innerWidth,
-				height: window.innerHeight,
-			}),
-		);
-	}
 
 	return (
 		<div className="relative">
@@ -61,7 +50,7 @@ export function HorizonBand() {
 			<button
 				aria-label={nextLabel}
 				className="absolute h-[84px] w-[136px] cursor-pointer rounded-full"
-				onClick={onSun}
+				onClick={toggleMode}
 				style={{ top: PAD_TOP, left: (layout.sunC - 8.7) * CHAR_W }}
 				title={nextLabel}
 				type="button"

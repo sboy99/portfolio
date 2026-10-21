@@ -56,6 +56,9 @@ html[data-theme="dark"] {
 	--font-serif: var(--font-newsreader), Georgia, serif;
 	--font-mono: var(--font-geist-mono), ui-monospace, monospace;
 	--font-bengali: var(--font-noto-bengali), serif;
+	/* Geist Mono has no ≈, so ASCII falls back to a real monospace face, never the proportional metric fallback. */
+	--font-ascii:
+		"Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", monospace;
 }
 
 @theme {
@@ -125,7 +128,7 @@ html[data-theme="dark"] {
 
 /* ASCII bands (13px, 7.8px per character) and wave rules (12px). */
 @utility ascii {
-	font-family: var(--font-mono);
+	font-family: var(--font-ascii);
 	font-size: 13px;
 	line-height: 14px;
 	white-space: pre;
@@ -134,7 +137,7 @@ html[data-theme="dark"] {
 }
 
 @utility wave {
-	font-family: var(--font-mono);
+	font-family: var(--font-ascii);
 	font-size: 12px;
 	line-height: 14px;
 	white-space: pre;
@@ -204,56 +207,5 @@ html[data-theme="dark"] {
 	}
 	[data-c="line-strong"] {
 		color: var(--line-strong);
-	}
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-	animation: none;
-	mix-blend-mode: normal;
-}
-
-/* Light: new theme blooms in */
-html[data-theme-clip="light"]::view-transition-old(root) {
-	z-index: 1;
-}
-
-html[data-theme-clip="light"]::view-transition-new(root) {
-	z-index: 2;
-	animation: theme-clip-in 850ms cubic-bezier(0.65, 0, 0.35, 1) both;
-}
-
-/* Dark: old theme collapses out */
-html[data-theme-clip="dark"]::view-transition-old(root) {
-	z-index: 2;
-	animation: theme-clip-out 850ms cubic-bezier(0.65, 0, 0.35, 1) both;
-}
-
-html[data-theme-clip="dark"]::view-transition-new(root) {
-	z-index: 1;
-}
-
-@keyframes theme-clip-in {
-	from {
-		clip-path: circle(0px at var(--theme-clip-x) var(--theme-clip-y));
-	}
-	to {
-		clip-path: circle(var(--theme-clip-r) at var(--theme-clip-x) var(--theme-clip-y));
-	}
-}
-
-@keyframes theme-clip-out {
-	from {
-		clip-path: circle(var(--theme-clip-r) at var(--theme-clip-x) var(--theme-clip-y));
-	}
-	to {
-		clip-path: circle(0px at var(--theme-clip-x) var(--theme-clip-y));
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	::view-transition-old(root),
-	::view-transition-new(root) {
-		animation: none !important;
 	}
 }

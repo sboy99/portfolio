@@ -84,6 +84,17 @@ describe("ripples", () => {
 		}
 	});
 
+	it("never draws rings through the ship's hull", () => {
+		const { shipC } = DEFAULT_LAYOUT;
+		const ripples = [{ c: shipC + 10, r: 7, t0: 0 }];
+		for (let rt = 0; rt < 30; rt++) {
+			const hull = rowText(
+				horizonFrame({ layout: DEFAULT_LAYOUT, tick: 0, mode: "day", ripples, rt })[7],
+			).slice(shipC + 4, shipC + 20);
+			expect(hull.trim()).toBe("");
+		}
+	});
+
 	it("never draws rings in the sky", () => {
 		const ripples = [{ c: 60, r: 7, t0: 0 }];
 		const rows = horizonFrame({ layout: DEFAULT_LAYOUT, tick: 0, mode: "day", ripples, rt: 12 });
