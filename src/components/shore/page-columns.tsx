@@ -40,7 +40,11 @@ export function PageColumns({ children, notes }: { children: ReactNode; notes: M
 					</p>
 				))}
 				<div className="mt-2.5 lg:mt-[60px]">
-					<WaveRule className="mb-3 hidden text-line-strong lg:block" length={30} seeds={[7]} />
+					<WaveRule
+						className="mb-3 hidden text-line-strong lg:block"
+						length={30}
+						seeds={[7, 8.85]}
+					/>
 					<p className="text-fg">Elsewhere</p>
 					<p className="mt-2 flex flex-col gap-1">
 						{ELSEWHERE.map((link) => (

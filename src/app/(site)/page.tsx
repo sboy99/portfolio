@@ -50,7 +50,7 @@ export default async function HomePage() {
 
 			<SectionHead>Selected work</SectionHead>
 			<WorkList items={work} />
-			<p className="type-small pt-3.5">
+			<p className="type-small pt-6">
 				<Link href="/projects">All {all.length} projects</Link>
 			</p>
 		</PageColumns>

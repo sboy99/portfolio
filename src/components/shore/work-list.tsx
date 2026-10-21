@@ -25,15 +25,21 @@ function TitleLink({ item }: { item: WorkItem }) {
 	);
 }
 
-/** Numbered work, each item closed by a wave that takes the accent on hover. */
+/** Numbered work with a wave between items; hovering an item lights the wave above it. */
 export function WorkList({ items }: { items: WorkItem[] }) {
 	return (
 		<ol className="m-0 list-none p-0">
 			{items.map((item, i) => (
 				<li
-					className="group grid grid-cols-[32px_minmax(0,1fr)] gap-3 pt-5 md:grid-cols-[56px_minmax(0,1fr)]"
+					className="group grid grid-cols-[32px_minmax(0,1fr)] gap-x-3 first:pt-5 md:grid-cols-[56px_minmax(0,1fr)]"
 					key={item.slug}
 				>
+					{i > 0 ? (
+						<WaveRule
+							className="col-span-full mt-2 mb-5 text-line-strong transition-colors duration-[220ms] group-hover:text-accent"
+							seeds={[i - 1]}
+						/>
+					) : null}
 					<span className="font-mono text-[13px] leading-[30px] text-muted">
 						{String(i + 1).padStart(2, "0")}
 					</span>
@@ -57,10 +63,6 @@ export function WorkList({ items }: { items: WorkItem[] }) {
 							<p className="mt-1.5 font-mono text-[12px] text-muted">{item.stack}</p>
 						) : null}
 					</div>
-					<WaveRule
-						className="col-span-full mt-2 text-line-strong transition-colors duration-[220ms] group-hover:text-accent"
-						seeds={[i]}
-					/>
 				</li>
 			))}
 		</ol>
