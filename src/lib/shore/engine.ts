@@ -30,6 +30,8 @@ export type BandLayout = {
 	cols: number;
 	sunC: number;
 	shipC: number;
+	/** 1 at 1280px and wider, down to 0.6 on phones; sizes the ship and sun. */
+	scale: number;
 	clouds: Cloud[];
 };
 
@@ -83,12 +85,19 @@ const DEPTH_RAMP = [" ", ".", "-", "~", "≈"];
 const WAKE_RAMP = ["_", ".", "-", "~"];
 const RING_COLORS: ColorKey[] = ["accent", "sea2", "sea1", "line-strong"];
 
+/** Ship and sun shrink with the screen: full size from 1280px, 0.6 at 390px. */
+export function sizeScale(widthPx: number): number {
+	const t = Math.min(1, Math.max(0, (widthPx - 390) / (1280 - 390)));
+	return Math.round((0.6 + 0.4 * t) * 100) / 100;
+}
+
 /** Desktop keeps the design's 1280px composition centred; phones use the 390px one. */
 export function bandLayout(widthPx: number): BandLayout {
 	const cols = Math.max(50, Math.ceil(widthPx / CHAR_W) + 1);
+	const scale = sizeScale(widthPx);
 
 	if (widthPx < 640) {
-		return { cols, sunC: cols - 12, shipC: 2, clouds: MOBILE_CLOUDS };
+		return { cols, sunC: cols - 10, shipC: 2, scale, clouds: MOBILE_CLOUDS };
 	}
 
 	const mid = Math.round(cols / 2);
@@ -96,11 +105,26 @@ export function bandLayout(widthPx: number): BandLayout {
 		cols,
 		sunC: mid + 36,
 		shipC: Math.max(2, mid - 46),
+		scale,
 		clouds: DESKTOP_CLOUDS.map((cl) => ({ ...cl, x0: Math.round((cl.x0 / 170) * cols) })),
 	};
 }
 
 export const DEFAULT_LAYOUT = bandLayout(1280);
+
+/** Pixels the scaled ship sits below the band's top, so its keel stays on the water. */
+export function shipOffset(scale: number): number {
+	return SHIP_ART.length * ROW_H * (1 - scale);
+}
+
+/** The columns a scaled ship covers on horizon row `r`, if any. */
+function shipCover(r: number, shipC: number, scale: number): readonly [number, number] | null {
+	const y = r * ROW_H + ROW_H / 2 - shipOffset(scale);
+	const sr = Math.floor(y / (ROW_H * scale));
+	const span = SHIP_SPAN[sr];
+	if (y < 0 || span == null) return null;
+	return [shipC + Math.floor(span[0] * scale), shipC + Math.ceil(span[1] * scale)];
+}
 
 function hash01(c: number, r: number): number {
 	const h = Math.sin(c * 3.1 + r * 17.7) * 9137.13;
@@ -163,8 +187,9 @@ export type FrameInput = {
 /** The top band: sky with sun, clouds or stars, the horizon and the sea below it. */
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: a per-cell loop kept in step with the design file
 export function horizonFrame({ layout, tick, mode, ripples = [], rt = 0 }: FrameInput): Row[] {
-	const { cols, sunC, shipC, clouds } = layout;
-	const sunR = mode === "day" ? 2.6 : 4.2;
+	const { cols, sunC, shipC, clouds, scale } = layout;
+	const sunScale = 0.65 + 0.35 * ((scale - 0.6) / 0.4);
+	const sunR = (mode === "day" ? 2.6 : 4.2) * sunScale;
 	const sunRow = HORIZON_ROW - (mode === "day" ? 3 : 0.6);
 	const rows: Row[] = [];
 
@@ -216,8 +241,8 @@ export function horizonFrame({ layout, tick, mode, ripples = [], rt = 0 }: Frame
 				}
 			}
 
-			const span = SHIP_SPAN[r];
-			const underShip = span != null && c >= shipC + span[0] && c <= shipC + span[1];
+			const cover = shipCover(r, shipC, scale);
+			const underShip = cover != null && c >= cover[0] && c <= cover[1];
 			if (underShip) ch = " ";
 
 			// Rings stay in open water: never in the sky and never through the hull.
@@ -269,7 +294,8 @@ export function seaFrame({ layout, tick, mode, ripples = [], rt = 0 }: FrameInpu
 		SEA_SURFACE +
 		0.9 * Math.sin((boatX + 3) * 0.08 - tick * 0.12) +
 		0.4 * Math.sin((boatX + 3) * 0.21 + tick * 0.07);
-	const boatRow = Math.ceil(bTop) - 2;
+	// The hull sits one row into the swell so the boat rides in the water, not on it.
+	const boatRow = Math.ceil(bTop) - 1;
 	const gullX = Math.floor(cols - ((tick * 0.6) % (cols + 10)));
 	const rows: Row[] = [];
 
@@ -344,4 +370,24 @@ export function tapCell(x: number, y: number, minRow: number): { c: number; r: n
 
 export function rowText(row: Row): string {
 	return row.map((run) => run.t).join("");
+}
+
+const ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;" };
+
+/**
+ * Rows as HTML, one div per row and one span per colour run. Every ≈ gets its
+ * own one-character cell: Geist Mono has no ≈, and a fallback face would
+ * otherwise draw it at a different width and push the row out of line.
+ */
+export function rowsToHtml(rows: Row[]): string {
+	let html = "";
+	for (const row of rows) {
+		html += "<div>";
+		for (const run of row) {
+			const text = run.t.replace(/[&<>]/g, (ch) => ESCAPES[ch]).replace(/≈/g, "<i>≈</i>");
+			html += `<span data-c="${run.c}">${text}</span>`;
+		}
+		html += "</div>";
+	}
+	return html;
 }

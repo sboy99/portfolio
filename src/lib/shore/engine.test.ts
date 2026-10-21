@@ -6,6 +6,7 @@ import {
 	HORIZON_ROWS,
 	horizonFrame,
 	ringAt,
+	rowsToHtml,
 	rowText,
 	SEA_ROWS,
 	SHIP_ART,
@@ -27,8 +28,21 @@ describe("bandLayout", () => {
 		const layout = bandLayout(390);
 		expect(layout.cols).toBe(51);
 		expect(layout.shipC).toBe(2);
-		expect(layout.sunC).toBe(39);
+		expect(layout.sunC).toBe(41);
 		expect(layout.clouds).toHaveLength(2);
+	});
+
+	it("shrinks the ship and sun on smaller screens", () => {
+		expect(bandLayout(1600).scale).toBe(1);
+		expect(bandLayout(1280).scale).toBe(1);
+		expect(bandLayout(390).scale).toBe(0.6);
+		const sunCells = (width: number) =>
+			horizonFrame({ layout: bandLayout(width), tick: 0, mode: "day" })
+				.slice(0, HORIZON_ROW)
+				.flat()
+				.filter((run) => run.c === "sun")
+				.reduce((n, run) => n + run.t.length, 0);
+		expect(sunCells(390)).toBeLessThan(sunCells(1280));
 	});
 });
 
@@ -147,6 +161,13 @@ describe("wakeLine", () => {
 
 	it("moves with the tick", () => {
 		expect(wakeLine(1, 60, 0)).not.toBe(wakeLine(1, 60, 5));
+	});
+});
+
+describe("rowsToHtml", () => {
+	it("escapes markup and gives each ≈ its own cell", () => {
+		const html = rowsToHtml([[{ c: "sea2", t: "<≈≈&" }]]);
+		expect(html).toBe('<div><span data-c="sea2">&lt;<i>≈</i><i>≈</i>&amp;</span></div>');
 	});
 });
 

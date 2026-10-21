@@ -5,7 +5,14 @@ import { AsciiRows } from "@/components/shore/ascii-rows";
 import { useMotion } from "@/components/shore/motion";
 import { useBand } from "@/components/shore/use-band";
 import { useTheme } from "@/hooks/use-theme";
-import { CHAR_W, HORIZON_ROW, horizonFrame, shipMotion, shipRows } from "@/lib/shore/engine";
+import {
+	CHAR_W,
+	HORIZON_ROW,
+	horizonFrame,
+	shipMotion,
+	shipOffset,
+	shipRows,
+} from "@/lib/shore/engine";
 
 const PAD_TOP = 20;
 const SHIP = shipRows();
@@ -36,22 +43,34 @@ export function HorizonBand() {
 				<div
 					className="pointer-events-none absolute"
 					style={{
-						top: PAD_TOP,
+						top: PAD_TOP + shipOffset(layout.scale),
 						left: layout.shipC * CHAR_W,
-						transform: `translateY(${ship.y}px) rotate(${ship.tilt}deg)`,
-						transformOrigin: "50% 90%",
-						transition: "transform 160ms linear",
+						transform: `scale(${layout.scale})`,
+						transformOrigin: "0 0",
 					}}
 				>
-					<AsciiRows rows={SHIP} />
+					<div
+						style={{
+							transform: `translateY(${ship.y}px) rotate(${ship.tilt}deg)`,
+							transformOrigin: "50% 90%",
+							transition: "transform 160ms linear",
+						}}
+					>
+						<AsciiRows rows={SHIP} />
+					</div>
 				</div>
 				<AsciiRows rows={rows} />
 			</div>
 			<button
 				aria-label={nextLabel}
-				className="absolute h-[84px] w-[136px] cursor-pointer rounded-full"
+				className="absolute cursor-pointer rounded-full"
 				onClick={toggleMode}
-				style={{ top: PAD_TOP, left: (layout.sunC - 8.7) * CHAR_W }}
+				style={{
+					top: PAD_TOP + 49 * (1 - layout.scale),
+					left: layout.sunC * CHAR_W - 68 * layout.scale,
+					width: 136 * layout.scale,
+					height: 84 * layout.scale,
+				}}
 				title={nextLabel}
 				type="button"
 			/>

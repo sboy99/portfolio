@@ -136,6 +136,16 @@ html[data-theme="dark"] {
 	font-variant-ligatures: none;
 }
 
+/* One fixed cell per ≈, which Geist Mono lacks; see rowsToHtml. */
+.ascii i {
+	display: inline-block;
+	width: 1ch;
+	font-style: normal;
+	text-align: center;
+	overflow: hidden;
+	vertical-align: top;
+}
+
 @utility wave {
 	font-family: var(--font-ascii);
 	font-size: 12px;
