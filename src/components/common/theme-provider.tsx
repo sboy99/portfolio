@@ -1,69 +1,46 @@
 "use client";
 
-import {
-	type ReactNode,
-	useCallback,
-	useEffect,
-	useLayoutEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
+import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { ThemeContext, type ThemeModeTransitionOrigin } from "@/components/common/theme-context";
-import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/config/theme";
+import { THEME_STORAGE_KEY } from "@/config/theme";
 import {
-	applyTheme,
 	applyThemeClipVars,
+	applyThemeMode,
 	canTransitionTheme,
 	clearThemeClipVars,
-	readStoredTheme,
-	withMode,
-	withNeutral,
-	withPrimary,
-	writeStoredTheme,
+	parseStoredMode,
+	readThemeMode,
+	writeStoredMode,
 } from "@/lib/theme";
-import type { NeutralId, PrimaryId, ThemeMode, ThemePreference } from "@/schemas/theme";
+import type { ThemeMode } from "@/schemas/theme";
 
 type ThemeProviderProps = {
 	children: ReactNode;
 };
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-	const [theme, setTheme] = useState<ThemePreference>(DEFAULT_THEME);
-	const [ready, setReady] = useState(false);
-	const themeRef = useRef(theme);
+	// The server renders day; the init script has already set the real mode on <html>.
+	const [mode, setMode] = useState<ThemeMode>("light");
+	const modeRef = useRef(mode);
 	const transitionActiveRef = useRef(false);
 
-	useLayoutEffect(() => {
-		themeRef.current = theme;
-	});
-
 	useEffect(() => {
-		const stored = readStoredTheme();
-		setTheme(stored);
-		applyTheme(stored);
-		setReady(true);
-	}, []);
+		const current = readThemeMode();
+		modeRef.current = current;
+		setMode(current);
 
-	useEffect(() => {
-		if (!ready) {
-			return;
-		}
-
-		applyTheme(theme);
-		writeStoredTheme(theme);
-	}, [ready, theme]);
-
-	useEffect(() => {
 		function onStorage(event: StorageEvent) {
 			if (event.key !== THEME_STORAGE_KEY) {
 				return;
 			}
 
-			const next = readStoredTheme();
-			setTheme(next);
-			applyTheme(next);
+			const next = parseStoredMode(event.newValue);
+			if (next != null) {
+				modeRef.current = next;
+				applyThemeMode(next);
+				setMode(next);
+			}
 		}
 
 		window.addEventListener("storage", onStorage);
@@ -73,25 +50,12 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 		};
 	}, []);
 
-	const setPrimary = useCallback((primary: PrimaryId) => {
-		setTheme((current) => withPrimary(current, primary));
-	}, []);
-
-	const setNeutral = useCallback((neutral: NeutralId) => {
-		setTheme((current) => withNeutral(current, neutral));
-	}, []);
-
-	const setMode = useCallback((mode: ThemeMode) => {
-		setTheme((current) => withMode(current, mode));
-	}, []);
-
-	const applyMode = useCallback((nextMode: ThemeMode) => {
-		const next = withMode(themeRef.current, nextMode);
-
+	const commit = useCallback((next: ThemeMode) => {
+		modeRef.current = next;
 		flushSync(() => {
-			applyTheme(next);
-			writeStoredTheme(next);
-			setTheme(next);
+			applyThemeMode(next);
+			writeStoredMode(next);
+			setMode(next);
 		});
 	}, []);
 
@@ -101,18 +65,18 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 				return;
 			}
 
-			const nextMode: ThemeMode = themeRef.current.mode === "dark" ? "light" : "dark";
+			const next: ThemeMode = modeRef.current === "dark" ? "light" : "dark";
 
 			if (origin == null || !canTransitionTheme()) {
-				applyMode(nextMode);
+				commit(next);
 				return;
 			}
 
-			applyThemeClipVars(origin, nextMode);
+			applyThemeClipVars(origin, next);
 			transitionActiveRef.current = true;
 
 			const transition = document.startViewTransition(() => {
-				applyMode(nextMode);
+				commit(next);
 			});
 
 			void transition.finished.finally(() => {
@@ -120,19 +84,10 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 				transitionActiveRef.current = false;
 			});
 		},
-		[applyMode],
+		[commit],
 	);
 
-	const value = useMemo(
-		() => ({
-			theme,
-			setPrimary,
-			setNeutral,
-			setMode,
-			toggleMode,
-		}),
-		[setMode, setNeutral, setPrimary, theme, toggleMode],
-	);
+	const value = useMemo(() => ({ mode, toggleMode }), [mode, toggleMode]);
 
 	return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }

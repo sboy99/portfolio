@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { Container } from "@/components/layout/container";
-import { Button } from "@/components/ui/button";
 
 type ErrorPageProps = {
 	error: Error & { digest?: string };
@@ -16,12 +14,16 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
 	}, [error]);
 
 	return (
-		<Container className="flex flex-col items-start gap-4 py-16">
-			<h1 className="type-display">Something went wrong</h1>
-			<p className="type-body text-muted-foreground">The page failed to load. You can try again.</p>
-			<Button onClick={reset} variant="secondary">
+		<main className="mx-auto flex w-full max-w-[960px] flex-col items-start gap-4 px-5 py-24 lg:px-0">
+			<h1 className="type-display">Something went wrong.</h1>
+			<p className="type-lead text-body">The page failed to load. You can try again.</p>
+			<button
+				className="type-meta h-9 cursor-pointer rounded-full border border-line px-4 transition-colors hover:border-accent hover:text-accent"
+				onClick={reset}
+				type="button"
+			>
 				Try again
-			</Button>
-		</Container>
+			</button>
+		</main>
 	);
 }

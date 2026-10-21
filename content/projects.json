@@ -3,6 +3,7 @@
 		"slug": "kili-ai",
 		"title": "Kili AI",
 		"summary": "Ad marketplace that earns developers back their inference costs by showing ads while an AI agent is 'thinking'.",
+		"note": "250+ daily active users.",
 		"highlights": [
 			"Developers keep [[50%]] of net ad revenue, paid in stablecoins or through Stripe",
 			"Intent-matched ads shown only during natural wait states, never over the work",
@@ -33,6 +34,7 @@
 		"slug": "brands-scribbledao",
 		"title": "Scribble Brands",
 		"summary": "AI visibility platform that tracks how ChatGPT, Gemini, Perplexity, Copilot, and Grok cite a brand, then helps it get cited more.",
+		"note": "RocketX went from 2% to 20% citation share.",
 		"highlights": [
 			"RocketX grew AI citation share from [[2% to 20%]] across 25 priority queries in 3 months",
 			"Audit, create, amplify: citation tracking, competitor benchmarks, and a content hub in one dashboard",
@@ -62,6 +64,7 @@
 		"slug": "creators-scribbledao",
 		"title": "Scribble Creators",
 		"summary": "Campaign platform where creators write for brands and get paid.",
+		"note": "$500K+ paid out.",
 		"highlights": [
 			"[[50,000+]] active creators, [[800+]] brand campaigns",
 			"[[$500,000+]] paid out, [[72%]] average win rate",
@@ -158,6 +161,7 @@
 		"slug": "go-vault",
 		"title": "Go-Vault",
 		"summary": "CLI for backing up and restoring PostgreSQL databases to local disk or AWS S3.",
+		"note": "My own tool.",
 		"highlights": [
 			"Interactive CLI for PostgreSQL dump and restore",
 			"Local disk or AWS S3 storage, with backup metadata in BoltDB"
@@ -178,6 +182,7 @@
 		"slug": "tusk",
 		"title": "Tusk",
 		"summary": "Go CLI that turns one-off commands into systemd timers, with intervals or CRON expressions.",
+		"note": "My own tool.",
 		"highlights": [
 			"Writes and enables systemd service and timer files for you",
 			"Intervals from seconds to years, or CRON; streams journalctl logs"
@@ -197,6 +202,7 @@
 		"slug": "gitopener",
 		"title": "GitOpener",
 		"summary": "Beginner-friendly open source platform that teaches contributing through live guides and GitHub auth.",
+		"note": "Built with zero AI code.",
 		"highlights": [
 			"MDX guides and auto-generated contributor profiles",
 			"GitHub sign-in; built with [[zero AI]] code"

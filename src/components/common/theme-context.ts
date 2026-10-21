@@ -1,14 +1,11 @@
 import { createContext } from "react";
 import type { ThemeClipOrigin } from "@/lib/theme";
-import type { NeutralId, PrimaryId, ThemeMode, ThemePreference } from "@/schemas/theme";
+import type { ThemeMode } from "@/schemas/theme";
 
 export type ThemeModeTransitionOrigin = ThemeClipOrigin;
 
 export type ThemeContextValue = {
-	theme: ThemePreference;
-	setPrimary: (primary: PrimaryId) => void;
-	setNeutral: (neutral: NeutralId) => void;
-	setMode: (mode: ThemeMode) => void;
+	mode: ThemeMode;
 	toggleMode: (origin?: ThemeModeTransitionOrigin) => void;
 };
 

@@ -1,10 +1,10 @@
-import { Metric } from "@/components/ui/metric";
 import { parseHighlightedText } from "@/lib/parse-highlighted-text";
 
 type HighlightedTextProps = {
 	text: string;
 };
 
+/** Renders [[marked]] figures in the foreground colour so they stand out of body text. */
 export function HighlightedText({ text }: HighlightedTextProps) {
 	const segments = parseHighlightedText(text);
 	let offset = 0;
@@ -19,7 +19,11 @@ export function HighlightedText({ text }: HighlightedTextProps) {
 					return segment.value;
 				}
 
-				return <Metric delta={segment.delta} key={key} value={segment.value} />;
+				return (
+					<span className="text-fg" key={key}>
+						{segment.value}
+					</span>
+				);
 			})}
 		</>
 	);

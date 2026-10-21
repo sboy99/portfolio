@@ -15,11 +15,12 @@ export const siteConfig = {
 		github: "https://github.com/sboy99",
 		linkedin: "https://www.linkedin.com/in/sagar-bera",
 		x: "https://x.com/0xSagar_",
+		youtube: "https://www.youtube.com/@ShadowBoy",
 	},
 	nav: [
-		{ href: "/projects", label: "Projects" },
-		{ href: "/resume", label: "Resume" },
-		{ href: "/about", label: "Me" },
+		{ href: "/projects", label: "work" },
+		{ href: "/resume", label: "résumé" },
+		{ href: "/about", label: "about" },
 	],
 	resume: {
 		path: "/sagar-bera-resume.pdf",
