@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shoreline foundations</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>body{margin:0}a{color:inherit;text-underline-offset:4px}</style>
+</helmet>
+<div style="width: 1440px; min-height: 100vh; box-sizing: border-box; padding: 64px 80px 80px; background: #f4f1ea; color: #0b2a3a; font-family: Newsreader, Georgia, serif">
+<p style="margin: 0; font-family: 'Geist Mono', monospace; font-size: 12px; color: #4b6270">locked from S2 · horizon journal</p>
+<h1 style="margin: 10px 0 0; font-size: 64px; line-height: 70px; font-weight: 300; letter-spacing: -0.03em">Shoreline</h1>
+<p style="margin: 14px 0 0; max-width: 760px; font-size: 21px; line-height: 34px; color: #2b4757">A quiet, editorial portfolio on sand-coloured paper, with the sea drawn in ASCII. Serif for the voice, mono for the machinery, and water that only moves where it should.</p>
+<p aria-hidden="true" style="margin: 28px 0 0; color: #b9b09c; font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 14px; white-space: pre; overflow: hidden">{{w1}}
+{{w2}}</p>
+
+<div style="margin-top: 48px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px">
+<section><h2 style="margin: 0 0 16px; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #4b6270">Colour · day and dusk</h2>
+<div style="display: grid; grid-template-columns: 120px repeat(2, minmax(0, 1fr)); gap: 8px 16px; font-family: 'Geist Mono', monospace; font-size: 12px; align-items: center">
+<span style="color: #4b6270">token</span><span style="color: #4b6270">day</span><span style="color: #4b6270">dusk</span>
+<sc-for list="{{tokens}}" as="k" hint-placeholder-count="12"><span>{{k.name}}</span><span style="display: flex; align-items: center; gap: 10px"><span style="width: 28px; height: 28px; border-radius: 6px; background: {{k.day}}; box-shadow: inset 0 0 0 1px rgba(11,42,58,0.15)"></span>{{k.day}}</span><span style="display: flex; align-items: center; gap: 10px"><span style="width: 28px; height: 28px; border-radius: 6px; background: {{k.dusk}}; box-shadow: inset 0 0 0 1px rgba(11,42,58,0.15)"></span>{{k.dusk}}</span></sc-for>
+</div>
+<p style="margin: 16px 0 0; font-size: 16px; line-height: 26px; color: #2b4757">Accent is ocean blue by day and warm amber at dusk. Selection, hover and the active nav link all use it. Tapping the sun switches modes.</p>
+</section>
+
+<section><h2 style="margin: 0 0 16px; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #4b6270">Type</h2>
+<div style="display: flex; flex-direction: column; gap: 18px">
+<div><p style="margin: 0; font-size: 56px; line-height: 62px; font-weight: 300; letter-spacing: -0.025em">Below the <em>waterline</em></p><p style="margin: 4px 0 0; font-family: 'Geist Mono', monospace; font-size: 12px; color: #4b6270">display · Newsreader 300 · 56/62 desktop, 34/40 mobile</p></div>
+<div><p style="margin: 0; font-size: 26px; line-height: 32px">Scribble Brands <span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #4b6270">2026</span></p><p style="margin: 4px 0 0; font-family: 'Geist Mono', monospace; font-size: 12px; color: #4b6270">title · Newsreader 400 · 26/32, 22/28 mobile</p></div>
+<div><p style="margin: 0; font-size: 21px; line-height: 34px; color: #2b4757">I own the APIs, the PostgreSQL schemas and the CI/CD setup that keep them running.</p><p style="margin: 4px 0 0; font-family: 'Geist Mono', monospace; font-size: 12px; color: #4b6270">body · Newsreader 400 · 21/34, 18/29 mobile · small 18/28</p></div>
+<div><p style="margin: 0; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #4b6270">Selected work</p><p style="margin: 4px 0 0; font-family: 'Geist Mono', monospace; font-size: 12px; color: #4b6270">label · Geist Mono 500 · 12 caps, 0.08em</p></div>
+<div><p style="margin: 0; font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 19px; color: #4b6270"><span style="color: #0b6e99">1</span> সাগর (sha·gor) is Bengali for ocean.</p><p style="margin: 4px 0 0; font-family: 'Geist Mono', monospace; font-size: 12px; color: #4b6270">note · Geist Mono 12/19 · ASCII art 13/14</p></div>
+</div>
+</section>
+</div>
+
+<div style="margin-top: 56px"><h2 style="margin: 0 0 16px; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #4b6270">ASCII primitives</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px">
+<div><p aria-hidden="true" style="margin: 0; color: #b9b09c; font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 14px; white-space: pre; overflow: hidden">{{w3}}</p><p style="margin: 10px 0 0; font-size: 16px; line-height: 24px; color: #2b4757">Separator wave. Replaces every rule. Turns accent when its row is hovered.</p></div>
+<div><p aria-hidden="true" style="margin: 0; color: #b9b09c; font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 14px; white-space: pre; overflow: hidden">{{w1}}
+{{w2}}</p><p style="margin: 10px 0 0; font-size: 16px; line-height: 24px; color: #2b4757">Double wave. Opens a section, out of phase, never reacts to hover.</p></div>
+<div><pre aria-hidden="true" style="margin: 0; color: #0b6e99; font-family: 'Geist Mono', monospace; font-size: 13px; line-height: 14px">{{ring}}</pre><p style="margin: 10px 0 0; font-size: 16px; line-height: 24px; color: #2b4757">Tap ripple. One ring per tap, about 25 columns wide, clipped to the water, up to 12 at once.</p></div>
+<div><pre aria-hidden="true" style="margin: 0; color: #0b2a3a; font-family: 'Geist Mono', monospace; font-size: 13px; line-height: 14px">{{shipArt}}</pre><p style="margin: 10px 0 0; font-size: 16px; line-height: 24px; color: #2b4757">The galleon. Anchored left on the horizon, bobbing ±2.5px and rocking ±1.4°.</p></div>
+<div><pre aria-hidden="true" style="margin: 0; color: #a3b3bb; font-family: 'Geist Mono', monospace; font-size: 13px; line-height: 14px"> .-.        .--.
+(___)     (______)      .-.
+                     .(___).</pre><p style="margin: 10px 0 0; font-size: 16px; line-height: 24px; color: #2b4757">Clouds drift by day only. Gulls fly over the footer by day; at dusk the footer sky fills with still stars.</p></div>
+<div><pre aria-hidden="true" style="margin: 0; color: #d97706; font-family: 'Geist Mono', monospace; font-size: 13px; line-height: 14px">  ooooooo
+ oo@@@@@oo
+oo@@@@@@@oo
+ oo@@@@@oo
+  ooooooo</pre><p style="margin: 10px 0 0; font-size: 16px; line-height: 24px; color: #2b4757">The sun is the theme switch. It sinks and grows at dusk, with a warm streak on the water.</p></div>
+</div>
+</div>
+
+<div style="margin-top: 56px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px">
+<section><h2 style="margin: 0 0 16px; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #4b6270">Components</h2>
+<div style="display: flex; flex-direction: column; gap: 26px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 16px"><span style="font-size: 22px; font-style: italic">sagar</span><span style="display: flex; gap: 22px; font-size: 17px"><span>work</span><span style="color: #0b6e99; text-decoration: underline; text-underline-offset: 4px">résumé</span><span>about</span></span></div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 12px"><span style="height: 32px; padding: 0 12px; display: inline-flex; align-items: center; border: 1px solid #0b6e99; border-radius: 999px; color: #0b6e99">all <span style="color: #4b6270">&#160;10</span></span><span style="height: 32px; padding: 0 12px; display: inline-flex; align-items: center; border: 1px solid #dcd6c8; border-radius: 999px">scribble <span style="color: #4b6270">&#160;7</span></span><span style="height: 32px; padding: 0 12px; display: inline-flex; align-items: center; border: 1px solid #dcd6c8; border-radius: 999px">personal <span style="color: #4b6270">&#160;2</span></span></div>
+<div style="display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 12px"><span style="font-family: 'Geist Mono', monospace; font-size: 13px; line-height: 30px; color: #4b6270">01</span><div style="transform: translateX(8px)"><p style="margin: 0; font-size: 26px; line-height: 32px"><u style="text-underline-offset: 4px">Kili AI</u> <span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #0b6e99">2026</span></p><p style="margin: 6px 0 0; font-size: 18px; line-height: 28px; color: #2b4757">Ads that show while an AI agent is thinking. <em style="color: #0b6e99">250+ developers a day.</em></p></div><p aria-hidden="true" style="grid-column: 1 / -1; margin: 8px 0 0; color: #0b6e99; font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 14px; white-space: pre; overflow: hidden">{{w4}}</p></div>
+<div style="display: flex; align-items: center; gap: 14px"><span style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #dcd6c8; border-radius: 999px; font-size: 12px; color: #4b6270; font-family: system-ui">❚❚</span><span style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #0b6e99; border-radius: 999px; font-size: 12px; color: #0b6e99; font-family: system-ui; text-indent: 2px">▶</span><span style="font-size: 16px; color: #2b4757">Play and pause, in the footer. Hover turns it accent.</span></div>
+</div>
+<p style="margin: 18px 0 0; font-family: 'Geist Mono', monospace; font-size: 12px; color: #4b6270">project row shown in its hover state: title and year slide 8px, year and wave turn accent</p>
+</section>
+
+<section><h2 style="margin: 0 0 16px; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #4b6270">Layout and motion</h2>
+<dl style="margin: 0; display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px 20px; font-size: 17px; line-height: 26px; color: #2b4757">
+<dt style="font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 26px; color: #4b6270">desktop</dt><dd style="margin: 0">1280 frame, 960 column: 680 for the text and 220 for margin notes, 60 apart.</dd>
+<dt style="font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 26px; color: #4b6270">mobile</dt><dd style="margin: 0">390 frame with 20px gutters. Margin notes move below the text, under a wave.</dd>
+<dt style="font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 26px; color: #4b6270">bands</dt><dd style="margin: 0">Horizon band at the top, open sea in the footer. 170 columns on desktop, 50 on mobile.</dd>
+<dt style="font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 26px; color: #4b6270">tick</dt><dd style="margin: 0">Everything moves on one 140ms tick. The footer button pauses it all.</dd>
+<dt style="font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 26px; color: #4b6270">reduced motion</dt><dd style="margin: 0">If the visitor asks for less motion, the sea starts still and taps do nothing.</dd>
+<dt style="font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 26px; color: #4b6270">spacing</dt><dd style="margin: 0">Sections 44px apart, items 20px, footer 48px below the content.</dd>
+</dl>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+componentDidMount() {
+const mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+if (mq && mq.matches) return;
+this.timer = setInterval(() => { const s = this.state || {}; this.setState({ tick: (s.tick || 0) + 1 }); }, 140);
+}
+componentWillUnmount() { clearInterval(this.timer); }
+renderVals() {
+const s = this.state || {};
+const tick = s.tick || 0;
+const sep = ['_', '.', '-', '~'];
+const wakeFor = (i, len = 80) => { let w = ''; for (let c = 0; c < len; c++) { const v = Math.sin(c * 0.22 - tick * (0.22 + i * 0.03) + i * 1.7) + 0.35 * Math.sin(c * 0.07 + tick * 0.05 + i); w += sep[Math.max(0, Math.min(3, Math.floor((v + 1.35) / 2.7 * 4)))]; } return w; };
+const ringLines = [];
+for (let r = 0; r < 7; r++) { let l = ''; for (let c = 0; c < 40; c++) { const dx = (c - 20) * 0.36; const dy = r - 3; const d = Math.sqrt(dx * dx + dy * dy); const rad = 3; const tol = d > 0 ? 0.5 * Math.abs(dy) / d + 0.19 * Math.abs(dx) / d : 0.5; let ch = ' '; if (Math.abs(d - rad) <= tol) { if (Math.abs(dy) < 0.38 * d) ch = dx > 0 ? ')' : '('; else if (Math.abs(dx) < 0.38 * d) ch = '-'; else ch = (dx > 0) === (dy < 0) ? '\\' : '/'; } l += ch; } ringLines.push(l); }
+return {
+w1: wakeFor(4), w2: wakeFor(5.85), w3: wakeFor(1, 40), w4: wakeFor(0, 60),
+ring: ringLines.join('\n'),
+shipArt: "           <|\n      |    _|_    |\n     _|_  (   |  _|_\n    (   | (   | (   |\n\\    \\__|  \\__|  \\__|\n  \\_____|_____|__|_|_|\n   \\   o    o    o  /\n    \\______________/",
+tokens: [
+{ name: 'bg', day: '#f4f1ea', dusk: '#0e1a24' }, { name: 'fg', day: '#0b2a3a', dusk: '#efe7d6' }, { name: 'body', day: '#2b4757', dusk: '#cdd5d8' }, { name: 'muted', day: '#4b6270', dusk: '#9fb0b8' }, { name: 'line', day: '#dcd6c8', dusk: '#26394a' }, { name: 'lineStrong', day: '#b9b09c', dusk: '#3c556a' }, { name: 'accent', day: '#0b6e99', dusk: '#f0b37e' }, { name: 'sun', day: '#d97706', dusk: '#f0b37e' }, { name: 'sea1', day: '#7fb8cf', dusk: '#e6a77a' }, { name: 'sea2', day: '#0b6e99', dusk: '#5d8aa3' }, { name: 'sea3', day: '#0b4f6e', dusk: '#2e5872' }, { name: 'cloud', day: '#a3b3bb', dusk: '—' }
+]
+};
+}
+}
+</script>
+</body>
+</html>
