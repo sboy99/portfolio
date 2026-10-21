@@ -279,23 +279,100 @@ export function shipMotion(tick: number): { y: number; tilt: number } {
 	};
 }
 
-const BOAT = [
-	[" ", " ", "|", "\\", " "],
-	["_", "_", "|", "_", "\\", "_"],
-	["\\", "_", "_", "_", "_", "/"],
+type VesselSpec = {
+	id: string;
+	art: string[];
+	/** Columns per tick. */
+	speed: number;
+	/** 1 sails left to right, -1 right to left. */
+	dir: 1 | -1;
+	/** Where along its loop the vessel starts, 0 to 1. */
+	start: number;
+};
+
+const VESSELS: VesselSpec[] = [
+	{ id: "sloop", art: ["  |\\", "__|_\\_", "\\____/"], speed: 0.35, dir: 1, start: 0 },
+	{ id: "dinghy", art: [" /|", "/_|_", "\\___/"], speed: 0.21, dir: -1, start: 0.35 },
+	{
+		id: "mini-ship",
+		art: ["   |   |", "  )_)  )_)", " _|____|___", " \\_o__o__o/"],
+		speed: 0.13,
+		dir: 1,
+		start: 0.62,
+	},
 ];
 
-/** The footer sea: swell, a drifting boat, gulls by day and stars at dusk. */
+export type Vessel = {
+	id: string;
+	rows: Row[];
+	/** Left edge in columns and top edge in rows, both fractional for smooth motion. */
+	x: number;
+	y: number;
+	tilt: number;
+};
+
+function swellAt(c: number, tick: number): number {
+	return 0.9 * Math.sin(c * 0.08 - tick * 0.12) + 0.4 * Math.sin(c * 0.21 + tick * 0.07);
+}
+
+function vesselRows(art: string[]): Row[] {
+	return art.map((line) => {
+		const runs: Row = [];
+		for (const ch of line) pushCell(runs, ch, ch === "o" ? "sun" : "boat");
+		return runs;
+	});
+}
+
+const VESSEL_ROWS = new Map(VESSELS.map((v) => [v.id, vesselRows(v.art)]));
+
+/**
+ * Boats on the footer sea. Each runs its own loop at its own speed and
+ * direction, riding the swell under its middle with its keel in the water.
+ */
+export function seaVessels(layout: BandLayout, tick: number): Vessel[] {
+	const { cols } = layout;
+	return VESSELS.map((v) => {
+		const w = Math.max(...v.art.map((line) => line.length));
+		const loop = cols + w + 20;
+		const p = (v.start * loop + v.speed * tick) % loop;
+		const x = v.dir > 0 ? p - w - 10 : cols + 10 - p;
+		const mid = x + w / 2;
+		const surface = SEA_SURFACE + swellAt(mid, tick);
+		const slope = (swellAt(mid + 1, tick) - swellAt(mid - 1, tick)) / 2;
+		const tilt = Math.max(-3, Math.min(3, (Math.atan((slope * ROW_H) / CHAR_W) * 180) / Math.PI));
+		return {
+			id: v.id,
+			rows: VESSEL_ROWS.get(v.id) ?? [],
+			x,
+			y: surface + 0.9 - (v.art.length - 1),
+			tilt: Math.round(tilt * 10) / 10,
+		};
+	});
+}
+
+/** Cells hidden behind each vessel, so the sea never shows through a hull. */
+function vesselMask(vessels: Vessel[], cols: number): Set<number> {
+	const mask = new Set<number>();
+	for (const v of vessels) {
+		v.rows.forEach((row, i) => {
+			const line = rowText(row);
+			const first = line.search(/\S/);
+			if (first < 0) return;
+			const r = Math.round(v.y + i);
+			const x0 = Math.round(v.x);
+			for (let c = x0 + first; c <= x0 + line.length - 1; c++) {
+				if (c >= 0 && c < cols && r >= 0 && r < SEA_ROWS) mask.add(r * cols + c);
+			}
+		});
+	}
+	return mask;
+}
+
+/** The footer sea: swell, gulls by day and stars at dusk. Vessels are drawn on top by the caller. */
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: a per-cell loop kept in step with the design file
 export function seaFrame({ layout, tick, mode, ripples = [], rt = 0 }: FrameInput): Row[] {
 	const { cols } = layout;
-	const boatX = Math.floor((tick * 0.35) % (cols + 20)) - 10;
-	const bTop =
-		SEA_SURFACE +
-		0.9 * Math.sin((boatX + 3) * 0.08 - tick * 0.12) +
-		0.4 * Math.sin((boatX + 3) * 0.21 + tick * 0.07);
-	// The hull sits one row into the swell so the boat rides in the water, not on it.
-	const boatRow = Math.ceil(bTop) - 1;
+	const mask = vesselMask(seaVessels(layout, tick), cols);
 	const gullX = Math.floor(cols - ((tick * 0.6) % (cols + 10)));
 	const rows: Row[] = [];
 
@@ -304,8 +381,7 @@ export function seaFrame({ layout, tick, mode, ripples = [], rt = 0 }: FrameInpu
 		for (let c = 0; c < cols; c++) {
 			let ch = " ";
 			let col: ColorKey = "sky";
-			const swell = 0.9 * Math.sin(c * 0.08 - tick * 0.12) + 0.4 * Math.sin(c * 0.21 + tick * 0.07);
-			const surface = SEA_SURFACE + swell;
+			const surface = SEA_SURFACE + swellAt(c, tick);
 
 			if (r >= surface) {
 				const depth = (r - surface) / (SEA_ROWS - surface);
@@ -327,10 +403,9 @@ export function seaFrame({ layout, tick, mode, ripples = [], rt = 0 }: FrameInpu
 				}
 			}
 
-			const glyph = BOAT[r - boatRow]?.[c - boatX];
-			if (glyph != null && glyph !== " " && c >= boatX) {
-				ch = glyph;
-				col = "boat";
+			if (mask.has(r * cols + c)) {
+				ch = " ";
+				col = "sky";
 			}
 
 			if (mode === "day" && r === 1 && (c === gullX || c === gullX + 9)) {

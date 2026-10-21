@@ -11,6 +11,7 @@ import {
 	SEA_ROWS,
 	SHIP_ART,
 	seaFrame,
+	seaVessels,
 	shipMotion,
 	shipRows,
 	tapCell,
@@ -132,6 +133,44 @@ describe("seaFrame", () => {
 		expect(day.some((run) => run.c === "gull")).toBe(true);
 		expect(dusk.some((run) => run.c === "gull")).toBe(false);
 		expect(dusk.some((run) => run.c === "sky" && run.t.includes("·"))).toBe(true);
+	});
+});
+
+describe("seaVessels", () => {
+	it("sails three distinct vessels with their own speeds and directions", () => {
+		const a = seaVessels(DEFAULT_LAYOUT, 100);
+		const b = seaVessels(DEFAULT_LAYOUT, 101);
+		expect(a.map((v) => v.id)).toEqual(["sloop", "dinghy", "mini-ship"]);
+		const steps = a.map((v, i) => (b[i]?.x ?? 0) - v.x);
+		expect(steps[0]).toBeGreaterThan(0);
+		expect(steps[1]).toBeLessThan(0);
+		expect(new Set(steps.map((d) => Math.abs(d).toFixed(2))).size).toBe(3);
+	});
+
+	it("moves smoothly between ticks and keeps its keel at the surface", () => {
+		for (let t = 0; t < 400; t++) {
+			const now = seaVessels(DEFAULT_LAYOUT, t);
+			const next = seaVessels(DEFAULT_LAYOUT, t + 1);
+			now.forEach((v, i) => {
+				const n = next[i];
+				if (!n || Math.abs(n.x - v.x) > 3) return; // wrapped round
+				expect(Math.abs(n.y - v.y)).toBeLessThan(0.5);
+				expect(v.y + v.rows.length).toBeGreaterThan(3);
+				expect(v.y + v.rows.length).toBeLessThan(8);
+			});
+		}
+	});
+
+	it("keeps the sea from showing through a hull", () => {
+		const tick = 40;
+		const rows = seaFrame({ layout: DEFAULT_LAYOUT, tick, mode: "day" });
+		const sloop = seaVessels(DEFAULT_LAYOUT, tick).find((v) => v.id === "sloop");
+		if (!sloop) throw new Error("no sloop");
+		const keel = Math.round(sloop.y + sloop.rows.length - 1);
+		const c = Math.round(sloop.x) + 3;
+		if (c >= 0 && c < DEFAULT_LAYOUT.cols) {
+			expect(rowText(rows[keel] ?? [])[c]).toBe(" ");
+		}
 	});
 });
 
