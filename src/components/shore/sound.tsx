@@ -1,0 +1,171 @@
+"use client";
+
+import {
+	createContext,
+	type ReactNode,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
+import { useMotion } from "@/components/shore/motion";
+import { createPiano, type Piano } from "@/lib/shore/piano";
+import { playDrop, playHorn } from "@/lib/shore/sfx";
+import {
+	createSurf,
+	MUSIC_STORAGE_KEY,
+	parseStoredSound,
+	SOUND_STORAGE_KEY,
+	type Surf,
+} from "@/lib/shore/surf";
+
+type SoundValue = {
+	soundOn: boolean;
+	musicOn: boolean;
+	toggleSound: () => void;
+	toggleMusic: () => void;
+	/** A drop where the water was tapped; silent unless sound is on. */
+	drop: () => void;
+	/** The mini ship's horn; silent unless sound is on. */
+	horn: () => void;
+};
+
+const SoundContext = createContext<SoundValue>({
+	soundOn: false,
+	musicOn: false,
+	toggleSound: () => {},
+	toggleMusic: () => {},
+	drop: () => {},
+	horn: () => {},
+});
+
+function readStored(key: string): boolean {
+	try {
+		return parseStoredSound(window.localStorage.getItem(key));
+	} catch {
+		return false;
+	}
+}
+
+function writeStored(key: string, on: boolean): void {
+	try {
+		window.localStorage.setItem(key, on ? "on" : "off");
+	} catch {
+		// Private windows can refuse storage; the toggle still works for this visit.
+	}
+}
+
+type Engine = { ctx: AudioContext; effects: GainNode; surf: Surf; piano: Piano };
+
+/**
+ * The shore's sound and music, both off by default. Browsers let audio start
+ * only from a tap or key press, so a visitor who left either on hears it again
+ * from their first one. The surf falls quiet while the waves are paused.
+ */
+export function SoundProvider({ children }: { children: ReactNode }) {
+	const { paused } = useMotion();
+	const [soundOn, setSoundOn] = useState(false);
+	const [musicOn, setMusicOn] = useState(false);
+	const engineRef = useRef<Engine | null>(null);
+	const soundOnRef = useRef(soundOn);
+
+	useEffect(() => {
+		soundOnRef.current = soundOn;
+	}, [soundOn]);
+
+	useEffect(() => {
+		setSoundOn(readStored(SOUND_STORAGE_KEY));
+		setMusicOn(readStored(MUSIC_STORAGE_KEY));
+	}, []);
+
+	const engine = useCallback((): Engine | null => {
+		if (engineRef.current) return engineRef.current;
+		if (typeof window.AudioContext !== "function") return null;
+		const ctx = new AudioContext();
+		const effects = ctx.createGain();
+		effects.connect(ctx.destination);
+		engineRef.current = { ctx, effects, surf: createSurf(ctx), piano: createPiano(ctx) };
+		return engineRef.current;
+	}, []);
+
+	useEffect(() => {
+		const surfPlaying = soundOn && !paused;
+		const wanted = surfPlaying || musicOn;
+		if (!wanted && !engineRef.current) return;
+
+		const apply = () => {
+			const e = engine();
+			if (!e) return;
+			void e.ctx.resume();
+			e.surf.setPlaying(surfPlaying);
+			e.piano.setPlaying(musicOn);
+		};
+
+		apply();
+		if (!wanted || engineRef.current?.ctx.state === "running") return;
+
+		const events = ["pointerdown", "keydown"] as const;
+		const onGesture = () => {
+			apply();
+			for (const name of events) window.removeEventListener(name, onGesture);
+		};
+		for (const name of events) window.addEventListener(name, onGesture);
+		return () => {
+			for (const name of events) window.removeEventListener(name, onGesture);
+		};
+	}, [soundOn, musicOn, paused, engine]);
+
+	useEffect(
+		() => () => {
+			const e = engineRef.current;
+			if (!e) return;
+			e.surf.close();
+			e.piano.close();
+			void e.ctx.close();
+			engineRef.current = null;
+		},
+		[],
+	);
+
+	const toggleSound = useCallback(() => {
+		setSoundOn((was) => {
+			writeStored(SOUND_STORAGE_KEY, !was);
+			return !was;
+		});
+	}, []);
+
+	const toggleMusic = useCallback(() => {
+		setMusicOn((was) => {
+			writeStored(MUSIC_STORAGE_KEY, !was);
+			return !was;
+		});
+	}, []);
+
+	const play = useCallback(
+		(effect: (ctx: AudioContext, out: AudioNode) => void) => {
+			if (!soundOnRef.current) return;
+			const e = engine();
+			if (!e) return;
+			// A tap can be the gesture that wakes the audio, so play once it is awake.
+			if (e.ctx.state === "running") effect(e.ctx, e.effects);
+			else void e.ctx.resume().then(() => effect(e.ctx, e.effects));
+		},
+		[engine],
+	);
+
+	const drop = useCallback(() => play(playDrop), [play]);
+	const horn = useCallback(() => play(playHorn), [play]);
+
+	const value = useMemo(
+		() => ({ soundOn, musicOn, toggleSound, toggleMusic, drop, horn }),
+		[soundOn, musicOn, toggleSound, toggleMusic, drop, horn],
+	);
+
+	return <SoundContext.Provider value={value}>{children}</SoundContext.Provider>;
+}
+
+export function useSound(): SoundValue {
+	return useContext(SoundContext);
+}

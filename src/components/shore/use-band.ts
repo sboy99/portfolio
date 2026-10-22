@@ -2,6 +2,7 @@
 
 import { type MouseEvent, type RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { useClock } from "@/components/shore/motion";
+import { useSound } from "@/components/shore/sound";
 import { useTheme } from "@/hooks/use-theme";
 import {
 	type BandLayout,
@@ -25,7 +26,7 @@ type Band = {
 
 /**
  * Shared wiring for an ASCII band: measures its width into columns, follows
- * the theme, and turns taps into ripples. `padTop` is the band's top padding
+ * the theme, and turns taps into ripples with a drop of sound. `padTop` is the band's top padding
  * in pixels; `minRow` keeps ripples in the water.
  */
 export function useBand(padTop: number, minRow: number): Band {
@@ -34,6 +35,7 @@ export function useBand(padTop: number, minRow: number): Band {
 	const [ripples, setRipples] = useState<Ripple[]>([]);
 	const { mode } = useTheme();
 	const { rt, wake } = useClock();
+	const { drop } = useSound();
 
 	useEffect(() => {
 		const el = ref.current;
@@ -56,8 +58,9 @@ export function useBand(padTop: number, minRow: number): Band {
 				),
 			);
 			wake();
+			drop();
 		},
-		[minRow, padTop, rt, wake],
+		[minRow, padTop, rt, wake, drop],
 	);
 
 	return { ref, layout, mode: mode === "dark" ? "dusk" : "day", ripples, rt, onTap };

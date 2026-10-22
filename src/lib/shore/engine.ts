@@ -409,6 +409,26 @@ export function seaVessels(layout: BandLayout, tick: number): Vessel[] {
 	});
 }
 
+/**
+ * Whether the mini ship sounds its horn on this tick: once per crossing, at a
+ * point along its run picked afresh for each crossing, and only while it is in
+ * view. Phones have no mini ship, so no horn.
+ */
+export function shipHornAt(layout: BandLayout, tick: number): boolean {
+	const ship = VESSELS.find((v) => v.id === "mini-ship");
+	if (!ship || layout.cols < SMALL_COLS || tick < 1) return false;
+	const w = Math.max(...ship.art.map((line) => line.length));
+	const loop = layout.cols + w + 20;
+	const travelled = (t: number) => ship.start * loop + ship.speed * t;
+	const run = Math.floor(travelled(tick) / loop);
+	if (Math.floor(travelled(tick - 1) / loop) !== run) return false;
+	// Where along the visible run the horn sounds, 15% to 85% of the way across.
+	const at = (0.15 + 0.7 * hash01(run, 7)) * (layout.cols - w) + w + 10;
+	const prev = travelled(tick - 1) - run * loop;
+	const now = travelled(tick) - run * loop;
+	return prev < at && now >= at;
+}
+
 /** Cells hidden behind each vessel, so the sea never shows through a hull. */
 function vesselMask(vessels: Vessel[], cols: number): Set<number> {
 	const mask = new Set<number>();

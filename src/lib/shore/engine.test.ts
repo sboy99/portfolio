@@ -12,6 +12,7 @@ import {
 	SHIP_ART,
 	seaFrame,
 	seaVessels,
+	shipHornAt,
 	shipMotion,
 	shipRows,
 	tapCell,
@@ -201,6 +202,25 @@ describe("seaVessels", () => {
 		if (c >= 0 && c < DEFAULT_LAYOUT.cols) {
 			expect(rowText(rows[keel] ?? [])[c]).toBe(" ");
 		}
+	});
+});
+
+describe("shipHornAt", () => {
+	it("sounds once per crossing of the mini ship, at a different point each time", () => {
+		const loopTicks = Math.ceil((DEFAULT_LAYOUT.cols + 11 + 20) / 0.13);
+		const horns: number[] = [];
+		for (let t = 0; t < loopTicks * 3; t++) {
+			if (shipHornAt(DEFAULT_LAYOUT, t)) horns.push(t);
+		}
+		expect(horns.length).toBeGreaterThanOrEqual(2);
+		expect(horns.length).toBeLessThanOrEqual(4);
+		const gaps = horns.slice(1).map((t, i) => t - (horns[i] ?? 0));
+		expect(new Set(gaps).size).toBe(gaps.length);
+	});
+
+	it("stays silent on phones", () => {
+		const phone = bandLayout(390);
+		for (let t = 0; t < 4000; t++) expect(shipHornAt(phone, t)).toBe(false);
 	});
 });
 
