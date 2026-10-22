@@ -37,10 +37,10 @@ export function FooterSea() {
 				<AsciiRows rows={rows} />
 				{vessels.map((v) => (
 					<div
-						className="pointer-events-none absolute top-0 left-0 origin-bottom will-change-transform"
+						className="vessel pointer-events-none absolute top-0 left-0 origin-bottom will-change-transform"
 						key={v.id}
 						style={{
-							transform: `translate(${v.x * CHAR_W}px, ${v.y * ROW_H}px) rotate(${v.tilt}deg)`,
+							transform: `translate(${v.x * CHAR_W}px, ${v.y * ROW_H}px) rotate(${v.tilt}deg) scale(${v.scale})`,
 							transition: v.wrapped || paused ? "none" : "transform 140ms linear",
 						}}
 					>

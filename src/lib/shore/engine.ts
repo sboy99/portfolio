@@ -284,51 +284,93 @@ type VesselSpec = {
 	art: string[];
 	/** Columns per tick. */
 	speed: number;
-	/** 1 sails left to right, -1 right to left. */
+	/** 1 sails left to right, -1 right to left. Matches the way the art faces. */
 	dir: 1 | -1;
 	/** Where along its loop the vessel starts, 0 to 1. */
 	start: number;
 	/** Rows below the surface its keel sails at. */
 	lane: number;
+	/** How strongly it rides the swell; calmer further down the band. */
+	bob: number;
+	/** Drawn size; boats further off are smaller. */
+	scale: number;
 };
 
-// The mini ship has the surface to itself; the two small boats share a lower
-// lane at one speed, half a loop apart, so they never catch each other.
+// Listed back to front. The mini ship and the sloop both sail right and never
+// share rows, so the faster sloop passes below the ship; the smaller dinghy
+// sails left between them and slips behind the sloop when they cross.
 const VESSELS: VesselSpec[] = [
 	{
 		id: "mini-ship",
 		art: ["   |   |", "  )_)  )_)", " _|____|___", " \\_o__o__o/"],
 		speed: 0.13,
-		dir: -1,
+		dir: 1,
 		start: 0.62,
 		lane: 0,
+		bob: 1,
+		scale: 1,
 	},
-	{ id: "sloop", art: ["  |\\", "__|_\\_", "\\____/"], speed: 0.24, dir: 1, start: 0, lane: 5 },
-	{ id: "dinghy", art: [" /|", "/_|_", "\\___/"], speed: 0.24, dir: 1, start: 0.5, lane: 5 },
+	{
+		id: "dinghy",
+		art: [" /|", "/_|_", "\\___/"],
+		speed: 0.18,
+		dir: -1,
+		start: 0.3,
+		lane: 3.6,
+		bob: 0.4,
+		scale: 0.75,
+	},
+	{
+		id: "sloop",
+		art: ["  |\\", "__|_\\_", "\\____/"],
+		speed: 0.24,
+		dir: 1,
+		start: 0,
+		lane: 5.5,
+		bob: 0.4,
+		scale: 1,
+	},
 ];
 
 /** Phones sail one slow sloop on the surface. */
 const PHONE_FLEET: VesselSpec[] = [
-	{ id: "sloop", art: ["  |\\", "__|_\\_", "\\____/"], speed: 0.12, dir: 1, start: 0.2, lane: 0 },
+	{
+		id: "sloop",
+		art: ["  |\\", "__|_\\_", "\\____/"],
+		speed: 0.12,
+		dir: 1,
+		start: 0.2,
+		lane: 0,
+		bob: 1,
+		scale: 1,
+	},
 ];
 
 export type Vessel = {
 	id: string;
 	rows: Row[];
-	/** Left edge in columns and top edge in rows, both fractional for smooth motion. */
+	/** Left edge in columns and top edge in rows of the unscaled art, fractional for smooth motion. */
 	x: number;
 	y: number;
 	tilt: number;
+	/** Drawn size, scaled about the middle of the keel. */
+	scale: number;
 };
 
 function swellAt(c: number, tick: number): number {
 	return 0.9 * Math.sin(c * 0.08 - tick * 0.12) + 0.4 * Math.sin(c * 0.21 + tick * 0.07);
 }
 
+/** Spaces inside a hull or sail are coloured as boat, so the page can fill them and hide what sails behind. */
 function vesselRows(art: string[]): Row[] {
 	return art.map((line) => {
+		const first = line.search(/\S/);
+		const last = line.trimEnd().length - 1;
 		const runs: Row = [];
-		for (const ch of line) pushCell(runs, ch, ch === "o" ? "sun" : "boat");
+		[...line].forEach((ch, i) => {
+			const inside = i >= first && i <= last;
+			pushCell(runs, ch, ch === "o" ? "sun" : inside ? "boat" : "sky");
+		});
 		return runs;
 	});
 }
@@ -352,8 +394,7 @@ export function seaVessels(layout: BandLayout, tick: number): Vessel[] {
 		const p = (v.start * loop + v.speed * tick) % loop;
 		const x = v.dir > 0 ? p - w - 10 : cols + 10 - p;
 		const mid = x + w / 2;
-		// Deeper lanes ride a gentler swell, the way the far water looks calmer.
-		const lift = v.lane > 0 ? 0.5 : 1;
+		const lift = v.bob;
 		const surface = SEA_SURFACE + v.lane + lift * swellAt(mid, tick);
 		const slope = (lift * (swellAt(mid + 1, tick) - swellAt(mid - 1, tick))) / 2;
 		const tilt = Math.max(-3, Math.min(3, (Math.atan((slope * ROW_H) / CHAR_W) * 180) / Math.PI));
@@ -363,6 +404,7 @@ export function seaVessels(layout: BandLayout, tick: number): Vessel[] {
 			x,
 			y: surface + 0.9 - (v.art.length - 1),
 			tilt: Math.round(tilt * 10) / 10,
+			scale: v.scale,
 		};
 	});
 }
@@ -371,13 +413,19 @@ export function seaVessels(layout: BandLayout, tick: number): Vessel[] {
 function vesselMask(vessels: Vessel[], cols: number): Set<number> {
 	const mask = new Set<number>();
 	for (const v of vessels) {
+		const h = v.rows.length;
+		const w = Math.max(...v.rows.map((row) => rowText(row).length));
+		const s = v.scale;
 		v.rows.forEach((row, i) => {
 			const line = rowText(row);
 			const first = line.search(/\S/);
 			if (first < 0) return;
-			const r = Math.round(v.y + i);
-			const x0 = Math.round(v.x);
-			for (let c = x0 + first; c <= x0 + line.length - 1; c++) {
+			// Scaled about the middle of the keel, as the footer draws it.
+			const r = Math.round(v.y + h * (1 - s) + i * s);
+			const left = v.x + (w * (1 - s)) / 2;
+			const from = Math.round(left + first * s);
+			const to = Math.round(left + (line.trimEnd().length - 1) * s);
+			for (let c = from; c <= to; c++) {
 				if (c >= 0 && c < cols && r >= 0 && r < SEA_ROWS) mask.add(r * cols + c);
 			}
 		});
