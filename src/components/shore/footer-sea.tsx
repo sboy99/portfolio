@@ -4,9 +4,37 @@ import { useMemo } from "react";
 import { AsciiRows } from "@/components/shore/ascii-rows";
 import { useMotion } from "@/components/shore/motion";
 import { useBand } from "@/components/shore/use-band";
+import { useShoreSound } from "@/components/shore/use-shore-sound";
 import { CHAR_W, ROW_H, seaFrame, seaVessels } from "@/lib/shore/engine";
 
-/** The sea at the foot of every page, with the play/pause control for all motion. */
+const CONTROL =
+	"relative inline-flex size-9 cursor-pointer items-center justify-center rounded-full border border-line font-sans text-[12px] leading-none transition-colors duration-200 after:absolute after:-inset-1 hover:border-accent hover:text-accent";
+
+/** A small speaker, with sound waves when on and a cross when muted. */
+function SpeakerIcon({ on }: { on: boolean }) {
+	return (
+		<svg aria-hidden="true" fill="none" height="14" viewBox="0 0 16 16" width="14">
+			<path d="M2 6h2.5L8 3v10L4.5 10H2z" fill="currentColor" />
+			{on ? (
+				<path
+					d="M10.5 5.5a3.5 3.5 0 0 1 0 5M12.5 3.5a6.3 6.3 0 0 1 0 9"
+					stroke="currentColor"
+					strokeLinecap="round"
+					strokeWidth="1.3"
+				/>
+			) : (
+				<path
+					d="M10.5 6l4 4M14.5 6l-4 4"
+					stroke="currentColor"
+					strokeLinecap="round"
+					strokeWidth="1.3"
+				/>
+			)}
+		</svg>
+	);
+}
+
+/** The sea at the foot of every page, with the play/pause control for all motion and the shore sound toggle. */
 export function FooterSea() {
 	const { tick, paused, togglePaused } = useMotion();
 	const { ref, layout, mode, ripples, rt, onTap } = useBand(0, 5);
@@ -23,6 +51,7 @@ export function FooterSea() {
 			wrapped: Math.abs(v.x - (prev.get(v.id) ?? v.x)) > 3,
 		}));
 	}, [layout, tick]);
+	const { soundOn, toggleSound } = useShoreSound(paused);
 	const label = paused ? "Play waves" : "Pause waves";
 
 	return (
@@ -50,16 +79,28 @@ export function FooterSea() {
 			</div>
 			<div className="type-meta mx-auto flex w-full max-w-[960px] flex-wrap items-center justify-between gap-4 px-5 pt-[18px] pb-[22px] text-muted lg:px-0">
 				<span>© 2026 Sagar Bera · Bengaluru · set in Newsreader &amp; Geist Mono</span>
-				<button
-					aria-label={label}
-					className="relative inline-flex size-9 cursor-pointer items-center justify-center rounded-full border border-line font-sans text-[12px] leading-none transition-colors duration-200 after:absolute after:-inset-1 hover:border-accent hover:text-accent"
-					onClick={togglePaused}
-					style={{ textIndent: paused ? 2 : 0 }}
-					title={label}
-					type="button"
-				>
-					{paused ? "▶" : "❚❚"}
-				</button>
+				<div className="flex items-center gap-2">
+					<button
+						aria-label="Shore sound"
+						aria-pressed={soundOn}
+						className={CONTROL}
+						onClick={toggleSound}
+						title={soundOn ? "Mute the shore" : "Hear the shore"}
+						type="button"
+					>
+						<SpeakerIcon on={soundOn} />
+					</button>
+					<button
+						aria-label={label}
+						className={CONTROL}
+						onClick={togglePaused}
+						style={{ textIndent: paused ? 2 : 0 }}
+						title={label}
+						type="button"
+					>
+						{paused ? "▶" : "❚❚"}
+					</button>
+				</div>
 			</div>
 		</footer>
 	);
