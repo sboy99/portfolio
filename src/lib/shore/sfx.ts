@@ -59,22 +59,12 @@ function harbour(ctx: AudioContext, seconds: number): ConvolverNode {
 	return convolver;
 }
 
-/** A gentle saturation that gives the horn its brassy edge. */
-function brass(ctx: AudioContext): WaveShaperNode {
-	const curve = new Float32Array(1024);
-	for (let i = 0; i < curve.length; i++) {
-		const x = (i / (curve.length - 1)) * 2 - 1;
-		curve[i] = Math.tanh(2.2 * x) / Math.tanh(2.2);
-	}
-	const shaper = ctx.createWaveShaper();
-	shaper.curve = curve;
-	return shaper;
-}
-
 export type HornVoice = {
+	/** The chord the whistle sounds, in Hz; kept in the piano's key so the two never clash. */
+	notes: readonly number[];
 	/** Loudness of each blast. */
 	level: number;
-	/** Lowpass cutoff; lower sounds further away. */
+	/** Lowpass cutoff on the reedy edge; higher is clearer, nearer. */
 	tone: number;
 	/** Share of the sound that is echo off the water. */
 	wet: number;
@@ -82,84 +72,112 @@ export type HornVoice = {
 	blasts: readonly (readonly [number, number])[];
 };
 
-/** The mini ship far out: two blasts, softer and more distant. */
+/** The mini ship far out: two short, light toots of an F major chord. */
 export const FAR_HORN: HornVoice = {
-	level: 0.05,
-	tone: 700,
-	wet: 0.5,
+	notes: [349.2, 440, 523.3],
+	level: 0.06,
+	tone: 1600,
+	wet: 0.55,
 	blasts: [
-		[0, 1.1],
-		[1.6, 1.8],
+		[0, 0.55],
+		[0.85, 0.9],
 	],
 };
 
-/** The big ship in the header, close by: one long blast. */
-export const NEAR_HORN: HornVoice = { level: 0.08, tone: 1300, wet: 0.32, blasts: [[0, 2.2]] };
+/** The big ship in the header, close by: one fuller, lower call. */
+export const NEAR_HORN: HornVoice = {
+	notes: [174.6, 261.6, 349.2, 440],
+	level: 0.085,
+	tone: 2400,
+	wet: 0.35,
+	blasts: [[0, 1.4]],
+};
 
 /**
- * A ship's horn: a low, brassy fifth that sags up to pitch as the air comes
- * through, wavers slightly, then stops with the harbour ringing after it.
+ * A ship's whistle tuned to the shore: a soft chord with a clear, quick
+ * onset and a breath of air, that settles and fades into the harbour.
  */
 export function playHorn(ctx: AudioContext, out: AudioNode, voice: HornVoice): void {
 	const now = ctx.currentTime;
-	const end = Math.max(...voice.blasts.map(([start, length]) => start + length));
-
-	const shape = brass(ctx);
-	const body = ctx.createBiquadFilter();
-	body.type = "peaking";
-	body.frequency.value = 380;
-	body.Q.value = 1.1;
-	body.gain.value = 6;
-	const muffle = ctx.createBiquadFilter();
-	muffle.type = "lowpass";
-	muffle.frequency.value = voice.tone;
+	const end = Math.max(...voice.blasts.map(([start, length]) => start + length)) + 0.6;
 
 	const env = ctx.createGain();
 	env.gain.value = 0;
 	for (const [start, length] of voice.blasts) {
 		const t = now + start;
+		// A crisp start with a slight bloom above the held level, then a soft tail.
 		env.gain.setValueAtTime(0.0001, t);
-		env.gain.exponentialRampToValueAtTime(voice.level, t + 0.14);
-		env.gain.setValueAtTime(voice.level, t + length - 0.12);
-		env.gain.exponentialRampToValueAtTime(0.0001, t + length + 0.08);
+		env.gain.exponentialRampToValueAtTime(voice.level * 1.3, t + 0.05);
+		env.gain.exponentialRampToValueAtTime(voice.level, t + 0.25);
+		env.gain.setValueAtTime(voice.level, t + length - 0.1);
+		env.gain.exponentialRampToValueAtTime(0.0001, t + length + 0.35);
 	}
+
+	const edge = ctx.createBiquadFilter();
+	edge.type = "lowpass";
+	edge.frequency.value = voice.tone;
+	edge.Q.value = 0.7;
 
 	const dry = ctx.createGain();
 	dry.gain.value = 1 - voice.wet;
 	const wet = ctx.createGain();
 	wet.gain.value = voice.wet;
-	const room = harbour(ctx, 3);
+	const room = harbour(ctx, 2.5);
 
-	shape.connect(body).connect(muffle).connect(env);
+	edge.connect(env);
 	env.connect(dry).connect(out);
 	env.connect(room).connect(wet).connect(out);
 
 	const vibrato = ctx.createOscillator();
-	vibrato.frequency.value = 4.5;
+	vibrato.frequency.value = 5;
 	const vibratoDepth = ctx.createGain();
-	vibratoDepth.gain.value = 6;
+	vibratoDepth.gain.value = 4;
 	vibrato.connect(vibratoDepth);
 	vibrato.start(now);
-	vibrato.stop(now + end + 0.2);
+	vibrato.stop(now + end);
 
-	for (const [hz, type, level] of [
-		[87, "sawtooth", 0.5],
-		[130.5, "sawtooth", 0.35],
-		[43.5, "square", 0.2],
-	] as const) {
-		const osc = ctx.createOscillator();
-		osc.type = type;
-		osc.frequency.value = hz;
-		// Each blast starts a little flat and rises to pitch.
-		for (const [start] of voice.blasts) {
-			osc.detune.setValueAtTime(-60, now + start);
-			osc.detune.linearRampToValueAtTime(0, now + start + 0.18);
+	const share = 1 / voice.notes.length;
+	for (const hz of voice.notes) {
+		// A rounded triangle carries the note; a little filtered saw gives it a reedy edge.
+		for (const [type, level] of [
+			["triangle", 0.8],
+			["sawtooth", 0.2],
+		] as const) {
+			const osc = ctx.createOscillator();
+			osc.type = type;
+			osc.frequency.value = hz;
+			// Each blast starts a touch flat and slides up to pitch.
+			for (const [start] of voice.blasts) {
+				osc.detune.setValueAtTime(-25, now + start);
+				osc.detune.linearRampToValueAtTime(0, now + start + 0.1);
+			}
+			vibratoDepth.connect(osc.detune);
+			const g = ctx.createGain();
+			g.gain.value = level * share;
+			osc.connect(g).connect(edge);
+			osc.start(now);
+			osc.stop(now + end);
 		}
-		vibratoDepth.connect(osc.detune);
-		const g = ctx.createGain();
-		g.gain.value = level;
-		osc.connect(g).connect(shape);
-		osc.start(now);
-		osc.stop(now + end + 0.2);
 	}
+
+	breath(ctx, env, now, end);
+}
+
+/** The air through the whistle: a faint band of noise under the chord. */
+function breath(ctx: AudioContext, out: AudioNode, at: number, seconds: number): void {
+	const length = Math.floor(ctx.sampleRate * seconds);
+	const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+	const data = buffer.getChannelData(0);
+	for (let i = 0; i < length; i++) data[i] = Math.random() * 2 - 1;
+
+	const noise = ctx.createBufferSource();
+	noise.buffer = buffer;
+	const band = ctx.createBiquadFilter();
+	band.type = "bandpass";
+	band.frequency.value = 1100;
+	band.Q.value = 1.2;
+	const level = ctx.createGain();
+	level.gain.value = 0.06;
+	noise.connect(band).connect(level).connect(out);
+	noise.start(at);
 }
