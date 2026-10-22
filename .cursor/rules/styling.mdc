@@ -6,15 +6,18 @@ alwaysApply: false
 
 # Styling
 
-- Define colors, fonts, and radii as tokens in `src/styles/globals.css`.
+See `docs/design-system.md` for the full system.
+
+- Define colors, fonts, radii and motion as tokens in `src/styles/globals.css`.
 - Compose classes with `cn()` from `src/lib/cn`.
-- Use semantic utilities (`bg-background`, `text-muted-foreground`, `border-border`).
-- Do not introduce one-off hex values in components.
+- Use the Shoreline colour utilities (`bg-bg`, `text-body`, `text-muted`, `border-line`, `text-accent`), never hex values.
+- Use type roles for text (`type-display`, `type-title`, `type-lead`, `type-small`, `type-label`, `type-meta`) plus a color utility.
+- Use `WaveRule` instead of borders or `<hr>`, and `PageColumns` for page bodies with margin notes.
 
 ```tsx
 // BAD
-<div className="bg-[#0a0a0a] text-[#ededed]" />
+<p className="font-mono text-[11px] text-[#a1a1aa]" />
 
 // GOOD
-<div className={cn("bg-background text-foreground", className)} />
+<p className={cn("type-meta text-muted", className)} />
 ```

@@ -1,7 +1,8 @@
-import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
-import { PageGrid } from "@/components/layout/page-grid";
-import { SectionGap } from "@/components/layout/section-gap";
+import { FooterSea } from "@/components/shore/footer-sea";
+import { HorizonBand } from "@/components/shore/horizon-band";
+import { MotionProvider } from "@/components/shore/motion";
+import { SiteHeader } from "@/components/shore/site-header";
+import { SoundProvider } from "@/components/shore/sound";
 
 export default function SiteLayout({
 	children,
@@ -9,12 +10,17 @@ export default function SiteLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<PageGrid>
-			<Header />
-			<SectionGap />
-			<main className="flex-1">{children}</main>
-			<SectionGap />
-			<Footer />
-		</PageGrid>
+		<MotionProvider>
+			<SoundProvider>
+				<div className="flex min-h-full flex-1 flex-col overflow-x-clip">
+					<HorizonBand />
+					<div className="mx-auto w-full max-w-[960px] flex-1 px-5 lg:px-0">
+						<SiteHeader />
+						{children}
+					</div>
+					<FooterSea />
+				</div>
+			</SoundProvider>
+		</MotionProvider>
 	);
 }
