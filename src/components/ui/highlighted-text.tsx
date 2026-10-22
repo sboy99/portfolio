@@ -2,10 +2,12 @@ import { parseHighlightedText } from "@/lib/parse-highlighted-text";
 
 type HighlightedTextProps = {
 	text: string;
+	/** Classes for the marked figures. */
+	markClassName?: string;
 };
 
 /** Renders [[marked]] figures in the foreground colour so they stand out of body text. */
-export function HighlightedText({ text }: HighlightedTextProps) {
+export function HighlightedText({ text, markClassName = "text-fg" }: HighlightedTextProps) {
 	const segments = parseHighlightedText(text);
 	let offset = 0;
 
@@ -20,7 +22,7 @@ export function HighlightedText({ text }: HighlightedTextProps) {
 				}
 
 				return (
-					<span className="text-fg" key={key}>
+					<span className={markClassName} key={key}>
 						{segment.value}
 					</span>
 				);

@@ -13,6 +13,7 @@ export function toWorkItem(project: Project, href = projectHref(project)): WorkI
 		summary: project.summary,
 		note: project.note,
 		stack: project.stack.slice(0, 4).join(" · ").toLowerCase(),
+		highlights: project.highlights,
 		href,
 	};
 }

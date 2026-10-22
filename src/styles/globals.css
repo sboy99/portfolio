@@ -232,3 +232,250 @@ html[data-theme="dark"] {
 		color: var(--line-strong);
 	}
 }
+
+/* Highlights toggle: the boat lowers its anchor to the bottom of the panel and reels it back up. */
+.anchor-fold {
+	transition: grid-template-rows 520ms var(--ease-tide);
+}
+.anchor-panel {
+	transition:
+		opacity 360ms,
+		transform 360ms;
+}
+.anchor-boat {
+	transform-origin: 50% 90%;
+}
+.anchor-drop {
+	position: absolute;
+	top: 29px;
+	bottom: 0;
+	left: 0;
+	width: 24px;
+	pointer-events: none;
+}
+.anchor-rope {
+	position: absolute;
+	top: 0;
+	left: 11.5px;
+	width: 0;
+	height: 3px;
+	border-left: 1px dashed currentColor;
+}
+.anchor-hook {
+	position: absolute;
+	top: 1px;
+	left: 5px;
+	transform-origin: 50% 0;
+}
+.anchor-splash {
+	position: absolute;
+	top: 25px;
+	left: 0;
+	font-size: 11px;
+	line-height: 11px;
+	letter-spacing: 3px;
+	white-space: pre;
+	opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+	.anchor-box button:hover .anchor-boat {
+		animation: anchor-bob 1400ms ease-in-out infinite;
+	}
+	.anchor-box.is-down .anchor-hook {
+		animation: anchor-drop 1400ms linear both;
+	}
+	.anchor-box.is-down .anchor-rope {
+		animation: anchor-rope-out 1400ms linear both;
+	}
+	.anchor-box.is-down button .anchor-boat {
+		animation: anchor-boat-release 1200ms ease-out both;
+	}
+	.anchor-box.is-down .anchor-splash {
+		animation: anchor-splash 1400ms ease-out both;
+	}
+	.anchor-box.is-up .anchor-hook {
+		animation: anchor-reel 900ms linear both;
+	}
+	.anchor-box.is-up .anchor-rope {
+		animation: anchor-rope-in 900ms linear both;
+	}
+	.anchor-box.is-up button .anchor-boat {
+		animation: anchor-boat-dock 900ms ease-out both;
+	}
+}
+/* Falls fast through the air, drifts slowly once it is under water, then the rope settles. */
+@keyframes anchor-drop {
+	0% {
+		top: 1px;
+		transform: rotate(0);
+		animation-timing-function: ease-out;
+	}
+	8% {
+		top: -1px;
+		transform: rotate(-10deg);
+		animation-timing-function: ease-in;
+	}
+	24% {
+		top: 28px;
+		transform: rotate(9deg);
+		animation-timing-function: cubic-bezier(0.2, 0.5, 0.3, 1);
+	}
+	50% {
+		transform: rotate(-5deg);
+	}
+	70% {
+		transform: rotate(3deg);
+	}
+	86% {
+		top: calc(100% - 18px);
+		transform: rotate(-2deg);
+	}
+	93% {
+		top: calc(100% - 16px);
+	}
+	100% {
+		top: calc(100% - 18px);
+		transform: rotate(0);
+	}
+}
+@keyframes anchor-rope-out {
+	0% {
+		height: 3px;
+		animation-timing-function: ease-out;
+	}
+	8% {
+		height: 1px;
+		animation-timing-function: ease-in;
+	}
+	24% {
+		height: 30px;
+		animation-timing-function: cubic-bezier(0.2, 0.5, 0.3, 1);
+	}
+	86% {
+		height: calc(100% - 16px);
+	}
+	93% {
+		height: calc(100% - 14px);
+	}
+	100% {
+		height: calc(100% - 16px);
+	}
+}
+@keyframes anchor-boat-release {
+	0% {
+		transform: none;
+	}
+	8% {
+		transform: translateY(-1px) rotate(-7deg);
+	}
+	22% {
+		transform: rotate(5deg);
+	}
+	36% {
+		transform: translateY(1.5px) rotate(-3deg);
+	}
+	60% {
+		transform: rotate(1.5deg);
+	}
+	100% {
+		transform: none;
+	}
+}
+@keyframes anchor-reel {
+	0% {
+		top: calc(100% - 18px);
+		transform: rotate(0);
+		animation-timing-function: ease-in;
+	}
+	15% {
+		top: calc(100% - 22px);
+		transform: rotate(-5deg);
+		animation-timing-function: ease-in-out;
+	}
+	84% {
+		top: -2px;
+		transform: rotate(7deg);
+		animation-timing-function: ease-out;
+	}
+	93% {
+		top: 2px;
+		transform: rotate(-3deg);
+	}
+	100% {
+		top: 1px;
+		transform: rotate(0);
+	}
+}
+@keyframes anchor-rope-in {
+	0% {
+		height: calc(100% - 16px);
+		animation-timing-function: ease-in;
+	}
+	15% {
+		height: calc(100% - 20px);
+		animation-timing-function: ease-in-out;
+	}
+	84% {
+		height: 0;
+	}
+	93% {
+		height: 4px;
+	}
+	100% {
+		height: 3px;
+	}
+}
+@keyframes anchor-boat-dock {
+	0%,
+	76% {
+		transform: none;
+	}
+	86% {
+		transform: translateY(1px) rotate(-4deg);
+	}
+	95% {
+		transform: rotate(2deg);
+	}
+	100% {
+		transform: none;
+	}
+}
+@keyframes anchor-bob {
+	0%,
+	100% {
+		transform: rotate(0);
+	}
+	50% {
+		transform: translateY(-1px) rotate(-4deg);
+	}
+}
+@keyframes anchor-splash {
+	0%,
+	20% {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+	27% {
+		opacity: 1;
+	}
+	55% {
+		opacity: 0;
+		transform: translateY(-7px);
+		letter-spacing: 7px;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.anchor-box.is-down .anchor-hook {
+		top: calc(100% - 18px);
+	}
+	.anchor-box.is-down .anchor-rope {
+		height: calc(100% - 16px);
+	}
+	.anchor-fold,
+	.anchor-panel {
+		transition: none;
+	}
+}

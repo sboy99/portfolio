@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AnchorHighlights } from "@/components/shore/anchor-highlights";
 import { WaveRule } from "@/components/shore/wave-rule";
 
 export type WorkItem = {
@@ -8,6 +9,8 @@ export type WorkItem = {
 	summary: string;
 	note?: string;
 	stack?: string;
+	/** Lines with [[marked]] figures, opened from the anchor toggle. */
+	highlights?: string[];
 	href?: string;
 };
 
@@ -61,6 +64,9 @@ export function WorkList({ items }: { items: WorkItem[] }) {
 						</p>
 						{item.stack ? (
 							<p className="mt-1.5 font-mono text-[12px] text-muted">{item.stack}</p>
+						) : null}
+						{item.highlights?.length ? (
+							<AnchorHighlights highlights={item.highlights} seed={i + 20} slug={item.slug} />
 						) : null}
 					</div>
 				</li>
