@@ -313,7 +313,8 @@ const VESSELS: VesselSpec[] = [
 	{
 		id: "dinghy",
 		art: [" /|", "/_|_", "\\___/"],
-		speed: 0.18,
+		// Sails against the current, so it makes slow headway.
+		speed: 0.09,
 		dir: -1,
 		start: 0.3,
 		lane: 3.6,

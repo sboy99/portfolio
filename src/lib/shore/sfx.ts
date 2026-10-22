@@ -61,7 +61,7 @@ export type HornVoice = {
 };
 
 /** The mini ship far out: two blasts, softer and further off. */
-export const FAR_HORN: HornVoice = { level: 0.09, tone: 900, rate: 0.96, starts: [0, 3] };
+export const FAR_HORN: HornVoice = { level: 0.14, tone: 1500, rate: 0.97, starts: [0, 3.4] };
 
 /** The big ship in the header, close by: one full blast. */
 export const NEAR_HORN: HornVoice = { level: 0.17, tone: 6000, rate: 1, starts: [0] };
