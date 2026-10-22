@@ -47,7 +47,7 @@ function splash(ctx: AudioContext, out: AudioNode, at: number): void {
 }
 
 /** The recorded foghorn, cleaned and trimmed; see public/sounds. */
-export const HORN_URL = "/sounds/foghorn.mp3";
+export const HORN_URL = "/sounds/foghorn.wav";
 
 export type HornVoice = {
 	/** Loudness of each blast. */
