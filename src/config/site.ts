@@ -8,7 +8,7 @@ export const siteConfig = {
 		url: "/og-image.png",
 		width: 1200,
 		height: 630,
-		alt: "SBOY99 — Backend & DevOps",
+		alt: "Sagar Bera, backend and DevOps engineer, with an ASCII ship on the waves",
 	},
 	email: "contact.sagarbera@gmail.com",
 	links: {
