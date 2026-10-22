@@ -31,7 +31,7 @@
 		"image": null
 	},
 	{
-		"slug": "brands-scribbledao",
+		"slug": "brands-scribble",
 		"title": "Scribble Brands",
 		"summary": "AI visibility platform that tracks how ChatGPT, Gemini, Perplexity, Copilot, and Grok cite a brand, then helps it get cited more.",
 		"note": "RocketX went from 2% to 20% citation share.",
@@ -61,7 +61,7 @@
 		"image": null
 	},
 	{
-		"slug": "creators-scribbledao",
+		"slug": "creators-scribble",
 		"title": "Scribble Creators",
 		"summary": "Campaign platform where creators write for brands and get paid.",
 		"note": "$500K+ paid out.",
@@ -101,7 +101,7 @@
 		"image": null
 	},
 	{
-		"slug": "faucet-scribbledao",
+		"slug": "faucet-scribble",
 		"title": "Faucet",
 		"summary": "Service that sends crypto payouts to creators and test tokens to wallets across Base, Monad, and Sepolia.",
 		"highlights": [
@@ -120,7 +120,7 @@
 		"image": null
 	},
 	{
-		"slug": "hermes-scribbledao",
+		"slug": "hermes-scribble",
 		"title": "Hermes",
 		"summary": "Internal notification microservice for branded Email, Discord, and Twitter messages.",
 		"highlights": [
