@@ -288,18 +288,28 @@ type VesselSpec = {
 	dir: 1 | -1;
 	/** Where along its loop the vessel starts, 0 to 1. */
 	start: number;
+	/** Rows below the surface its keel sails at. */
+	lane: number;
 };
 
+// The mini ship has the surface to itself; the two small boats share a lower
+// lane at one speed, half a loop apart, so they never catch each other.
 const VESSELS: VesselSpec[] = [
-	{ id: "sloop", art: ["  |\\", "__|_\\_", "\\____/"], speed: 0.35, dir: 1, start: 0 },
-	{ id: "dinghy", art: [" /|", "/_|_", "\\___/"], speed: 0.21, dir: -1, start: 0.35 },
 	{
 		id: "mini-ship",
 		art: ["   |   |", "  )_)  )_)", " _|____|___", " \\_o__o__o/"],
 		speed: 0.13,
-		dir: 1,
+		dir: -1,
 		start: 0.62,
+		lane: 0,
 	},
+	{ id: "sloop", art: ["  |\\", "__|_\\_", "\\____/"], speed: 0.24, dir: 1, start: 0, lane: 5 },
+	{ id: "dinghy", art: [" /|", "/_|_", "\\___/"], speed: 0.24, dir: 1, start: 0.5, lane: 5 },
+];
+
+/** Phones sail one slow sloop on the surface. */
+const PHONE_FLEET: VesselSpec[] = [
+	{ id: "sloop", art: ["  |\\", "__|_\\_", "\\____/"], speed: 0.12, dir: 1, start: 0.2, lane: 0 },
 ];
 
 export type Vessel = {
@@ -323,22 +333,29 @@ function vesselRows(art: string[]): Row[] {
 	});
 }
 
-const VESSEL_ROWS = new Map(VESSELS.map((v) => [v.id, vesselRows(v.art)]));
+/** Columns of a band narrower than the 640px phone breakpoint. */
+const SMALL_COLS = Math.ceil(640 / CHAR_W) + 1;
+
+const VESSEL_ROWS = new Map([...VESSELS, ...PHONE_FLEET].map((v) => [v.id, vesselRows(v.art)]));
 
 /**
  * Boats on the footer sea. Each runs its own loop at its own speed and
- * direction, riding the swell under its middle with its keel in the water.
+ * direction in its own lane, riding the swell under its middle with its keel
+ * in the water. Phones get a single slow boat.
  */
 export function seaVessels(layout: BandLayout, tick: number): Vessel[] {
 	const { cols } = layout;
-	return VESSELS.map((v) => {
+	const fleet = cols < SMALL_COLS ? PHONE_FLEET : VESSELS;
+	return fleet.map((v) => {
 		const w = Math.max(...v.art.map((line) => line.length));
 		const loop = cols + w + 20;
 		const p = (v.start * loop + v.speed * tick) % loop;
 		const x = v.dir > 0 ? p - w - 10 : cols + 10 - p;
 		const mid = x + w / 2;
-		const surface = SEA_SURFACE + swellAt(mid, tick);
-		const slope = (swellAt(mid + 1, tick) - swellAt(mid - 1, tick)) / 2;
+		// Deeper lanes ride a gentler swell, the way the far water looks calmer.
+		const lift = v.lane > 0 ? 0.5 : 1;
+		const surface = SEA_SURFACE + v.lane + lift * swellAt(mid, tick);
+		const slope = (lift * (swellAt(mid + 1, tick) - swellAt(mid - 1, tick))) / 2;
 		const tilt = Math.max(-3, Math.min(3, (Math.atan((slope * ROW_H) / CHAR_W) * 180) / Math.PI));
 		return {
 			id: v.id,

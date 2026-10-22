@@ -15,6 +15,7 @@ import {
 	shipMotion,
 	shipRows,
 	tapCell,
+	type Vessel,
 	wakeLine,
 } from "./engine";
 
@@ -137,14 +138,38 @@ describe("seaFrame", () => {
 });
 
 describe("seaVessels", () => {
-	it("sails three distinct vessels with their own speeds and directions", () => {
+	it("sails a mini ship on the surface and two boats in a lower lane, the other way", () => {
 		const a = seaVessels(DEFAULT_LAYOUT, 100);
 		const b = seaVessels(DEFAULT_LAYOUT, 101);
-		expect(a.map((v) => v.id)).toEqual(["sloop", "dinghy", "mini-ship"]);
+		expect(a.map((v) => v.id)).toEqual(["mini-ship", "sloop", "dinghy"]);
 		const steps = a.map((v, i) => (b[i]?.x ?? 0) - v.x);
-		expect(steps[0]).toBeGreaterThan(0);
-		expect(steps[1]).toBeLessThan(0);
-		expect(new Set(steps.map((d) => Math.abs(d).toFixed(2))).size).toBe(3);
+		expect(steps[0]).toBeLessThan(0);
+		expect(steps[1]).toBeGreaterThan(0);
+		expect(steps[2]).toBeGreaterThan(0);
+		expect((a[1]?.y ?? 0) - (a[0]?.y ?? 0)).toBeGreaterThan(3);
+	});
+
+	it("sails one slow sloop on a phone-width sea", () => {
+		const [one] = seaVessels(bandLayout(390), 100);
+		const [next] = seaVessels(bandLayout(390), 101);
+		expect(seaVessels(bandLayout(390), 100).map((v) => v.id)).toEqual(["sloop"]);
+		expect((next?.x ?? 0) - (one?.x ?? 0)).toBeLessThan(0.2);
+		expect(seaVessels(bandLayout(639), 100)).toHaveLength(1);
+		expect(seaVessels(bandLayout(640), 100)).toHaveLength(3);
+	});
+
+	it("never lets two boats cover the same cells", () => {
+		const width = (v: Vessel) => Math.max(...v.rows.map((row) => rowText(row).length));
+		const overlaps = (p: Vessel, q: Vessel) =>
+			p.x < q.x + width(q) &&
+			q.x < p.x + width(p) &&
+			p.y < q.y + q.rows.length &&
+			q.y < p.y + p.rows.length;
+		for (let t = 0; t < 2000; t += 3) {
+			const now = seaVessels(DEFAULT_LAYOUT, t);
+			const clash = now.some((p, i) => now.slice(i + 1).some((q) => overlaps(p, q)));
+			expect(clash).toBe(false);
+		}
 	});
 
 	it("moves smoothly between ticks and keeps its keel at the surface", () => {
@@ -155,8 +180,8 @@ describe("seaVessels", () => {
 				const n = next[i];
 				if (!n || Math.abs(n.x - v.x) > 3) return; // wrapped round
 				expect(Math.abs(n.y - v.y)).toBeLessThan(0.5);
-				expect(v.y + v.rows.length).toBeGreaterThan(3);
-				expect(v.y + v.rows.length).toBeLessThan(8);
+				expect(v.y).toBeGreaterThan(0);
+				expect(v.y + v.rows.length).toBeLessThan(SEA_ROWS);
 			});
 		}
 	});
