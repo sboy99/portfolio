@@ -97,7 +97,13 @@ export function FooterSea() {
 							transition: v.wrapped || paused ? "none" : "transform 140ms linear",
 						}}
 					>
-						<AsciiRows rows={v.rows} />
+						{/* The hull's fill sits under every glyph, so no row's fill clips the underscores of the row above. */}
+						<div className="vessel-fill">
+							<AsciiRows rows={v.rows} />
+						</div>
+						<div className="absolute inset-0">
+							<AsciiRows rows={v.rows} />
+						</div>
 					</div>
 				))}
 			</div>

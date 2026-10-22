@@ -224,8 +224,11 @@ html[data-theme="dark"] {
 		color: var(--boat);
 	}
 	/* A boat in front hides the one sailing behind it. */
-	.vessel [data-c="boat"],
-	.vessel [data-c="sun"] {
+	.vessel-fill [data-c] {
+		color: transparent;
+	}
+	.vessel-fill [data-c="boat"],
+	.vessel-fill [data-c="sun"] {
 		background: var(--bg);
 	}
 	[data-c="gull"] {
