@@ -3,7 +3,7 @@
 		"slug": "kili-ai",
 		"title": "Kili AI",
 		"summary": "Ad marketplace that earns developers back their inference costs by showing ads while an AI agent is 'thinking'.",
-		"note": "250+ daily active users.",
+		"note": "30,134 ads shown, $601 in ad spend.",
 		"highlights": [
 			"Developers keep [[50%]] of net ad revenue, paid in stablecoins or through Stripe",
 			"Intent-matched ads shown only during natural wait states, never over the work",
@@ -34,9 +34,9 @@
 		"slug": "brands-scribble",
 		"title": "Scribble Brands",
 		"summary": "AI visibility platform that tracks how ChatGPT, Gemini, Perplexity, Copilot, and Grok cite a brand, then helps it get cited more.",
-		"note": "RocketX went from 2% to 20% citation share.",
+		"note": "'Seasons' went from 2% to 20% citation share.",
 		"highlights": [
-			"RocketX grew AI citation share from [[2% to 20%]] across 25 priority queries in 3 months",
+			"Seasons grew AI citation share from [[2% to 20%]] across 25 priority queries in 3 months",
 			"Audit, create, amplify: citation tracking, competitor benchmarks, and a content hub in one dashboard",
 			"Creator bounties to [[50,000+]] creators, paid only when AI cites them; [[6,000+]] pieces cited"
 		],
