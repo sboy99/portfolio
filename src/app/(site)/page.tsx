@@ -2,9 +2,25 @@ import Link from "next/link";
 import { PageColumns } from "@/components/shore/page-columns";
 import { Mark, Sagar, SectionHead } from "@/components/shore/prose";
 import { WorkList } from "@/components/shore/work-list";
+import { siteConfig } from "@/config/site";
 import { toWorkItem } from "@/features/projects/lib/to-work-item";
 import { sortProjectsByYearDesc } from "@/lib/resume-order";
 import { getProjectRepository } from "@/server/repositories";
+
+/** Tells search engines who the site is about, for richer results on a name search. */
+const PERSON_JSON_LD = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: siteConfig.name,
+	url: siteConfig.url,
+	image: `${siteConfig.url}/avatar.png`,
+	jobTitle: "Backend & DevOps Engineer",
+	worksFor: { "@type": "Organization", name: "Scribble Network" },
+	address: { "@type": "PostalAddress", addressLocality: "Bengaluru", addressCountry: "IN" },
+	email: `mailto:${siteConfig.email}`,
+	sameAs: Object.values(siteConfig.links),
+	knowsAbout: ["NestJS", "PostgreSQL", "Docker", "CI/CD", "GCP", "AWS", "Go"],
+};
 
 export default async function HomePage() {
 	const projects = getProjectRepository();
@@ -32,6 +48,11 @@ export default async function HomePage() {
 				},
 			]}
 		>
+			<script
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD built from site config
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSON_LD) }}
+				type="application/ld+json"
+			/>
 			<h1 className="type-display">
 				Hi, I'm Sagar.
 				<Mark large n="1" /> I look after the parts of a product that live{" "}

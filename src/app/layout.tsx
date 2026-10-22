@@ -1,5 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Newsreader, Noto_Serif_Bengali } from "next/font/google";
 import { ThemeProvider } from "@/components/common/theme-provider";
 import { themeInitScript } from "@/components/common/theme-script";
@@ -34,6 +34,10 @@ export const metadata: Metadata = {
 		template: `%s · ${siteConfig.name}`,
 	},
 	description: siteConfig.description,
+	keywords: [...siteConfig.keywords],
+	authors: [{ name: siteConfig.name, url: siteConfig.url }],
+	creator: siteConfig.name,
+	alternates: { canonical: "/" },
 	icons: {
 		icon: [
 			{ url: "/favicon.ico", sizes: "48x48" },
@@ -52,6 +56,7 @@ export const metadata: Metadata = {
 		description: siteConfig.description,
 		url: siteConfig.url,
 		siteName: siteConfig.name,
+		locale: "en_US",
 		images: [siteConfig.ogImage],
 		type: "website",
 	},
@@ -59,8 +64,17 @@ export const metadata: Metadata = {
 		card: "summary_large_image",
 		title: siteConfig.title,
 		description: siteConfig.description,
+		creator: siteConfig.twitterHandle,
 		images: [siteConfig.ogImage],
 	},
+};
+
+/** The browser chrome takes the Shoreline paper by day and the dusk sea at night. */
+export const viewport: Viewport = {
+	themeColor: [
+		{ media: "(prefers-color-scheme: light)", color: "#f4f1ea" },
+		{ media: "(prefers-color-scheme: dark)", color: "#0e1a24" },
+	],
 };
 
 export default function RootLayout({

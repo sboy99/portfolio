@@ -1,5 +1,7 @@
 {
 	"name": "Sagar Bera",
+	"description": "Backend and DevOps engineer in Bengaluru.",
+	"start_url": "/",
 	"short_name": "Sagar",
 	"icons": [
 		{
@@ -15,7 +17,7 @@
 			"purpose": "maskable"
 		}
 	],
-	"theme_color": "#000000",
-	"background_color": "#000000",
+	"theme_color": "#f4f1ea",
+	"background_color": "#f4f1ea",
 	"display": "standalone"
 }

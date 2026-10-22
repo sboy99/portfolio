@@ -4,13 +4,16 @@ import { Mark } from "@/components/shore/prose";
 import { ProjectBrowser, type ProjectGroup } from "@/features/projects/components/project-browser";
 import { toWorkItem } from "@/features/projects/lib/to-work-item";
 import { sortProjectsByYearDesc } from "@/lib/resume-order";
+import { pageMetadata } from "@/lib/seo";
 import type { Project } from "@/schemas/project";
 import { getProjectRepository } from "@/server/repositories";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
 	title: "Projects",
-	description: "From Kili and Scribble to the CLIs and services underneath.",
-};
+	description:
+		"Things Sagar Bera has built, from Kili and Scribble to the Go CLIs and backend services underneath.",
+	path: "/projects",
+});
 
 function groupOf(project: Project): ProjectGroup {
 	if (project.origin === "Self") return "personal";

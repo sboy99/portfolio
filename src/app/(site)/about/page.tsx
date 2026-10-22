@@ -3,11 +3,14 @@ import type { ReactNode } from "react";
 import { PageColumns } from "@/components/shore/page-columns";
 import { Mark, Sagar, SectionHead } from "@/components/shore/prose";
 import { siteConfig } from "@/config/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
 	title: "About",
-	description: "Background, experience, and the stack I work with.",
-};
+	description:
+		"About Sagar Bera: background, experience and the everyday stack, from NestJS and PostgreSQL to Docker, CI/CD and GCP.",
+	path: "/about",
+});
 
 function Para({ children, first = false }: { children: ReactNode; first?: boolean }) {
 	return (

@@ -7,12 +7,15 @@ import { siteConfig } from "@/config/site";
 import { ResumeSection } from "@/features/resume/components/resume-section";
 import { formatDate } from "@/lib/format-date";
 import { sortExperienceDesc } from "@/lib/resume-order";
+import { pageMetadata } from "@/lib/seo";
 import { getProfileRepository } from "@/server/repositories";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
 	title: "Resume",
-	description: "Professional resume for Sagar Bera — backend and DevOps engineer.",
-};
+	description:
+		"Résumé of Sagar Bera, backend and DevOps engineer: first backend hire at Scribble Network, NestJS, PostgreSQL, Docker, CI/CD, AWS and GCP.",
+	path: "/resume",
+});
 
 function span(start: string, end: string | null): string {
 	return `${formatDate(start)} → ${end == null ? "now" : formatDate(end)}`;
