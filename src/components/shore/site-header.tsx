@@ -11,7 +11,7 @@ export function SiteHeader() {
 	return (
 		<header className="flex flex-wrap items-center justify-between gap-3 pt-7">
 			<Link className="text-[22px] italic no-underline" href="/">
-				sagar
+				~sagar~
 			</Link>
 			<nav
 				aria-label="Primary"
