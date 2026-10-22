@@ -50,10 +50,7 @@ export function ProjectBrowser({ items }: ProjectBrowserProps) {
 			<h2 aria-live="polite" className="type-label mt-9 text-muted">
 				{heading} · {shown.length}
 			</h2>
-			<WaveRule
-				className="mt-4 text-line-strong transition-colors duration-[220ms]"
-				seeds={[4, 5.85]}
-			/>
+			<WaveRule className="mt-4 text-line-strong" seeds={[4, 5.85]} />
 			<WorkList items={shown} />
 		</>
 	);

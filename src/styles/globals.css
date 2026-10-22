@@ -156,8 +156,11 @@ html[data-theme="dark"] {
 	user-select: none;
 }
 
-/* The wave right above a work list lights with its first item, like the waves between items. */
-.wave:has(+ ol > li:first-child:hover) {
+/* The lower line of the wave right above a work list lights with its first item, like the waves between items. */
+.wave:has(+ ol) > div:last-child {
+	transition: color 220ms;
+}
+.wave:has(+ ol > li:first-child:hover) > div:last-child {
 	color: var(--accent);
 }
 
