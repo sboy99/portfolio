@@ -7,7 +7,13 @@ import { cn } from "@/lib/cn";
 const BOAT = [" |\\", "_|_\\", "\\__/"];
 
 /** A double wave with a small boat bobbing on it, drifting a little back and forth. */
-export function BoatWave({ seeds, className }: { seeds: readonly number[]; className?: string }) {
+type BoatWaveProps = {
+	seeds: readonly number[];
+	length?: number;
+	className?: string;
+};
+
+export function BoatWave({ seeds, length, className }: BoatWaveProps) {
 	const { tick } = useMotion();
 	const drift = 62 + 6 * Math.sin(tick * 0.015);
 	const bob = 1.5 * Math.sin(tick * 0.22);
@@ -15,7 +21,7 @@ export function BoatWave({ seeds, className }: { seeds: readonly number[]; class
 
 	return (
 		<div aria-hidden="true" className={cn("relative pt-[28px]", className)}>
-			<WaveRule seeds={seeds} />
+			<WaveRule length={length} seeds={seeds} />
 			<div
 				className="wave absolute top-0 bg-bg px-[2px]"
 				style={{

@@ -1,6 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
 import { BoatWave } from "@/components/shore/boat-wave";
-import { WaveRule } from "@/components/shore/wave-rule";
 import { siteConfig } from "@/config/site";
 
 export type MarginNote = {
@@ -41,7 +40,7 @@ export function PageColumns({ children, notes }: { children: ReactNode; notes: M
 					</p>
 				))}
 				<div className="mt-2.5 lg:mt-[60px]">
-					<WaveRule
+					<BoatWave
 						className="mb-3 hidden text-line-strong lg:block"
 						length={30}
 						seeds={[7, 8.85]}
