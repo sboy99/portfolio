@@ -12,7 +12,7 @@ import {
 } from "react";
 import { useMotion } from "@/components/shore/motion";
 import { createPiano, type Piano } from "@/lib/shore/piano";
-import { FAR_HORN, NEAR_HORN, playDrop, playHorn } from "@/lib/shore/sfx";
+import { FAR_HORN, type HornVoice, loadHorn, NEAR_HORN, playDrop, playHorn } from "@/lib/shore/sfx";
 import {
 	createSurf,
 	MUSIC_STORAGE_KEY,
@@ -63,7 +63,14 @@ function writeStored(key: string, on: boolean): void {
 	}
 }
 
-type Engine = { ctx: AudioContext; effects: GainNode; surf: Surf; piano: Piano };
+type Engine = {
+	ctx: AudioContext;
+	effects: GainNode;
+	surf: Surf;
+	piano: Piano;
+	/** The foghorn recording, fetched the first time a ship sounds. */
+	horn?: Promise<AudioBuffer>;
+};
 
 /**
  * The shore's sound and music, both off by default. Browsers let audio start
@@ -162,15 +169,31 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 	);
 
 	const drop = useCallback(() => play(playDrop), [play]);
-	const horn = useCallback(() => play((ctx, out) => playHorn(ctx, out, FAR_HORN)), [play]);
+	const sound = useCallback(
+		(voice: HornVoice) =>
+			play((ctx, out) => {
+				const e = engineRef.current;
+				if (!e) return;
+				e.horn ??= loadHorn(ctx);
+				e.horn.then(
+					(buffer) => playHorn(ctx, out, buffer, voice),
+					() => {
+						// A failed fetch stays silent, and the next ship tries again.
+						e.horn = undefined;
+					},
+				);
+			}),
+		[play],
+	);
+	const horn = useCallback(() => sound(FAR_HORN), [sound]);
 	const lastBigHornRef = useRef(0);
 	const bigHorn = useCallback(() => {
 		if (!soundOnRef.current) return;
 		const now = Date.now();
 		if (now - lastBigHornRef.current < BIG_HORN_COOLDOWN_MS) return;
 		lastBigHornRef.current = now;
-		play((ctx, out) => playHorn(ctx, out, NEAR_HORN));
-	}, [play]);
+		sound(NEAR_HORN);
+	}, [sound]);
 
 	const value = useMemo(
 		() => ({ soundOn, musicOn, toggleSound, toggleMusic, drop, horn, bigHorn }),
