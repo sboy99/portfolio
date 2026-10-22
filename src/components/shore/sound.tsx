@@ -12,7 +12,7 @@ import {
 } from "react";
 import { useMotion } from "@/components/shore/motion";
 import { createPiano, type Piano } from "@/lib/shore/piano";
-import { playDrop, playHorn } from "@/lib/shore/sfx";
+import { FAR_HORN, NEAR_HORN, playDrop, playHorn } from "@/lib/shore/sfx";
 import {
 	createSurf,
 	MUSIC_STORAGE_KEY,
@@ -28,9 +28,14 @@ type SoundValue = {
 	toggleMusic: () => void;
 	/** A drop where the water was tapped; silent unless sound is on. */
 	drop: () => void;
-	/** The mini ship's horn; silent unless sound is on. */
+	/** The mini ship's two blasts; silent unless sound is on. */
 	horn: () => void;
+	/** The big ship's horn when tapped, at most once every five seconds; silent unless sound is on. */
+	bigHorn: () => void;
 };
+
+/** How long the big ship waits before it will sound again. */
+export const BIG_HORN_COOLDOWN_MS = 5000;
 
 const SoundContext = createContext<SoundValue>({
 	soundOn: false,
@@ -39,6 +44,7 @@ const SoundContext = createContext<SoundValue>({
 	toggleMusic: () => {},
 	drop: () => {},
 	horn: () => {},
+	bigHorn: () => {},
 });
 
 function readStored(key: string): boolean {
@@ -156,11 +162,19 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 	);
 
 	const drop = useCallback(() => play(playDrop), [play]);
-	const horn = useCallback(() => play(playHorn), [play]);
+	const horn = useCallback(() => play((ctx, out) => playHorn(ctx, out, FAR_HORN)), [play]);
+	const lastBigHornRef = useRef(0);
+	const bigHorn = useCallback(() => {
+		if (!soundOnRef.current) return;
+		const now = Date.now();
+		if (now - lastBigHornRef.current < BIG_HORN_COOLDOWN_MS) return;
+		lastBigHornRef.current = now;
+		play((ctx, out) => playHorn(ctx, out, NEAR_HORN));
+	}, [play]);
 
 	const value = useMemo(
-		() => ({ soundOn, musicOn, toggleSound, toggleMusic, drop, horn }),
-		[soundOn, musicOn, toggleSound, toggleMusic, drop, horn],
+		() => ({ soundOn, musicOn, toggleSound, toggleMusic, drop, horn, bigHorn }),
+		[soundOn, musicOn, toggleSound, toggleMusic, drop, horn, bigHorn],
 	);
 
 	return <SoundContext.Provider value={value}>{children}</SoundContext.Provider>;

@@ -3,12 +3,15 @@
 import { useMemo } from "react";
 import { AsciiRows } from "@/components/shore/ascii-rows";
 import { useMotion } from "@/components/shore/motion";
+import { useSound } from "@/components/shore/sound";
 import { useBand } from "@/components/shore/use-band";
 import { useTheme } from "@/hooks/use-theme";
 import {
 	CHAR_W,
 	HORIZON_ROW,
 	horizonFrame,
+	ROW_H,
+	SHIP_ART,
 	shipMotion,
 	shipOffset,
 	shipRows,
@@ -16,11 +19,13 @@ import {
 
 const PAD_TOP = 20;
 const SHIP = shipRows();
+const SHIP_COLS = Math.max(...SHIP_ART.map((line) => line.length));
 
 /** The sky, sun and sea across the top of every page. The sun switches day and dusk. */
 export function HorizonBand() {
 	const { tick } = useMotion();
 	const { toggleMode } = useTheme();
+	const { soundOn, bigHorn } = useSound();
 	const { ref, layout, mode, ripples, rt, onTap } = useBand(PAD_TOP, HORIZON_ROW + 1);
 
 	const rows = useMemo(
@@ -61,6 +66,21 @@ export function HorizonBand() {
 				</div>
 				<AsciiRows rows={rows} />
 			</div>
+			{soundOn ? (
+				<button
+					aria-label="Sound the ship's horn"
+					className="absolute cursor-pointer"
+					onClick={bigHorn}
+					style={{
+						top: PAD_TOP + shipOffset(layout.scale),
+						left: layout.shipC * CHAR_W,
+						width: SHIP_COLS * CHAR_W * layout.scale,
+						height: SHIP_ART.length * ROW_H * layout.scale,
+					}}
+					title="Sound the horn"
+					type="button"
+				/>
+			) : null}
 			<button
 				aria-label={nextLabel}
 				className="absolute cursor-pointer rounded-full"
