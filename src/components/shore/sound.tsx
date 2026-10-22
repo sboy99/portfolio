@@ -119,7 +119,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 		apply();
 		if (!wanted || engineRef.current?.ctx.state === "running") return;
 
-		const events = ["pointerdown", "keydown"] as const;
+		const events = ["pointerdown", "touchend", "click", "keydown"] as const;
 		const onGesture = () => {
 			apply();
 			for (const name of events) window.removeEventListener(name, onGesture);
@@ -142,19 +142,26 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 		[],
 	);
 
+	/** Wakes the audio inside the tap itself; iOS refuses a resume from a later effect. */
+	const unlock = useCallback(() => {
+		void engine()?.ctx.resume();
+	}, [engine]);
+
 	const toggleSound = useCallback(() => {
+		unlock();
 		setSoundOn((was) => {
 			writeStored(SOUND_STORAGE_KEY, !was);
 			return !was;
 		});
-	}, []);
+	}, [unlock]);
 
 	const toggleMusic = useCallback(() => {
+		unlock();
 		setMusicOn((was) => {
 			writeStored(MUSIC_STORAGE_KEY, !was);
 			return !was;
 		});
-	}, []);
+	}, [unlock]);
 
 	const play = useCallback(
 		(effect: (ctx: AudioContext, out: AudioNode) => void) => {

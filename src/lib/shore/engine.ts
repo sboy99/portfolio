@@ -332,7 +332,7 @@ const VESSELS: VesselSpec[] = [
 	},
 ];
 
-/** Phones sail one slow sloop on the surface. */
+/** Phones sail one slow sloop, hull sunk into the swell so it never hovers over bare water. */
 const PHONE_FLEET: VesselSpec[] = [
 	{
 		id: "sloop",
@@ -340,8 +340,8 @@ const PHONE_FLEET: VesselSpec[] = [
 		speed: 0.12,
 		dir: 1,
 		start: 0.2,
-		lane: 0,
-		bob: 1,
+		lane: 1.5,
+		bob: 0.6,
 		scale: 1,
 	},
 ];

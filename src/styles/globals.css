@@ -134,6 +134,9 @@ html[data-theme="dark"] {
 	white-space: pre;
 	overflow: hidden;
 	font-variant-ligatures: none;
+	/* iOS may inflate text, which would break the fixed cell width the boats rely on. */
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
 }
 
 /* One fixed cell per ≈, which Geist Mono lacks; see rowsToHtml. */
