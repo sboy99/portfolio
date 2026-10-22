@@ -21,7 +21,10 @@ export function SectionHead({ children, className }: { children: ReactNode; clas
 	return (
 		<>
 			<h2 className={cn("type-label mt-11 text-muted", className)}>{children}</h2>
-			<WaveRule className="mt-4 text-line-strong" seeds={[4, 5.85]} />
+			<WaveRule
+				className="mt-4 text-line-strong transition-colors duration-[220ms]"
+				seeds={[4, 5.85]}
+			/>
 		</>
 	);
 }

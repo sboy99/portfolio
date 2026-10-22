@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { BoatWave } from "@/components/shore/boat-wave";
 import { WaveRule } from "@/components/shore/wave-rule";
 import { siteConfig } from "@/config/site";
 
@@ -29,7 +30,7 @@ export function PageColumns({ children, notes }: { children: ReactNode; notes: M
 				aria-label="Notes"
 				className="type-meta mt-9 flex flex-col gap-3.5 text-muted lg:mt-0 lg:gap-7 lg:pt-[72px]"
 			>
-				<WaveRule className="text-line-strong lg:hidden" seeds={[7]} />
+				<BoatWave className="text-line-strong lg:hidden" seeds={[7, 8.85]} />
 				{notes.map((note) => (
 					<p
 						className="lg:mt-[var(--note-top)]"
