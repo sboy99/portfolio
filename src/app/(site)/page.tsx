@@ -4,8 +4,9 @@ import { Mark, Sagar, SectionHead } from "@/components/shore/prose";
 import { WorkList } from "@/components/shore/work-list";
 import { siteConfig } from "@/config/site";
 import { toWorkItem } from "@/features/projects/lib/to-work-item";
+import { FeaturedWriting } from "@/features/writings/components/featured-writing";
 import { sortProjectsByYearDesc } from "@/lib/resume-order";
-import { getProjectRepository } from "@/server/repositories";
+import { getProjectRepository, getWritingRepository } from "@/server/repositories";
 
 /** Tells search engines who the site is about, for richer results on a name search. */
 const PERSON_JSON_LD = {
@@ -24,7 +25,13 @@ const PERSON_JSON_LD = {
 
 export default async function HomePage() {
 	const projects = getProjectRepository();
-	const [all, featured] = await Promise.all([projects.findAll(), projects.findFeatured()]);
+	const writings = getWritingRepository();
+	const [all, featured, posts, featuredPosts] = await Promise.all([
+		projects.findAll(),
+		projects.findFeatured(),
+		writings.findAll(),
+		writings.findFeatured(),
+	]);
 	const work = sortProjectsByYearDesc(featured).map((project) => ({
 		...toWorkItem(project, "/projects"),
 		stack: undefined,
@@ -74,6 +81,8 @@ export default async function HomePage() {
 			<p className="type-small pt-6">
 				<Link href="/projects">All {all.length} projects</Link>
 			</p>
+
+			<FeaturedWriting posts={featuredPosts.slice(0, 3)} total={posts.length} />
 		</PageColumns>
 	);
 }

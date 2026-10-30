@@ -1,0 +1,348 @@
+/*
+ * Writing: the post body and its MDX components. In the components layer so
+ * utilities on a component still win over these defaults.
+ */
+
+@layer components {
+	/* Body copy. Components bring their own spacing (my-7 and so on). */
+	.post-body {
+		font-size: 18px;
+		line-height: 30px;
+		color: var(--body);
+		counter-reset: figure;
+		text-wrap: pretty;
+
+		@media (width >= 48rem) {
+			font-size: 19px;
+			line-height: 32px;
+		}
+	}
+	.post-body > p,
+	.post-body > ul,
+	.post-body > ol {
+		margin-top: 20px;
+	}
+	.post-body > h2 {
+		margin-top: 52px;
+		scroll-margin-top: 24px;
+		color: var(--fg);
+		font-size: 26px;
+		line-height: 32px;
+		text-wrap: balance;
+
+		@media (width >= 48rem) {
+			font-size: 30px;
+			line-height: 38px;
+		}
+	}
+	.post-body > h3 {
+		margin-top: 36px;
+		scroll-margin-top: 24px;
+		color: var(--fg);
+		font-size: 21px;
+		line-height: 28px;
+	}
+	.post-body > h2 + *,
+	.post-body > h3 + * {
+		margin-top: 12px;
+	}
+	.post-body > :first-child {
+		margin-top: 0;
+	}
+	.post-body ul,
+	.post-body ol {
+		padding-left: 1.4em;
+	}
+	.post-body ul {
+		list-style: "~  ";
+	}
+	.post-body ul > li::marker {
+		color: var(--accent);
+		font-family: var(--font-mono);
+	}
+	.post-body ol {
+		list-style: decimal;
+	}
+	.post-body ol > li::marker {
+		color: var(--muted);
+		font-family: var(--font-mono);
+		font-size: 0.75em;
+	}
+	.post-body li + li {
+		margin-top: 6px;
+	}
+	.post-body strong {
+		color: var(--fg);
+		font-weight: 600;
+	}
+	.post-body hr {
+		margin: 44px 0;
+		border: 0;
+		text-align: center;
+		color: var(--line-strong);
+		font-family: var(--font-mono);
+		letter-spacing: 0.4em;
+	}
+	.post-body hr::after {
+		content: "~ ~ ~";
+	}
+	.post-body :not(pre) > code {
+		padding: 1px 5px;
+		border-radius: 3px;
+		background: var(--code-bg);
+		color: var(--fg);
+		font-family: var(--font-mono);
+		font-size: 0.8em;
+	}
+	.post-body img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 4px;
+	}
+	.post-body table {
+		width: 100%;
+		margin-top: 24px;
+		border-collapse: collapse;
+		font-size: 16px;
+		line-height: 24px;
+	}
+	.post-body th {
+		padding: 8px 12px 8px 0;
+		border-bottom: 1px solid var(--line-strong);
+		color: var(--muted);
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 400;
+		letter-spacing: 0.08em;
+		text-align: left;
+		text-transform: uppercase;
+	}
+	.post-body td {
+		padding: 8px 12px 8px 0;
+		border-bottom: 1px solid var(--line);
+	}
+	.post-body sup a,
+	.post-body .data-footnote-backref {
+		color: var(--accent);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		text-decoration: none;
+	}
+	.post-body .footnotes {
+		margin-top: 52px;
+		color: var(--muted);
+		font-size: 15px;
+		line-height: 24px;
+	}
+	.post-body .footnotes h2 {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	.callout-body > * + *,
+	.step-body > * + *,
+	.accordion-body > * + * {
+		margin-top: 10px;
+	}
+
+	/* Figures count themselves: fig. 1 · … */
+	.post-figure {
+		counter-increment: figure;
+	}
+	.post-figure > figcaption::before {
+		content: "fig. " counter(figure) " · ";
+	}
+	.post-figure pre {
+		overflow-x: auto;
+		font-family: var(--font-ascii);
+		font-size: 13px;
+		line-height: 16px;
+		color: var(--fg);
+	}
+
+	/* Code: numbered lines, and a + beside the lines a block highlights ({3-4}). */
+	.code-block pre {
+		overflow-x: auto;
+		padding: 14px 0;
+		border: 1px solid var(--line);
+		border-radius: 6px;
+		background: var(--code-bg);
+		font-family: var(--font-mono);
+		font-size: 13px;
+		line-height: 22px;
+
+		@media (width >= 48rem) {
+			font-size: 14px;
+		}
+	}
+	.code-block code {
+		display: grid;
+		min-width: max-content;
+		counter-reset: line;
+	}
+	.code-block [data-line] {
+		position: relative;
+		padding-right: 20px;
+	}
+	.code-block [data-line]::before {
+		content: counter(line);
+		counter-increment: line;
+		display: inline-block;
+		width: 48px;
+		padding-right: 16px;
+		color: var(--line-strong);
+		text-align: right;
+	}
+	.code-block [data-highlighted-line] {
+		background: var(--code-hl);
+	}
+	.code-block [data-highlighted-line]::after {
+		content: "+";
+		position: absolute;
+		top: 0;
+		left: 6px;
+		color: var(--accent);
+	}
+	.code-block [data-highlighted-chars] {
+		border-radius: 2px;
+		background: var(--code-hl);
+	}
+
+	.step-rope {
+		background: repeating-linear-gradient(var(--line-strong) 0 3px, transparent 3px 5px);
+	}
+
+	/* Spyglass: the tubes sit inside the barrel until the answer opens. */
+	.spyglass-eyepiece,
+	.spyglass-middle {
+		transition: transform 420ms var(--ease-tide);
+	}
+	.spyglass-eyepiece {
+		transform: translateX(13px);
+	}
+	.spyglass-middle {
+		transform: translateX(6px);
+	}
+	.spyglass-glint {
+		opacity: 0;
+		transition: opacity 300ms;
+	}
+	.spyglass:not(.is-open) button:hover .spyglass-eyepiece {
+		transform: translateX(9px);
+	}
+	.spyglass:not(.is-open) button:hover .spyglass-middle {
+		transform: translateX(4px);
+	}
+	.spyglass.is-open .spyglass-eyepiece,
+	.spyglass.is-open .spyglass-middle {
+		transform: none;
+	}
+	.spyglass.is-open .spyglass-glint {
+		opacity: 1;
+		transition-delay: 260ms;
+	}
+
+	/* Compass: the needle swings round to the link on hover. */
+	.compass-needle {
+		transform: rotate(-25deg);
+		transform-origin: 12px 12px;
+		transition: transform 620ms cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+	.card-link:hover .compass-needle,
+	.card-link:focus-visible .compass-needle {
+		transform: rotate(90deg);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	/* Chart links and footnotes glide to their heading; route changes still jump, per data-scroll-behavior. */
+	html:has(.post-body) {
+		scroll-behavior: smooth;
+	}
+	.callout-bob {
+		animation: callout-bob 3.2s ease-in-out infinite;
+	}
+	.callout-rock {
+		transform-origin: 50% 80%;
+		animation: callout-rock 3.6s ease-in-out infinite;
+	}
+	.callout-beam .lighthouse-beam {
+		animation: callout-beam 2.8s ease-in-out infinite;
+	}
+	.step-bottle {
+		transform-origin: 50% 0;
+		animation: step-sway 4s ease-in-out infinite;
+	}
+	.steps > li:nth-child(2n) .step-bottle {
+		animation-delay: -1.3s;
+	}
+	.steps > li:nth-child(3n) .step-bottle {
+		animation-delay: -2.6s;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.spyglass-eyepiece,
+	.spyglass-middle,
+	.spyglass-glint,
+	.compass-needle {
+		transition: none;
+	}
+}
+
+@keyframes callout-bob {
+	0%,
+	100% {
+		transform: translateY(0) rotate(-4deg);
+	}
+	50% {
+		transform: translateY(-1.5px) rotate(4deg);
+	}
+}
+@keyframes callout-rock {
+	0%,
+	100% {
+		transform: rotate(-5deg);
+	}
+	50% {
+		transform: rotate(5deg);
+	}
+}
+@keyframes callout-beam {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.2;
+	}
+}
+@keyframes step-sway {
+	0%,
+	100% {
+		transform: rotate(-3deg);
+	}
+	50% {
+		transform: rotate(3deg);
+	}
+}
+
+/* A diagram fenced inside <Figure> is a drawing, not code: no frame, numbers or copy. Unlayered, to beat the block's own utilities. */
+.post-figure .code-block {
+	margin: 0;
+}
+.post-figure .code-block > div:first-child {
+	display: none;
+}
+.post-figure .code-block pre {
+	padding: 0;
+	border: 0;
+	background: none;
+	font-family: var(--font-ascii);
+	font-size: 13px;
+	line-height: 16px;
+}
+.post-figure .code-block [data-line]::before {
+	content: none;
+}

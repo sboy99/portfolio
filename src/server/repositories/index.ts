@@ -1,10 +1,13 @@
 import { JsonProfileRepository } from "./json/profile.json-repository";
 import { JsonProjectRepository } from "./json/projects.json-repository";
+import { MdxWritingRepository } from "./mdx/writings.mdx-repository";
 import type { ProfileRepository } from "./profile.repository";
 import type { ProjectRepository } from "./projects.repository";
+import type { WritingRepository } from "./writings.repository";
 
 const projectRepository: ProjectRepository = new JsonProjectRepository();
 const profileRepository: ProfileRepository = new JsonProfileRepository();
+const writingRepository: WritingRepository = new MdxWritingRepository();
 
 export function getProjectRepository(): ProjectRepository {
 	return projectRepository;
@@ -12,4 +15,8 @@ export function getProjectRepository(): ProjectRepository {
 
 export function getProfileRepository(): ProfileRepository {
 	return profileRepository;
+}
+
+export function getWritingRepository(): WritingRepository {
+	return writingRepository;
 }

@@ -1,0 +1,303 @@
+---
+title: The double booking problem, and how Postgres solves it
+description: Two people click "book" on the same room at the same second. Here is why the obvious code lets both through, and how one constraint in Postgres stops it for good.
+date: 2026-10-30
+topic: databases
+tags: [system scaling, concurrency, database]
+cover: /og/double-booking.png
+featured: true
+---
+
+Every booking system I have touched has had the same bug hiding in it at some point. A meeting room, a hotel room, a slot with a doctor: two people look at the calendar, both see that 10 to 11 is free, both click **book**, and both get a green tick. Then on the day, two people walk up to the same door.
+
+It almost never shows up on your laptop. It shows up in production, on a busy morning, when real requests actually overlap. I wrote a small example of how I handle it now, in [sboy99/system_scaling](https://github.com/sboy99/system_scaling/tree/main/double_booking), and this post walks through it: what goes wrong, the fixes that almost work, and the one Postgres feature that closes the gap properly.
+
+## Two people, one room
+
+Here is the setup. We have a `bookings` table and an API with one endpoint, `POST /bookings`, that takes a room, a user and a time slot:
+
+```json title="POST /bookings"
+{
+  "roomId": 10,
+  "userId": 1,
+  "startTime": "2026-09-01T10:00:00Z",
+  "endTime": "2026-09-01T11:00:00Z"
+}
+```
+
+The rule is simple: **a room can't have two bookings that overlap in time.** If you get a 201 back, the room is yours. If somebody already has it, you should get a 409 Conflict.
+
+The rule is easy to state. The hard part is keeping it true when hundreds of requests for the same room arrive within a few milliseconds of each other.
+
+## The race
+
+This is the version most of us write first. I certainly did.
+
+```ts title="naive-booking.ts" {3-9,13-17}
+async function createBooking(userId: number, roomId: number, start: Date, end: Date) {
+  // 1. Is anything already booked in this window?
+  const { rows } = await db.query(
+    `SELECT 1 FROM bookings
+      WHERE room_id = $1
+        AND start_time < $3
+        AND end_time   > $2`,
+    [roomId, start, end],
+  );
+  if (rows.length > 0) throw new ConflictError("Room already booked");
+
+  // 2. Nothing found, so book it.
+  await db.query(
+    `INSERT INTO bookings (user_id, room_id, start_time, end_time)
+     VALUES ($1, $2, $3, $4)`,
+    [userId, roomId, start, end],
+  );
+}
+```
+
+Line by line, it reads fine:
+
+- The `SELECT` looks for any booking on the same room whose window overlaps ours. Two windows overlap when each one starts before the other ends, which is what `start_time < $3 AND end_time > $2` says.
+- If it finds a row, we refuse with a conflict.
+- If it finds nothing, we insert.
+
+The problem is the gap between step 1 and step 2. The check and the insert are two separate statements, and nothing stops another request from running its own check in between. Here is what happens when two requests arrive together:
+
+<Steps>
+  <Step title="Request A checks the room">A runs the SELECT. No rows. The room looks free.</Step>
+  <Step title="Request B checks the room">A hasn't inserted yet, so B's SELECT finds no rows either. The room still looks free.</Step>
+  <Step title="Request A inserts">A writes its booking and commits. A gets a 201.</Step>
+  <Step title="Request B inserts">B already decided the room was free, so it writes its booking too. B also gets a 201.</Step>
+</Steps>
+
+Two rows, same room, same hour. Neither request did anything wrong on its own. They just both acted on a picture of the table that stopped being true a few milliseconds later. This pattern is usually called **check-then-act**, and it is a race condition.
+
+<Pirates title="Wrapping it in a transaction doesn't fix it">
+Postgres runs at `READ COMMITTED` by default. Each statement sees the data committed before it started, so A and B can both run their SELECT inside their own transactions, both see nothing, and both insert. A transaction makes your writes all-or-nothing. It doesn't make two transactions take turns.
+</Pirates>
+
+On a quiet test server you can click away all day and never see it. Fire a few hundred requests at the same slot <Mark>at the same moment</Mark>, though, and you get more than one 201 back.
+
+## Fixes that almost work
+
+Before getting to the real fix, it's worth knowing why the usual first ideas fall short. Each one is a reasonable instinct.
+
+<AccordionGroup>
+  <Accordion title="A unique index on (room_id, start_time)?">
+    This stops two bookings that start at exactly the same moment, and nothing else. A booking from 10:00 to 11:00 and another from 10:30 to 11:30 have different start times, so the index is happy, and the room is still double booked. Unique indexes compare values for equality. Our rule is about overlap.
+  </Accordion>
+  <Accordion title="SELECT … FOR UPDATE in the check?">
+    `FOR UPDATE` locks the rows your SELECT returns. When the room is free, the SELECT returns no rows, so there is nothing to lock. Both requests sail through, which is exactly the case we care about.
+  </Accordion>
+  <Accordion title="SERIALIZABLE isolation?">
+    This one actually works. Postgres notices that the two transactions read and wrote in a way that couldn't have happened one after the other, and fails one with a serialization error. The catch is that every caller now has to retry on that error, and other unrelated queries in the same transactions can fail too. It's a fair choice, just a heavier one than we need here.
+  </Accordion>
+</AccordionGroup>
+
+What we really want is for the database itself to know the rule "no two bookings for the same room may overlap", and refuse to store a row that breaks it, however the requests are timed. Postgres has exactly that.
+
+## Thinking in ranges
+
+The first step is to stop thinking of a booking as two separate columns and start thinking of it as one **range** of time. Postgres has a type for that: `tstzrange`, a range of `timestamptz` values.
+
+```sql title="ranges.sql"
+SELECT tstzrange('2026-09-01 10:00Z', '2026-09-01 11:00Z', '[)');
+-- ["2026-09-01 10:00:00+00","2026-09-01 11:00:00+00")
+```
+
+The third argument, `'[)'`, says which ends are included. The square bracket means 10:00 is inside the range, and the round bracket means 11:00 is not. This is called a half-open range, and it is exactly what you want for bookings: one meeting can end at 11:00 and the next can start at 11:00 without the two counting as an overlap.
+
+Ranges come with an operator for "do these overlap?", which is `&&`:
+
+```sql title="overlap.sql"
+SELECT tstzrange('10:00', '11:00', '[)') && tstzrange('10:30', '11:30', '[)'); -- true
+SELECT tstzrange('10:00', '11:00', '[)') && tstzrange('11:00', '12:00', '[)'); -- false
+```
+
+<Figure caption="half-open ranges: touching is fine, overlapping is not">
+```
+         10:00     10:30     11:00     11:30     12:00
+room 10  [===================)  booked
+                   [===================)  overlaps, refused
+                             [===================)  touches, allowed
+```
+</Figure>
+
+With ranges, the rule we care about becomes one short sentence: no two rows with the same `room_id` may have ranges that `&&`.
+
+## Exclusion constraints
+
+A unique constraint says "no two rows may be **equal** on these columns". An **exclusion constraint** is its more general cousin: "no two rows may match on these columns using *these operators*". You pick the operator for each column. Here is the whole schema from the repo:
+
+```sql title="db/schema.sql" {1,9-12}
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+
+CREATE TABLE bookings (
+  id          BIGSERIAL PRIMARY KEY,
+  room_id     INT         NOT NULL,
+  user_id     INT         NOT NULL,
+  start_time  TIMESTAMPTZ NOT NULL,
+  end_time    TIMESTAMPTZ NOT NULL,
+  CHECK (end_time > start_time),
+  EXCLUDE USING gist (
+    room_id WITH =,
+    tstzrange(start_time, end_time, '[)') WITH &&
+  )
+);
+```
+
+Going through the lines that matter:
+
+- **`EXCLUDE USING gist (`** declares the exclusion constraint and says it is enforced with a GiST index. Postgres builds this index for you; you don't create it separately.
+- **`room_id WITH =`** is the first condition: two rows conflict only if their `room_id` values are equal. Different rooms never clash.
+- **`tstzrange(start_time, end_time, '[)') WITH &&`** is the second condition: their time ranges overlap. The range is built from the two columns on the fly, so the table keeps plain start and end columns that are easy to query.
+- Both conditions must be true at once for two rows to conflict. So the constraint reads: *no two rows where the room is the same **and** the times overlap.* That is our rule, word for word.
+- **`CHECK (end_time > start_time)`** keeps out bookings that end before they start. It also rules out zero-length bookings: a range from 10:00 to 10:00 is empty, and an empty range overlaps nothing, so without this check it would slip past the exclusion constraint.
+
+### Why GiST, and what btree_gist is for
+
+A normal B-tree index is great at "equal to" and "less than", which is why unique constraints use it. But B-trees can't answer "does this range overlap that one?" GiST (Generalized Search Tree) is a different kind of index built for exactly that sort of question: overlap, containment and nearness. Range types support it out of the box.
+
+The catch is the other half of our constraint. Plain `INT` columns don't come with GiST support for `=`, only B-tree support. The **`btree_gist`** extension fills that gap: it teaches GiST how to index ordinary scalar types like `int`, `text` and `timestamptz` with B-tree style operators. That is the whole reason for line 1. Without it, Postgres rejects the `room_id WITH =` part when you create the table.
+
+<Lighthouse title="btree_gist ships with Postgres">
+It is one of the contrib extensions bundled with every standard Postgres install and with managed services like RDS and Cloud SQL. `CREATE EXTENSION` just switches it on for the database; there's nothing to download.
+</Lighthouse>
+
+### What happens during the race now
+
+Run the same two requests against this table:
+
+<Steps>
+  <Step title="A inserts">Postgres checks the GiST index for an overlapping booking on room 10, finds none, and writes the row. A's transaction is still open.</Step>
+  <Step title="B inserts">The index check finds A's row. A hasn't committed yet, so Postgres can't know whether the row will stick. B waits.</Step>
+  <Step title="A commits">A's row is now real. A gets a 201.</Step>
+  <Step title="B gets an error">B wakes up, sees the conflict is committed, and its insert fails with error code 23P01, exclusion_violation. If A had rolled back instead, B's insert would simply have gone through.</Step>
+</Steps>
+
+There's no check-then-act gap any more, because there is no separate check. The insert *is* the check, and the database does it atomically against everything committed or in flight.
+
+## The repository, line by line
+
+The constraint is what guarantees correctness. The application code's job is to use it well and to turn its errors into sensible HTTP responses. Here is the repository function from the repo:
+
+```ts title="src/booking/repository.ts" {10,19-25}
+export async function createBookingRepository(
+  userId: number,
+  roomId: number,
+  startTime: Date,
+  endTime: Date,
+): Promise<string> {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query("SELECT pg_advisory_xact_lock($1)", [roomId]);
+    const result = await client.query(
+      `INSERT INTO bookings (user_id, room_id, start_time, end_time)
+         VALUES ($1, $2, $3, $4) RETURNING id`,
+      [userId, roomId, startTime, endTime],
+    );
+    await client.query("COMMIT");
+    return result.rows[0].id;
+  } catch (err: any) {
+    await client.query("ROLLBACK");
+    if (err.code === PG_EXCLUSION_VIOLATION || err.code === PG_UNIQUE_VIOLATION) {
+      throw new ConflictError("Room already booked for this time");
+    }
+    if (err.code === PG_CHECK_VIOLATION) {
+      throw new BadRequestError("endTime must be after startTime");
+    }
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+```
+
+- **`pool.connect()`** checks out one connection from the pool and keeps it. A transaction lives on a single connection, so `BEGIN`, the insert and `COMMIT` all have to go through the same `client`. Calling `pool.query()` for each one could land them on different connections.
+- **`BEGIN`** opens the transaction.
+- **`pg_advisory_xact_lock($1)`** takes a lock named after the room id. Any other request for the same room waits here until this transaction ends. The `xact` in the name means Postgres releases it on its own at `COMMIT` or `ROLLBACK`, so we can't forget to unlock. More on why it's here below.
+- **The `INSERT … RETURNING id`** writes the booking and hands back the new id in the same round trip. This is the statement the exclusion constraint guards.
+- **`COMMIT`** makes it permanent. Only after this do we return the id.
+- **`ROLLBACK` in the catch** is not optional. Once a statement fails inside a transaction, Postgres marks the whole transaction as aborted and refuses everything except a rollback. Without it, the connection would go back to the pool still broken.
+- **The error codes** are how Postgres tells you *why* it refused. `23P01` (exclusion violation) means the room is taken, so we return 409. `23505` (unique violation) is mapped the same way as a safety net. `23514` (check violation) means the end time was before the start, so that's a 400 for bad input. Anything else is unexpected and goes to the error middleware as a 500.
+- **`client.release()` in `finally`** hands the connection back to the pool whatever happened. Leak a few of these under load and the pool runs dry, and every request starts hanging.
+
+The error code constants live next to the pool:
+
+```ts title="src/db.ts"
+export const PG_UNIQUE_VIOLATION = "23505";
+export const PG_EXCLUSION_VIOLATION = "23P01";
+export const PG_CHECK_VIOLATION = "23514";
+```
+
+### So why the advisory lock, if the constraint is enough?
+
+Fair question, because the constraint on its own is enough to keep double bookings out. The advisory lock is about how the losers fail, not about correctness.
+
+Without it, every competing request does the work of an insert, waits on the index, then fails and rolls back. With it, requests for the same room queue up at the lock and go through one at a time, while requests for other rooms carry on in parallel. That gives you a clean, predictable order per room. It also gives you a safe place to grow: if the booking flow later needs to read before it writes (checking a user's quota, say, or a room's opening hours), those reads happen inside the lock and can't race.
+
+The cost is that requests for one busy room are now strictly serial. For bookings that is usually what you want anyway.
+
+<Buoy title="Advisory lock keys are shared">
+An advisory lock is keyed by a number, and that number space is shared by the whole database. If another feature also calls `pg_advisory_xact_lock(10)` for user 10 or order 10, it will block on room 10's bookings for no reason. Give each feature its own namespace with the two-key form, `pg_advisory_xact_lock(1, $1)` where `1` means "rooms", or hash a prefixed key such as `hashtext('room:' || $1)`.
+</Buoy>
+
+## Proving it
+
+A race condition you haven't reproduced is one you haven't fixed. The repo has a small load script that does the most hostile thing possible: it fires 2,000 identical bookings at the same room and slot, all at once.
+
+```ts title="scripts/load.ts" {9-13,18}
+const payload = {
+  roomId: 10,
+  userId: 1,
+  startTime: "2026-09-01T10:00:00Z",
+  endTime: "2026-09-01T11:00:00Z",
+};
+
+async function main(n = 2000) {
+  const responses = await Promise.all(
+    Array.from({ length: n }, () =>
+      fetch(URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }),
+    ),
+  );
+  const counts: Record<number, number> = {};
+  for (const r of responses) counts[r.status] = (counts[r.status] ?? 0) + 1;
+
+  console.log(counts);
+  if (counts[201] !== 1) throw new Error("Double booking!");
+}
+```
+
+`Promise.all` starts every request before awaiting any of them, so the server really does see 2,000 requests for the same slot at once. Then the script counts status codes. The only acceptable answer is <Mark>exactly one 201</Mark>, and every other request a 409.
+
+For something closer to real traffic, `scripts/benchmark.ts` runs three scenarios:
+
+- **contention**: every request wants the same room and slot. Exactly one should be created.
+- **distinct**: every request wants its own slot. All should be created, and this shows the raw throughput when nothing competes.
+- **mixed**: requests pick a random room and slot from a small grid, say 10 rooms by 10 slots. The number created should equal the number of distinct slots that were actually asked for.
+
+With `--verify`, it also counts the rows in the table afterwards, so you know the 201s match what's really stored and the API isn't just saying the right thing.
+
+```bash title="terminal"
+npm run db:setup
+npm run dev
+npm run bench:verify   # 1,000 requests, all at once, one slot
+```
+
+## Wrapping up
+
+The thing I took away from this is that the rule belongs in the database. Application code can check, lock and retry all it likes, but it's one of many processes looking at the same table. The database is the only place that sees every write, so it's the only place that can promise two bookings never overlap.
+
+For bookings, Postgres makes that promise in a few lines:
+
+1. Model the slot as a `tstzrange` with `'[)'` so back-to-back bookings are fine.
+2. Add `EXCLUDE USING gist (room_id WITH =, range WITH &&)`, with `btree_gist` switched on.
+3. Catch `23P01` and turn it into a 409.
+4. Optionally, queue requests per room with a namespaced advisory lock.
+
+The same pattern works for anything where two things can't share a stretch of time or space: shifts, rentals, parking spots, calendar slots.
+
+<CardGroup>
+  <Card title="The double_booking example" href="https://github.com/sboy99/system_scaling/tree/main/double_booking" hint="github.com/sboy99/system_scaling" />
+  <Card title="Postgres: exclusion constraints" href="https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-EXCLUSION" hint="postgresql.org" />
+</CardGroup>
