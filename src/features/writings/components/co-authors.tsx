@@ -37,7 +37,7 @@ function names(authors: Coauthor[]) {
 	return list.length > 1 ? `${list.slice(0, -1).join(", ")} and ${list.at(-1)}` : list[0];
 }
 
-/** "co-written with …" under the title. Solo posts show nothing. */
+/** "dived with …" under the title. Solo posts show nothing. */
 export function CoauthorByline({ authors }: { authors: Coauthor[] }) {
 	if (authors.length === 0) return null;
 	return (
@@ -48,7 +48,7 @@ export function CoauthorByline({ authors }: { authors: Coauthor[] }) {
 				))}
 			</span>
 			<span>
-				co-written with <span className="text-fg">{names(authors)}</span>
+				dived with <span className="text-fg">{names(authors)}</span>
 			</span>
 		</p>
 	);
@@ -59,7 +59,7 @@ export function CoauthorCards({ authors }: { authors: Coauthor[] }) {
 	if (authors.length === 0) return null;
 	return (
 		<section aria-label="Co-authors" className="mt-14 border-y border-line py-6">
-			<h2 className="type-label text-muted">Co-authored by</h2>
+			<h2 className="type-label text-muted">Crew on this dive</h2>
 			{authors.map((author) => (
 				<div className="mt-4 grid grid-cols-[56px_minmax(0,1fr)] gap-x-4" key={author.id}>
 					<Avatar author={author} size={56} />

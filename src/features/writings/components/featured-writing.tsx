@@ -9,7 +9,7 @@ export function FeaturedWriting({ posts, total }: { posts: Writing[]; total: num
 	if (posts.length === 0) return null;
 	return (
 		<>
-			<SectionHead>Featured writing</SectionHead>
+			<SectionHead>Treasure from the deep</SectionHead>
 			<ol className="m-0 list-none p-0">
 				{posts.map((post, i) => (
 					<li className="group first:pt-5" key={post.slug}>
@@ -25,7 +25,7 @@ export function FeaturedWriting({ posts, total }: { posts: Writing[]; total: num
 				))}
 			</ol>
 			<p className="type-small pt-6">
-				<Link href="/writing">All {total} posts</Link>
+				<Link href="/writing">All {total} finds</Link>
 			</p>
 		</>
 	);

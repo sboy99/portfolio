@@ -21,7 +21,7 @@ export function PostToc({ toc, variant }: { toc: TocEntry[]; variant: "fold" | "
 	if (variant === "fold") {
 		return (
 			<details className="type-meta mt-7 border-y border-line py-2.5 text-fg lg:hidden">
-				<summary className="cursor-pointer text-muted">On this page · {toc.length}</summary>
+				<summary className="cursor-pointer text-muted">The chart · {toc.length}</summary>
 				<div className="mt-3 pb-1">
 					<Entries toc={toc} />
 				</div>
@@ -30,7 +30,7 @@ export function PostToc({ toc, variant }: { toc: TocEntry[]; variant: "fold" | "
 	}
 	return (
 		<nav aria-label="On this page" className="type-meta sticky top-8 text-fg">
-			<p className="mb-3 text-muted">On this page</p>
+			<p className="mb-3 text-muted">The chart</p>
 			<Entries toc={toc} />
 		</nav>
 	);

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 	...pageMetadata({
 		title: "Writing",
 		description:
-			"Notes from below the waterline: databases, migrations, CI/CD and the backend work behind them, by Sagar Bera.",
+			"Treasure Sagar Bera found below the waterline: databases, migrations, CI/CD and the backend work behind them.",
 		path: "/writing",
 	}),
 	alternates: { canonical: "/writing", types: { "application/rss+xml": "/writing/feed.xml" } },
@@ -35,15 +35,17 @@ export default async function WritingPage() {
 					n: "1",
 					body: (
 						<>
-							New posts also go out by <a href="/writing/feed.xml">RSS</a>.
+							New finds also wash up by <a href="/writing/feed.xml">RSS</a>.
 						</>
 					),
 				},
 			]}
 		>
-			<h1 className="type-display">Writing</h1>
+			<h1 className="type-display">
+				Treasure I found <em>below the waterline</em>
+			</h1>
 			<p className="type-lead mt-5 text-body">
-				Notes from below the waterline: what broke, what I changed, and what I'd do again.
+				What broke, what I hauled back up, and what I'd dive for again.
 			</p>
 			<WritingList items={items} topics={topics} />
 		</PageColumns>

@@ -49,7 +49,7 @@ describe("writing components", () => {
 
 	it("shows an empty log when there are no posts", () => {
 		render(<WritingList items={[]} topics={[]} />);
-		expect(screen.getByText(/Nothing in the log yet/)).toBeInTheDocument();
+		expect(screen.getByText(/The chest is empty/)).toBeInTheDocument();
 	});
 
 	it("filters posts by topic", () => {

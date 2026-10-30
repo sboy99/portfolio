@@ -28,7 +28,7 @@ export function WritingList({ items, topics }: { items: WritingListItem[]; topic
 			<div className="mt-10">
 				<WaveRule className="text-line-strong" seeds={[4, 5.85]} />
 				<p className="type-small mt-5 text-muted">
-					Nothing in the log yet. The first posts are on their way in.
+					The chest is empty for now. The first finds are on their way up.
 				</p>
 			</div>
 		);

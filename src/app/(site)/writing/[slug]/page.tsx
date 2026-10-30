@@ -85,7 +85,7 @@ export default async function PostPage({ params }: Props) {
 				/>
 				<p className="type-meta text-muted">
 					<Link className="no-underline hover:text-accent" href="/writing">
-						← writing
+						← back to the chest
 					</Link>
 				</p>
 				<p className="type-meta mt-6 text-muted">
@@ -113,7 +113,7 @@ export default async function PostPage({ params }: Props) {
 				<nav aria-label="More writing" className="mt-8 grid gap-6 md:grid-cols-2">
 					{older ? (
 						<p>
-							<span className="type-meta block text-muted">← older</span>
+							<span className="type-meta block text-muted">← an older find</span>
 							<Link className="type-small" href={`/writing/${older.slug}`}>
 								{older.title}
 							</Link>
@@ -123,7 +123,7 @@ export default async function PostPage({ params }: Props) {
 					)}
 					{newer ? (
 						<p className="md:text-right">
-							<span className="type-meta block text-muted">newer →</span>
+							<span className="type-meta block text-muted">a newer find →</span>
 							<Link className="type-small" href={`/writing/${newer.slug}`}>
 								{newer.title}
 							</Link>
@@ -131,9 +131,9 @@ export default async function PostPage({ params }: Props) {
 					) : null}
 				</nav>
 				<p className="type-small mt-10 text-muted">
-					Thoughts or corrections?{" "}
+					Spotted a leak in the hull?{" "}
 					<a href={`mailto:${siteConfig.email}?subject=${encodeURIComponent(`Re: ${post.title}`)}`}>
-						Reply by email
+						Send a message in a bottle
 					</a>
 					.
 				</p>
