@@ -5,6 +5,7 @@ import { useState } from "react";
 import { WaveRule } from "@/components/shore/wave-rule";
 import { cn } from "@/lib/cn";
 import type { TopicCount } from "../types";
+import { Subtopics } from "./subtopics";
 
 export type WritingListItem = {
 	slug: string;
@@ -15,6 +16,7 @@ export type WritingListItem = {
 	dateLabel: string;
 	topic: string;
 	readingTime: number;
+	tags: string[];
 };
 
 /** Posts by year, newest first, with a chip per topic. */
@@ -79,6 +81,7 @@ export function WritingList({ items, topics }: { items: WritingListItem[]; topic
 										<Link href={`/writing/${item.slug}`}>{item.title}</Link>
 									</p>
 									<p className="type-small mt-1.5 text-body">{item.description}</p>
+									<Subtopics className="mt-2" tags={item.tags} />
 								</li>
 							))}
 					</ol>

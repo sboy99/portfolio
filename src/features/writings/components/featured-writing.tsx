@@ -3,6 +3,7 @@ import { SectionHead } from "@/components/shore/prose";
 import { WaveRule } from "@/components/shore/wave-rule";
 import { formatPostDate } from "../lib/format";
 import type { Writing } from "../types";
+import { Subtopics } from "./subtopics";
 
 /** The home page's pick of posts. Hidden until a post is marked featured. */
 export function FeaturedWriting({ posts, total }: { posts: Writing[]; total: number }) {
@@ -21,6 +22,7 @@ export function FeaturedWriting({ posts, total }: { posts: Writing[]; total: num
 							<Link href={`/writing/${post.slug}`}>{post.title}</Link>
 						</p>
 						<p className="type-small mt-1.5 text-body">{post.description}</p>
+						<Subtopics className="mt-2" tags={post.tags} />
 					</li>
 				))}
 			</ol>

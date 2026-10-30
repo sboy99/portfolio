@@ -53,7 +53,7 @@ describe("writing components", () => {
 	});
 
 	it("filters posts by topic", () => {
-		const post = { description: "d", dateLabel: "1 Oct 2026", readingTime: 3 };
+		const post = { description: "d", dateLabel: "1 Oct 2026", readingTime: 3, tags: [] };
 		render(
 			<WritingList
 				items={[

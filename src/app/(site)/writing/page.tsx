@@ -26,6 +26,7 @@ export default async function WritingPage() {
 		dateLabel: formatPostDate(post.date),
 		topic: post.topic,
 		readingTime: post.readingTime,
+		tags: post.tags,
 	}));
 
 	return (

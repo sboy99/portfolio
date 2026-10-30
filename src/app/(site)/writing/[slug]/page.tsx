@@ -5,6 +5,7 @@ import type { ComponentType } from "react";
 import { siteConfig } from "@/config/site";
 import { CoauthorByline, CoauthorCards } from "@/features/writings/components/co-authors";
 import { PostToc } from "@/features/writings/components/post-toc";
+import { Subtopics } from "@/features/writings/components/subtopics";
 import { formatPostDate } from "@/features/writings/lib/format";
 import { pageMetadata } from "@/lib/seo";
 import { getWritingRepository } from "@/server/repositories";
@@ -95,6 +96,7 @@ export default async function PostPage({ params }: Props) {
 				</p>
 				<h1 className="type-display mt-3">{post.title}</h1>
 				<p className="type-lead mt-5 text-body italic">{post.description}</p>
+				<Subtopics className="mt-4" tags={post.tags} />
 				<CoauthorByline authors={post.coauthorDetails} />
 				<PostToc toc={post.toc} variant="fold" />
 
