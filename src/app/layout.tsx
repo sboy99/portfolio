@@ -86,6 +86,7 @@ export default function RootLayout({
 		<html
 			lang="en"
 			className={`${newsreader.variable} ${geistMono.variable} ${notoBengali.variable} h-full antialiased`}
+			data-scroll-behavior="smooth"
 			suppressHydrationWarning
 		>
 			<head>

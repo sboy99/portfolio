@@ -256,6 +256,10 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+	/* Chart links and footnotes glide to their heading; route changes still jump, per data-scroll-behavior. */
+	html:has(.post-body) {
+		scroll-behavior: smooth;
+	}
 	.callout-bob {
 		animation: callout-bob 3.2s ease-in-out infinite;
 	}
