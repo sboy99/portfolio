@@ -34,6 +34,7 @@ export const siteConfig = {
 	},
 	nav: [
 		{ href: "/projects", label: "work" },
+		{ href: "/writing", label: "writing" },
 		{ href: "/resume", label: "résumé" },
 		{ href: "/about", label: "about" },
 	],

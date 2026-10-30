@@ -1,4 +1,5 @@
 @import "tailwindcss" theme(static);
+@import "./writing.css";
 
 /*
  * Shoreline tokens. Light is day, dark is dusk; the init script sets
@@ -23,6 +24,13 @@ html[data-theme="light"] {
 	--cloud: #a3b3bb;
 	--boat: #0b2a3a;
 	--gull: #4b6270;
+	--danger: #b4412e;
+	--code-bg: #ebe6db;
+	--code-key: #0b6e99;
+	--code-fn: #2f7d6d;
+	--code-str: #b45309;
+	--code-num: #b4412e;
+	--code-hl: rgba(11, 110, 153, 0.09);
 }
 
 html[data-theme="dark"] {
@@ -42,6 +50,13 @@ html[data-theme="dark"] {
 	--cloud: #3c556a;
 	--boat: #efe7d6;
 	--gull: #9fb0b8;
+	--danger: #e07a5f;
+	--code-bg: #13232f;
+	--code-key: #f0b37e;
+	--code-fn: #8fc1d4;
+	--code-str: #a8d5ba;
+	--code-num: #e07a5f;
+	--code-hl: rgba(143, 193, 212, 0.1);
 }
 
 @theme inline {
@@ -53,6 +68,10 @@ html[data-theme="dark"] {
 	--color-line-strong: var(--line-strong);
 	--color-accent: var(--accent);
 	--color-sun: var(--sun);
+	--color-sea1: var(--sea1);
+	--color-sea2: var(--sea2);
+	--color-danger: var(--danger);
+	--color-code-bg: var(--code-bg);
 	--font-serif: var(--font-newsreader), Georgia, serif;
 	--font-mono: var(--font-geist-mono), ui-monospace, monospace;
 	--font-bengali: var(--font-noto-bengali), serif;

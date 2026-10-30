@@ -1,0 +1,83 @@
+---
+title: Field guide to the writing kit
+description: Every component a post can use, in one place. A draft, so it only shows while running locally.
+date: 2026-10-30
+topic: meta
+tags: [mdx, writing]
+draft: true
+---
+
+This post is a test bed for the components in `mdx-components.tsx`. It is marked `draft: true`, so production builds leave it out. The numbers that matter get a <Mark>wavy underline</Mark>, and keys look like <Kbd>⌘</Kbd> <Kbd>K</Kbd>.[^1]
+
+## Callouts
+
+<Bottle>A note worth keeping, sealed in a bottle and tossed into the text.</Bottle>
+
+<Lighthouse>A tip: something that shows you the way round a problem.</Lighthouse>
+
+<Buoy title="Watch the lock">A warning. Long migrations hold locks; batch them.</Buoy>
+
+<Pirates>Danger. This one takes your data with it if you are not careful.</Pirates>
+
+## Code
+
+```sql title="dual-write.sql" {3-4}
+-- Write to both stores until the backfill catches up
+begin;
+insert into posts (id, title) values ($1, $2);
+insert into posts_v2 (id, title, created_at) values ($1, $2, now());
+commit;
+```
+
+<CodeGroup>
+
+```ts title="worker.ts"
+export async function run(batch: number) {
+	const rows = await db.select().from(posts).limit(batch);
+	return rows.length;
+}
+```
+
+```bash title="deploy.sh"
+docker compose up -d --build
+```
+
+</CodeGroup>
+
+## Steps
+
+<Steps>
+	<Step title="Add the new column">Nullable, with no default, so the change is instant.</Step>
+	<Step title="Backfill in batches">A thousand rows at a time, with a pause between.</Step>
+	<Step title="Switch the reads">Behind a flag, so it can go back in a second.</Step>
+</Steps>
+
+## Questions
+
+<AccordionGroup>
+	<Accordion title="Why not do it in one migration?">Because one migration holds the lock for the whole table.</Accordion>
+	<Accordion title="How long did the backfill take?">About four hours, spread over two nights.</Accordion>
+</AccordionGroup>
+
+## Links and figures
+
+<CardGroup>
+	<Card title="All projects" href="/projects" hint="/projects" />
+	<Card title="Postgres docs" href="https://www.postgresql.org/docs/" hint="postgresql.org" />
+</CardGroup>
+
+<Figure caption="the write path during the move">
+```
+app ──▶ mongo
+  └───▶ postgres
+```
+</Figure>
+
+> The sea doesn't care how good the plan was. Ship the rollback first.
+
+| step | rows | time |
+| --- | --- | --- |
+| backfill | 2.1M | 4h |
+| verify | 2.1M | 20m |
+
+[^1]: Footnotes come from GitHub-flavoured Markdown.
