@@ -189,7 +189,7 @@
 		content: counter(line);
 		counter-increment: line;
 		display: inline-block;
-		width: 44px;
+		width: 48px;
 		padding-right: 16px;
 		color: var(--line-strong);
 		text-align: right;
@@ -201,7 +201,7 @@
 		content: "+";
 		position: absolute;
 		top: 0;
-		left: 8px;
+		left: 6px;
 		color: var(--accent);
 	}
 	.code-block [data-highlighted-chars] {
