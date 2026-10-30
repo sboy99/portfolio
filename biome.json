@@ -16,7 +16,8 @@
 			"!**/coverage",
 			"!**/public/**/*.svg",
 			"!**/src/app/**/*.svg",
-			"!**/.vscode"
+			"!**/.vscode",
+			"!**/design"
 		]
 	},
 	"formatter": {

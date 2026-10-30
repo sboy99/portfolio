@@ -3,10 +3,11 @@
 		"slug": "kili-ai",
 		"title": "Kili AI",
 		"summary": "Ad marketplace that earns developers back their inference costs by showing ads while an AI agent is 'thinking'.",
+		"note": "30,134 ads shown, $601 in ad spend.",
 		"highlights": [
 			"Developers keep [[50%]] of net ad revenue, paid in stablecoins or through Stripe",
 			"Intent-matched ads shown only during natural wait states, never over the work",
-			"One-command install for Claude Code and AI apps; [[250+]] daily active users"
+			"One-command install for Claude Code and AI apps; [[30,134]] ads shown, [[$601]] in ad spend"
 		],
 		"stack": [
 			"TypeScript",
@@ -30,11 +31,12 @@
 		"image": null
 	},
 	{
-		"slug": "brands-scribbledao",
+		"slug": "brands-scribble",
 		"title": "Scribble Brands",
 		"summary": "AI visibility platform that tracks how ChatGPT, Gemini, Perplexity, Copilot, and Grok cite a brand, then helps it get cited more.",
+		"note": "'Seasons' went from 2% to 20% citation share.",
 		"highlights": [
-			"RocketX grew AI citation share from [[2% to 20%]] across 25 priority queries in 3 months",
+			"Seasons grew AI citation share from [[2% to 20%]] across 25 priority queries in 3 months",
 			"Audit, create, amplify: citation tracking, competitor benchmarks, and a content hub in one dashboard",
 			"Creator bounties to [[50,000+]] creators, paid only when AI cites them; [[6,000+]] pieces cited"
 		],
@@ -59,9 +61,10 @@
 		"image": null
 	},
 	{
-		"slug": "creators-scribbledao",
+		"slug": "creators-scribble",
 		"title": "Scribble Creators",
 		"summary": "Campaign platform where creators write for brands and get paid.",
+		"note": "$500K+ paid out.",
 		"highlights": [
 			"[[50,000+]] active creators, [[800+]] brand campaigns",
 			"[[$500,000+]] paid out, [[72%]] average win rate",
@@ -98,7 +101,7 @@
 		"image": null
 	},
 	{
-		"slug": "faucet-scribbledao",
+		"slug": "faucet-scribble",
 		"title": "Faucet",
 		"summary": "Service that sends crypto payouts to creators and test tokens to wallets across Base, Monad, and Sepolia.",
 		"highlights": [
@@ -117,7 +120,7 @@
 		"image": null
 	},
 	{
-		"slug": "hermes-scribbledao",
+		"slug": "hermes-scribble",
 		"title": "Hermes",
 		"summary": "Internal notification microservice for branded Email, Discord, and Twitter messages.",
 		"highlights": [
@@ -158,6 +161,7 @@
 		"slug": "go-vault",
 		"title": "Go-Vault",
 		"summary": "CLI for backing up and restoring PostgreSQL databases to local disk or AWS S3.",
+		"note": "My own tool.",
 		"highlights": [
 			"Interactive CLI for PostgreSQL dump and restore",
 			"Local disk or AWS S3 storage, with backup metadata in BoltDB"
@@ -178,6 +182,7 @@
 		"slug": "tusk",
 		"title": "Tusk",
 		"summary": "Go CLI that turns one-off commands into systemd timers, with intervals or CRON expressions.",
+		"note": "My own tool.",
 		"highlights": [
 			"Writes and enables systemd service and timer files for you",
 			"Intervals from seconds to years, or CRON; streams journalctl logs"
@@ -197,6 +202,7 @@
 		"slug": "gitopener",
 		"title": "GitOpener",
 		"summary": "Beginner-friendly open source platform that teaches contributing through live guides and GitHub auth.",
+		"note": "Built with zero AI code.",
 		"highlights": [
 			"MDX guides and auto-generated contributor profiles",
 			"GitHub sign-in; built with [[zero AI]] code"

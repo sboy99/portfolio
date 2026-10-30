@@ -1,141 +1,506 @@
 @import "tailwindcss" theme(static);
-@import "./palettes.css";
+@import "./writing.css";
+
+/*
+ * Shoreline tokens. Light is day, dark is dusk; the init script sets
+ * data-theme before first paint. See docs/design-system.md.
+ */
 
 html,
-html[data-theme="dark"] {
-	color-scheme: dark;
-	--background: var(--neutral-950);
-	--foreground: var(--neutral-50);
-	--muted: var(--neutral-900);
-	--muted-foreground: var(--neutral-400);
-	--border: var(--neutral-800);
-	--accent: var(--primary-400);
-	--accent-foreground: var(--neutral-950);
-	--accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
-	--card: var(--neutral-900);
-	--ring: var(--primary-500);
-}
-
 html[data-theme="light"] {
 	color-scheme: light;
-	--background: var(--neutral-50);
-	--foreground: var(--neutral-950);
-	--muted: var(--neutral-100);
-	--muted-foreground: var(--neutral-500);
-	--border: var(--neutral-200);
-	--accent: var(--primary-600);
-	--accent-foreground: var(--color-white);
-	--accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
-	--card: var(--color-white);
-	--ring: var(--primary-500);
+	--bg: #f4f1ea;
+	--fg: #0b2a3a;
+	--body: #2b4757;
+	--muted: #4b6270;
+	--line: #dcd6c8;
+	--line-strong: #b9b09c;
+	--accent: #0b6e99;
+	--sun: #d97706;
+	--sky: #d6cdb8;
+	--sea1: #7fb8cf;
+	--sea2: #0b6e99;
+	--sea3: #0b4f6e;
+	--cloud: #a3b3bb;
+	--boat: #0b2a3a;
+	--gull: #4b6270;
+	--danger: #b4412e;
+	--code-bg: #ebe6db;
+	--code-key: #0b6e99;
+	--code-fn: #2f7d6d;
+	--code-str: #b45309;
+	--code-num: #b4412e;
+	--code-hl: rgba(11, 110, 153, 0.09);
 }
 
-html[data-theme="light"][data-primary="yellow"],
-html[data-theme="light"][data-primary="amber"],
-html[data-theme="light"][data-primary="lime"] {
-	--accent: var(--primary-700);
+html[data-theme="dark"] {
+	color-scheme: dark;
+	--bg: #0e1a24;
+	--fg: #efe7d6;
+	--body: #cdd5d8;
+	--muted: #9fb0b8;
+	--line: #26394a;
+	--line-strong: #3c556a;
+	--accent: #f0b37e;
+	--sun: #f0b37e;
+	--sky: #2b3b4a;
+	--sea1: #e6a77a;
+	--sea2: #5d8aa3;
+	--sea3: #2e5872;
+	--cloud: #3c556a;
+	--boat: #efe7d6;
+	--gull: #9fb0b8;
+	--danger: #e07a5f;
+	--code-bg: #13232f;
+	--code-key: #f0b37e;
+	--code-fn: #8fc1d4;
+	--code-str: #a8d5ba;
+	--code-num: #e07a5f;
+	--code-hl: rgba(143, 193, 212, 0.1);
 }
 
 @theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
+	--color-bg: var(--bg);
+	--color-fg: var(--fg);
+	--color-body: var(--body);
 	--color-muted: var(--muted);
-	--color-muted-foreground: var(--muted-foreground);
-	--color-border: var(--border);
+	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
 	--color-accent: var(--accent);
-	--color-accent-foreground: var(--accent-foreground);
-	--color-accent-soft: var(--accent-soft);
-	--color-card: var(--card);
-	--color-ring: var(--ring);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+	--color-sun: var(--sun);
+	--color-sea1: var(--sea1);
+	--color-sea2: var(--sea2);
+	--color-danger: var(--danger);
+	--color-code-bg: var(--code-bg);
+	--font-serif: var(--font-newsreader), Georgia, serif;
+	--font-mono: var(--font-geist-mono), ui-monospace, monospace;
+	--font-bengali: var(--font-noto-bengali), serif;
+	/* Geist Mono has no ≈, so ASCII falls back to a real monospace face, never the proportional metric fallback. */
+	--font-ascii:
+		"Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", monospace;
 }
 
 @theme {
-	--animate-beam-fall: beam-fall 2.2s cubic-bezier(0.2, 0, 0.6, 1) infinite backwards;
+	--ease-tide: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
 
-	@keyframes beam-fall {
-		0% {
-			transform: translateY(-100%);
-			opacity: 0;
-		}
-		15% {
-			opacity: 1;
-		}
-		85% {
-			opacity: 1;
-		}
-		100% {
-			transform: translateY(var(--beam-travel, 100%));
-			opacity: 0;
-		}
+/* Type roles: phone sizes first, desktop from md. */
+@utility type-display {
+	font-size: 34px;
+	line-height: 40px;
+	font-weight: 300;
+	letter-spacing: -0.025em;
+	text-wrap: balance;
+
+	@media (width >= 48rem) {
+		font-size: 56px;
+		line-height: 62px;
 	}
 }
 
-@utility beam-grid {
-	--beam-grid-line: var(--beam-grid-color, color-mix(in oklab, var(--border) 60%, transparent));
-	background-image: repeating-linear-gradient(
-		to right,
-		var(--beam-grid-line) 0,
-		var(--beam-grid-line) 1px,
-		transparent 1px,
-		transparent var(--beam-grid-gap, 0.75rem)
-	);
-}
+@utility type-lead {
+	font-size: 18px;
+	line-height: 29px;
+	text-wrap: pretty;
 
-body {
-	background: var(--background);
-	color: var(--foreground);
-	font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-	animation: none;
-	mix-blend-mode: normal;
-}
-
-/* Light: new theme blooms in */
-html[data-theme-clip="light"]::view-transition-old(root) {
-	z-index: 1;
-}
-
-html[data-theme-clip="light"]::view-transition-new(root) {
-	z-index: 2;
-	animation: theme-clip-in 850ms cubic-bezier(0.65, 0, 0.35, 1) both;
-}
-
-/* Dark: old theme collapses out */
-html[data-theme-clip="dark"]::view-transition-old(root) {
-	z-index: 2;
-	animation: theme-clip-out 850ms cubic-bezier(0.65, 0, 0.35, 1) both;
-}
-
-html[data-theme-clip="dark"]::view-transition-new(root) {
-	z-index: 1;
-}
-
-@keyframes theme-clip-in {
-	from {
-		clip-path: circle(0px at var(--theme-clip-x) var(--theme-clip-y));
-	}
-	to {
-		clip-path: circle(var(--theme-clip-r) at var(--theme-clip-x) var(--theme-clip-y));
+	@media (width >= 48rem) {
+		font-size: 21px;
+		line-height: 34px;
 	}
 }
 
-@keyframes theme-clip-out {
-	from {
-		clip-path: circle(var(--theme-clip-r) at var(--theme-clip-x) var(--theme-clip-y));
-	}
-	to {
-		clip-path: circle(0px at var(--theme-clip-x) var(--theme-clip-y));
+@utility type-title {
+	font-size: 22px;
+	line-height: 28px;
+
+	@media (width >= 48rem) {
+		font-size: 26px;
+		line-height: 32px;
 	}
 }
 
+@utility type-small {
+	font-size: 16px;
+	line-height: 26px;
+	text-wrap: pretty;
+
+	@media (width >= 48rem) {
+		font-size: 18px;
+		line-height: 28px;
+	}
+}
+
+@utility type-label {
+	font-family: var(--font-mono);
+	font-size: 12px;
+	line-height: 22px;
+	font-weight: 500;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+@utility type-meta {
+	font-family: var(--font-mono);
+	font-size: 12px;
+	line-height: 19px;
+}
+
+/* ASCII bands (13px, 7.8px per character) and wave rules (12px). */
+@utility ascii {
+	font-family: var(--font-ascii);
+	font-size: 13px;
+	line-height: 14px;
+	white-space: pre;
+	overflow: hidden;
+	font-variant-ligatures: none;
+	/* iOS may inflate text, which would break the fixed cell width the boats rely on. */
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+/* One fixed cell per ≈, which Geist Mono lacks; see rowsToHtml. */
+.ascii i {
+	display: inline-block;
+	width: 1ch;
+	font-style: normal;
+	text-align: center;
+	overflow: hidden;
+	vertical-align: top;
+}
+
+@utility wave {
+	font-family: var(--font-ascii);
+	font-size: 12px;
+	line-height: 14px;
+	white-space: pre;
+	overflow: hidden;
+	font-variant-ligatures: none;
+	user-select: none;
+}
+
+/* The lower line of the wave right above a work list lights with its first item, like the waves between items. */
+.wave:has(+ ol) > div:last-child {
+	transition: color 220ms;
+}
+.wave:has(+ ol > li:first-child:hover) > div:last-child {
+	color: var(--accent);
+}
+
+@layer base {
+	body {
+		background: var(--bg);
+		color: var(--fg);
+		font-family: var(--font-serif);
+	}
+
+	a {
+		color: inherit;
+		text-decoration-line: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 4px;
+	}
+
+	a:hover {
+		text-decoration-thickness: 2px;
+	}
+
+	::selection {
+		background: var(--accent);
+		color: var(--bg);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+
+	[data-c="sky"] {
+		color: var(--sky);
+	}
+	[data-c="sun"] {
+		color: var(--sun);
+	}
+	[data-c="sea1"] {
+		color: var(--sea1);
+	}
+	[data-c="sea2"] {
+		color: var(--sea2);
+	}
+	[data-c="sea3"] {
+		color: var(--sea3);
+	}
+	[data-c="fg"] {
+		color: var(--fg);
+	}
+	[data-c="accent"] {
+		color: var(--accent);
+	}
+	[data-c="cloud"] {
+		color: var(--cloud);
+	}
+	[data-c="boat"] {
+		color: var(--boat);
+	}
+	/* A boat in front hides the one sailing behind it. */
+	.vessel-fill [data-c] {
+		color: transparent;
+	}
+	.vessel-fill [data-c="boat"],
+	.vessel-fill [data-c="sun"] {
+		background: var(--bg);
+	}
+	[data-c="gull"] {
+		color: var(--gull);
+	}
+	[data-c="line-strong"] {
+		color: var(--line-strong);
+	}
+}
+
+/* Highlights toggle: the boat lowers its anchor to the bottom of the panel and reels it back up. */
+.anchor-fold {
+	transition: grid-template-rows 520ms var(--ease-tide);
+}
+.anchor-panel {
+	transition:
+		opacity 360ms,
+		transform 360ms;
+}
+.anchor-boat {
+	transform-origin: 50% 90%;
+}
+.anchor-drop {
+	position: absolute;
+	top: 29px;
+	bottom: 0;
+	left: 0;
+	width: 24px;
+	pointer-events: none;
+}
+.anchor-rope {
+	position: absolute;
+	top: 0;
+	left: 11.5px;
+	width: 0;
+	height: 3px;
+	border-left: 1px dashed currentColor;
+}
+.anchor-hook {
+	position: absolute;
+	top: 1px;
+	left: 5px;
+	transform-origin: 50% 0;
+}
+.anchor-splash {
+	position: absolute;
+	top: 25px;
+	left: 0;
+	font-size: 11px;
+	line-height: 11px;
+	letter-spacing: 3px;
+	white-space: pre;
+	opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+	.anchor-box button:hover .anchor-boat {
+		animation: anchor-bob 1400ms ease-in-out infinite;
+	}
+	.anchor-box.is-down .anchor-hook {
+		animation: anchor-drop 1400ms linear both;
+	}
+	.anchor-box.is-down .anchor-rope {
+		animation: anchor-rope-out 1400ms linear both;
+	}
+	.anchor-box.is-down button .anchor-boat {
+		animation: anchor-boat-release 1200ms ease-out both;
+	}
+	.anchor-box.is-down .anchor-splash {
+		animation: anchor-splash 1400ms ease-out both;
+	}
+	.anchor-box.is-up .anchor-hook {
+		animation: anchor-reel 900ms linear both;
+	}
+	.anchor-box.is-up .anchor-rope {
+		animation: anchor-rope-in 900ms linear both;
+	}
+	.anchor-box.is-up button .anchor-boat {
+		animation: anchor-boat-dock 900ms ease-out both;
+	}
+}
+/* Falls fast through the air, drifts slowly once it is under water, then the rope settles. */
+@keyframes anchor-drop {
+	0% {
+		top: 1px;
+		transform: rotate(0);
+		animation-timing-function: ease-out;
+	}
+	8% {
+		top: -1px;
+		transform: rotate(-10deg);
+		animation-timing-function: ease-in;
+	}
+	24% {
+		top: 28px;
+		transform: rotate(9deg);
+		animation-timing-function: cubic-bezier(0.2, 0.5, 0.3, 1);
+	}
+	50% {
+		transform: rotate(-5deg);
+	}
+	70% {
+		transform: rotate(3deg);
+	}
+	86% {
+		top: calc(100% - 18px);
+		transform: rotate(-2deg);
+	}
+	93% {
+		top: calc(100% - 16px);
+	}
+	100% {
+		top: calc(100% - 18px);
+		transform: rotate(0);
+	}
+}
+@keyframes anchor-rope-out {
+	0% {
+		height: 3px;
+		animation-timing-function: ease-out;
+	}
+	8% {
+		height: 1px;
+		animation-timing-function: ease-in;
+	}
+	24% {
+		height: 30px;
+		animation-timing-function: cubic-bezier(0.2, 0.5, 0.3, 1);
+	}
+	86% {
+		height: calc(100% - 16px);
+	}
+	93% {
+		height: calc(100% - 14px);
+	}
+	100% {
+		height: calc(100% - 16px);
+	}
+}
+@keyframes anchor-boat-release {
+	0% {
+		transform: none;
+	}
+	8% {
+		transform: translateY(-1px) rotate(-7deg);
+	}
+	22% {
+		transform: rotate(5deg);
+	}
+	36% {
+		transform: translateY(1.5px) rotate(-3deg);
+	}
+	60% {
+		transform: rotate(1.5deg);
+	}
+	100% {
+		transform: none;
+	}
+}
+@keyframes anchor-reel {
+	0% {
+		top: calc(100% - 18px);
+		transform: rotate(0);
+		animation-timing-function: ease-in;
+	}
+	15% {
+		top: calc(100% - 22px);
+		transform: rotate(-5deg);
+		animation-timing-function: ease-in-out;
+	}
+	84% {
+		top: -2px;
+		transform: rotate(7deg);
+		animation-timing-function: ease-out;
+	}
+	93% {
+		top: 2px;
+		transform: rotate(-3deg);
+	}
+	100% {
+		top: 1px;
+		transform: rotate(0);
+	}
+}
+@keyframes anchor-rope-in {
+	0% {
+		height: calc(100% - 16px);
+		animation-timing-function: ease-in;
+	}
+	15% {
+		height: calc(100% - 20px);
+		animation-timing-function: ease-in-out;
+	}
+	84% {
+		height: 0;
+	}
+	93% {
+		height: 4px;
+	}
+	100% {
+		height: 3px;
+	}
+}
+@keyframes anchor-boat-dock {
+	0%,
+	76% {
+		transform: none;
+	}
+	86% {
+		transform: translateY(1px) rotate(-4deg);
+	}
+	95% {
+		transform: rotate(2deg);
+	}
+	100% {
+		transform: none;
+	}
+}
+@keyframes anchor-bob {
+	0%,
+	100% {
+		transform: rotate(0);
+	}
+	50% {
+		transform: translateY(-1px) rotate(-4deg);
+	}
+}
+@keyframes anchor-splash {
+	0%,
+	20% {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+	27% {
+		opacity: 1;
+	}
+	55% {
+		opacity: 0;
+		transform: translateY(-7px);
+		letter-spacing: 7px;
+	}
+	100% {
+		opacity: 0;
+	}
+}
 @media (prefers-reduced-motion: reduce) {
-	::view-transition-old(root),
-	::view-transition-new(root) {
-		animation: none !important;
+	.anchor-box.is-down .anchor-hook {
+		top: calc(100% - 18px);
+	}
+	.anchor-box.is-down .anchor-rope {
+		height: calc(100% - 16px);
+	}
+	.anchor-fold,
+	.anchor-panel {
+		transition: none;
 	}
 }
