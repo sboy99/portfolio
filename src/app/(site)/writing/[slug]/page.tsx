@@ -29,7 +29,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 		description: post.description,
 		path: `/writing/${slug}`,
 	});
-	const images = post.cover ? [{ url: post.cover }] : [siteConfig.ogImage];
+	// Covers are drawn at the site's share size, 1200×630.
+	const images = post.cover
+		? [{ url: post.cover, width: 1200, height: 630, type: "image/png", alt: post.title }]
+		: [siteConfig.ogImage];
 	return {
 		...base,
 		alternates: { canonical: post.canonical ?? `/writing/${slug}` },
@@ -69,6 +72,7 @@ export default async function PostPage({ params }: Props) {
 		datePublished: post.date,
 		dateModified: post.updated ?? post.date,
 		url: `${siteConfig.url}/writing/${slug}`,
+		image: `${siteConfig.url}${post.cover ?? siteConfig.ogImage.url}`,
 		keywords: post.tags.join(", ") || undefined,
 		author: [
 			{ "@type": "Person", name: siteConfig.name, url: siteConfig.url },
